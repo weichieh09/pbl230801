@@ -1,6 +1,6 @@
 <template>
   <div id="footer" class="footer">
-    <p>This is your footer</p>
+    <p>四零四科技 © 2023</p>
   </div>
 </template>
 
