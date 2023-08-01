@@ -40,7 +40,7 @@ module.exports = async (env, options) => {
         proxy: [
           {
             context: ['/api', '/services', '/management', '/v3/api-docs', '/h2-console', '/auth'],
-            target: 'http://localhost:8080',
+            target: 'http://localhost:8082',
             secure: false,
           },
         ],
