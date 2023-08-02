@@ -1,6 +1,6 @@
 <template>
-  <div id="footer" class="footer">
-    <p>This is your footer</p>
+  <div id="footer" class="footer d-flex justify-content-center">
+    <p>四零四科技 © 2023</p>
   </div>
 </template>
 

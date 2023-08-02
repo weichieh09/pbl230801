@@ -6,4 +6,9 @@ import { Authority } from '@/shared/security/authority';
 
 export default [
   // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
+  {
+    path: '/demo/p1',
+    name: 'p1',
+    component: () => import('@/demo/p1/p1.vue'),
+  },
 ]
