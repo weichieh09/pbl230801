@@ -7,7 +7,7 @@
 
     <groupId>com.wcc.pbl230801</groupId>
     <artifactId>pbl-230801</artifactId>
-    <version>230801</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Pbl 230801</name>
     <description>Description for pbl230801</description>
