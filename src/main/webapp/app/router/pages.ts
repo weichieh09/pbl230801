@@ -11,4 +11,9 @@ export default [
     name: 'p1',
     component: () => import('@/demo/p1/p1.vue'),
   },
+  {
+    path: '/demo/p2',
+    name: 'p2',
+    component: () => import('@/demo/p2/p2.vue'),
+  },
 ]
