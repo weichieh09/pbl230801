@@ -2,12 +2,13 @@
   <b-container fluid>
     <b-row>
       <b-col cols="12">
+        <br />
         <b-input-group size="lg" prepend="球隊">
           <b-form-input value="運動家羽球隊" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="日期">
-          <b-form-input value="2023-07-16" />
+          <b-form-input type="date" value="2020-01-01" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="場地">
