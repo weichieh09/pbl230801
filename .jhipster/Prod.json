@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20230808135918",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "prod",
+  "fields": [
+    {
+      "fieldName": "prodNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "30"
+    },
+    {
+      "fieldName": "chName",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "issuDt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "expDt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Prod",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}

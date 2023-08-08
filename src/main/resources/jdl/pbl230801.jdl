@@ -1,0 +1,14 @@
+/* 於 https://www.jhipster.tech/jdl-studio/ 使用 */
+
+/* 產品 */
+entity Prod {
+    prodNo String maxlength(30),
+    chName String maxlength(100),
+    issuDt LocalDate,
+    expDt LocalDate,
+}
+
+filter *
+dto * with mapstruct
+paginate * with pagination
+service * with serviceClass
