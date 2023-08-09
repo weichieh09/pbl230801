@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <b-alert show data-cy="loginError" variant="danger" v-if="authenticationError">
-          <strong>Failed to sign in!</strong> Please check your credentials and try again.
+          <strong>登入失敗！</strong><br />請檢查您的輸入並重試。
         </b-alert>
       </div>
       <div class="col-md-8">
