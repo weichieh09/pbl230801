@@ -1,24 +1,21 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col cols="6">
+      <b-col cols="12">
         <br />
-        <b-input-group size="sm" prepend="球隊">
+        <b-input-group prepend="球隊">
           <b-form-input value="運動家羽球隊" />
         </b-input-group>
         <br />
-        <b-input-group size="sm" prepend="日期">
-          <b-form-input value="2020-01-01" />
+        <b-input-group prepend="日期">
+          <b-form-input type="date" value="2020-01-01" />
         </b-input-group>
         <br />
-      </b-col>
-      <b-col cols="6">
-        <br />
-        <b-input-group size="sm" prepend="場地">
+        <b-input-group prepend="場地">
           <b-form-input value="台藝大" />
         </b-input-group>
         <br />
-        <b-input-group size="sm" prepend="賽事">
+        <b-input-group prepend="賽事">
           <b-form-input value="爭分奪勝搶水果" />
         </b-input-group>
         <br />

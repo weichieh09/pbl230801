@@ -1,6 +1,6 @@
 <template>
   <div id="footer" class="footer d-flex justify-content-center">
-    <p>四零四科技 © 2023</p>
+    <p>眾飛科技 © 2023</p>
   </div>
 </template>
 
