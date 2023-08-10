@@ -1,0 +1,171 @@
+package com.wcc.pbl230801.service.criteria;
+
+import java.io.Serializable;
+import java.util.Objects;
+import org.springdoc.api.annotations.ParameterObject;
+import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.*;
+
+/**
+ * Criteria class for the {@link com.wcc.pbl230801.domain.TeamPlayer} entity. This class is used
+ * in {@link com.wcc.pbl230801.web.rest.TeamPlayerResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /team-players?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
+ */
+@ParameterObject
+@SuppressWarnings("common-java:DuplicatedBlocks")
+public class TeamPlayerCriteria implements Serializable, Criteria {
+
+    private static final long serialVersionUID = 1L;
+
+    private LongFilter id;
+
+    private LongFilter tId;
+
+    private LongFilter pId;
+
+    private StringFilter lstMtnUsr;
+
+    private ZonedDateTimeFilter lstMtnDt;
+
+    private Boolean distinct;
+
+    public TeamPlayerCriteria() {}
+
+    public TeamPlayerCriteria(TeamPlayerCriteria other) {
+        this.id = other.id == null ? null : other.id.copy();
+        this.tId = other.tId == null ? null : other.tId.copy();
+        this.pId = other.pId == null ? null : other.pId.copy();
+        this.lstMtnUsr = other.lstMtnUsr == null ? null : other.lstMtnUsr.copy();
+        this.lstMtnDt = other.lstMtnDt == null ? null : other.lstMtnDt.copy();
+        this.distinct = other.distinct;
+    }
+
+    @Override
+    public TeamPlayerCriteria copy() {
+        return new TeamPlayerCriteria(this);
+    }
+
+    public LongFilter getId() {
+        return id;
+    }
+
+    public LongFilter id() {
+        if (id == null) {
+            id = new LongFilter();
+        }
+        return id;
+    }
+
+    public void setId(LongFilter id) {
+        this.id = id;
+    }
+
+    public LongFilter gettId() {
+        return tId;
+    }
+
+    public LongFilter tId() {
+        if (tId == null) {
+            tId = new LongFilter();
+        }
+        return tId;
+    }
+
+    public void settId(LongFilter tId) {
+        this.tId = tId;
+    }
+
+    public LongFilter getpId() {
+        return pId;
+    }
+
+    public LongFilter pId() {
+        if (pId == null) {
+            pId = new LongFilter();
+        }
+        return pId;
+    }
+
+    public void setpId(LongFilter pId) {
+        this.pId = pId;
+    }
+
+    public StringFilter getLstMtnUsr() {
+        return lstMtnUsr;
+    }
+
+    public StringFilter lstMtnUsr() {
+        if (lstMtnUsr == null) {
+            lstMtnUsr = new StringFilter();
+        }
+        return lstMtnUsr;
+    }
+
+    public void setLstMtnUsr(StringFilter lstMtnUsr) {
+        this.lstMtnUsr = lstMtnUsr;
+    }
+
+    public ZonedDateTimeFilter getLstMtnDt() {
+        return lstMtnDt;
+    }
+
+    public ZonedDateTimeFilter lstMtnDt() {
+        if (lstMtnDt == null) {
+            lstMtnDt = new ZonedDateTimeFilter();
+        }
+        return lstMtnDt;
+    }
+
+    public void setLstMtnDt(ZonedDateTimeFilter lstMtnDt) {
+        this.lstMtnDt = lstMtnDt;
+    }
+
+    public Boolean getDistinct() {
+        return distinct;
+    }
+
+    public void setDistinct(Boolean distinct) {
+        this.distinct = distinct;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final TeamPlayerCriteria that = (TeamPlayerCriteria) o;
+        return (
+            Objects.equals(id, that.id) &&
+            Objects.equals(tId, that.tId) &&
+            Objects.equals(pId, that.pId) &&
+            Objects.equals(lstMtnUsr, that.lstMtnUsr) &&
+            Objects.equals(lstMtnDt, that.lstMtnDt) &&
+            Objects.equals(distinct, that.distinct)
+        );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, tId, pId, lstMtnUsr, lstMtnDt, distinct);
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+        return "TeamPlayerCriteria{" +
+            (id != null ? "id=" + id + ", " : "") +
+            (tId != null ? "tId=" + tId + ", " : "") +
+            (pId != null ? "pId=" + pId + ", " : "") +
+            (lstMtnUsr != null ? "lstMtnUsr=" + lstMtnUsr + ", " : "") +
+            (lstMtnDt != null ? "lstMtnDt=" + lstMtnDt + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
+            "}";
+    }
+}

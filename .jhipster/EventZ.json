@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20230810150056",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "event_z",
+  "fields": [
+    {
+      "fieldName": "evntNm",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "evntDt",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "venue",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eventBegTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "eventEndTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "lstMtnUsr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lstMtnDt",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "EventZ",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}

@@ -1,0 +1,48 @@
+{
+  "applications": "*",
+  "changelogDate": "20230810150059",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "match_player",
+  "fields": [
+    {
+      "fieldName": "mId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "pId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "eId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "mtchEndTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "score",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "winFg",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lstMtnUsr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lstMtnDt",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "MatchPlayer",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}
