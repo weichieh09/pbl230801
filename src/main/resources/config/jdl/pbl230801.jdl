@@ -1,0 +1,65 @@
+entity Team {
+    teamNm String,
+    lstMtnUsr String,
+    lstMtnDt LocalDate,
+}
+
+entity Player {
+    plyrNm String,
+    level String,
+    lstMtnUsr String,
+    lstMtnDt LocalDate,
+}
+
+entity TeamPlayer {
+    tId Long,
+    pId Long,
+    lstMtnUsr String,
+    lstMtnDt LocalDate,
+}
+
+entity Event {
+    evntNm String,
+    evntDt LocalDate,
+    eventBegTime LocalDate,
+    eventEndTime LocalDate,
+    lstMtnUsr String,
+    lstMtnDt LocalDate,
+}
+
+entity EventPlayer {
+    eId Long,
+    pId Long,
+    chkFg String,
+    lstMtnUsr String,
+    lstMtnDt LocalDate,
+}
+
+entity Match {
+    eId Long,
+    mtchEndTime LocalDate,
+    wPlyr1 String,
+    wPlyr2 String,
+    wScr String,
+    lPlyr1 String,
+    lPlyr2 String,
+    lScr String,
+    lstMtnUsr String,
+    lstMtnDt LocalDate,
+}
+
+entity MatchPlayer {
+    mId Long,
+    pId Long,
+    eId Long,
+    mtchEndTime LocalDate,
+    score String,
+    winFg String,
+    lstMtnUsr String,
+    lstMtnDt LocalDate,
+}
+
+filter *
+dto * with mapstruct
+paginate * with pagination
+service * with serviceClass
