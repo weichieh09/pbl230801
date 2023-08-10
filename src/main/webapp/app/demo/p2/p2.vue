@@ -80,7 +80,8 @@
 
     <b-row>
       <b-col cols="12" class="d-flex justify-content-center">
-        <b-button variant="outline-primary" size="lg">確認登入</b-button>
+        <!-- <b-button variant="outline-primary" size="lg">確認登入</b-button> -->
+        <b-button block variant="outline-primary" size="lg">確認登入</b-button>
       </b-col>
     </b-row>
   </b-container>

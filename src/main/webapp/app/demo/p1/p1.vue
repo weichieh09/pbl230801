@@ -4,19 +4,19 @@
       <b-col cols="12">
         <br />
         <b-input-group size="lg" prepend="球隊">
-          <b-form-input value="運動家羽球隊" />
+          <b-form-select v-model="form.team" :options="teams" v-on:change="teamChange()"></b-form-select>
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="日期">
-          <b-form-input type="date" value="2020-01-01" />
+          <b-form-input type="date" v-model="form.date" v-on:change="dateChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="場地">
-          <b-form-input value="台藝大" />
+          <b-form-select v-model="form.space" :options="spaces" v-on:change="spaceChange()"></b-form-select>
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="賽事">
-          <b-form-input value="爭分奪勝搶水果" />
+          <b-form-input v-model="form.event" disabled />
         </b-input-group>
       </b-col>
     </b-row>
