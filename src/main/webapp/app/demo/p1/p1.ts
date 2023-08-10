@@ -22,6 +22,12 @@ export default {
         { text: '羽協', value: '02' },
         { text: '鑫高手', value: '03' },
       ],
+      items: [
+        { class: '12', plyrNm: 'Mark', totWins: '5', matchEndTime: '11:40' },
+        { class: '14', plyrNm: 'Jacob', totWins: '4', matchEndTime: '11:40' },
+        { class: '15', plyrNm: 'Larry', totWins: '4', matchEndTime: '11:45' },
+        { class: '14', plyrNm: 'Sam', totWins: '3', matchEndTime: '11:30' },
+      ],
     };
   },
   methods: {

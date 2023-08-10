@@ -9,19 +9,19 @@
       <div class="col-md-8">
         <b-form role="form" v-on:submit.prevent="doLogin()">
           <b-form-group label="帳號" label-for="username">
-            <b-form-input id="username" type="text" name="username" autofocus v-model="login" data-cy="username"> </b-form-input>
+            <b-form-input size="lg" id="username" type="text" name="username" autofocus v-model="login" data-cy="username"> </b-form-input>
           </b-form-group>
           <b-form-group label="密碼" label-for="password">
-            <b-form-input id="password" type="password" name="password" v-model.trim="name" v-model="password" data-cy="password">
+            <b-form-input size="lg" id="password" type="password" name="password" v-model.trim="name" v-model="password" data-cy="password">
             </b-form-input>
           </b-form-group>
-          <b-form-checkbox id="rememberMe" name="rememberMe" v-model="rememberMe" checked>
+          <b-form-checkbox size="lg" id="rememberMe" name="rememberMe" v-model="rememberMe" checked>
             <span>記住我</span>
           </b-form-checkbox>
           <div>
             <br />
             <!-- <b-button data-cy="submit" type="submit" variant="primary">登入</b-button> -->
-            <b-button variant="primary" to="/demo/p3">登入</b-button>
+            <b-button size="lg" variant="primary" to="/demo/p3">登入</b-button>
           </div>
         </b-form>
         <p></p>

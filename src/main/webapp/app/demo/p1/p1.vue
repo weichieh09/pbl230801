@@ -4,7 +4,7 @@
       <b-col cols="12">
         <br />
         <b-input-group size="lg" prepend="球隊">
-          <b-form-select v-model="form.team" :options="teams" v-on:change="teamChange()"></b-form-select>
+          <b-form-select v-model="form.team" :options="teams" v-on:change="teamChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="日期">
@@ -12,7 +12,7 @@
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="場地">
-          <b-form-select v-model="form.space" :options="spaces" v-on:change="spaceChange()"></b-form-select>
+          <b-form-select v-model="form.space" :options="spaces" v-on:change="spaceChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="賽事">
@@ -35,60 +35,7 @@
         <h5>即時戰績排行榜</h5>
       </b-col>
       <b-col cols="12">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">級數</th>
-              <th scope="col">選手</th>
-              <th scope="col">勝場數</th>
-              <th scope="col">達成時間</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">12</th>
-              <td>Mark</td>
-              <td>3</td>
-              <td>11:30</td>
-            </tr>
-            <tr>
-              <th scope="row">14</th>
-              <td>Jacob</td>
-              <td>2</td>
-              <td>11:40</td>
-            </tr>
-            <tr>
-              <th scope="row">15</th>
-              <td>Larry</td>
-              <td>4</td>
-              <td>11:45</td>
-            </tr>
-            <tr>
-              <th scope="row">16</th>
-              <td>Sam</td>
-              <td>2</td>
-              <td>11:55</td>
-            </tr>
-            <tr>
-              <th scope="row">14</th>
-              <td>Jack</td>
-              <td>2</td>
-              <td>11:40</td>
-            </tr>
-            <tr>
-              <th scope="row">15</th>
-              <td>Timmy</td>
-              <td>4</td>
-              <td>11:45</td>
-            </tr>
-            <tr>
-              <th scope="row">11</th>
-              <td>Andy</td>
-              <td>2</td>
-              <td>11:55</td>
-            </tr>
-          </tbody>
-        </table>
+        <b-table striped hover :items="items" />
       </b-col>
     </b-row>
   </b-container>
