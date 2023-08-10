@@ -6,7 +6,7 @@ entity Team {
 
 entity Player {
     plyrNm String,
-    level String,
+    plyrLvl String,
     lstMtnUsr String,
     lstMtnDt LocalDate,
 }
