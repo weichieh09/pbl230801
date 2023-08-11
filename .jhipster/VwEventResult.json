@@ -1,0 +1,60 @@
+{
+  "applications": "*",
+  "changelogDate": "20230811031236",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "vw_event_result",
+  "fields": [
+    {
+      "fieldName": "eId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "pId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "mId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "winFg",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "plyrNm",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "plyrLvl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mtchEndTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "totMatchs",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totWins",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "acmlWins",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "chkFg",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "VwEventResult",
+  "pagination": "pagination",
+  "readOnly": true,
+  "relationships": [],
+  "service": "serviceClass"
+}

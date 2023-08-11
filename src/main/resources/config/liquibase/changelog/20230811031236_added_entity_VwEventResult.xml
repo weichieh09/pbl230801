@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity VwEventResult.
+    -->
+    <changeSet id="20230811031236-1" author="mgdsn-weichieh09">
+        <createView
+            replaceIfExists="true"
+            viewName="vw_event_result">
+            SELECT
+            ROW_NUMBER() OVER (ORDER BY S1.e_id) AS id,
+            S1.e_id AS e_id,
+            S1.p_id AS p_id,
+            S1.m_id AS m_id,
+            S1.win_fg AS win_fg,
+            S2.plyr_nm AS plyr_nm,
+            S2.plyr_lvl AS plyr_lvl,
+            S1.mtch_end_time AS mtch_end_time,
+            COUNT(S1.m_id) OVER (PARTITION BY S1.e_id, S1.p_id) AS tot_matchs,
+            SUM(CASE WHEN S1.win_fg = 'Y' THEN 1 ELSE 0 END) OVER (PARTITION BY S1.e_id, S1.p_id) AS tot_wins,
+            CASE WHEN S1.win_fg = 'Y' THEN ROW_NUMBER() OVER (PARTITION BY S1.e_id, S1.p_id, S1.win_fg ORDER BY S1.mtch_end_time) END AS acml_wins,
+            S3.chk_fg AS chk_fg
+            FROM MATCH_PLAYER AS S1
+            LEFT JOIN PLAYER AS S2 ON S2.id = S1.p_id
+            LEFT JOIN EVENT_PLAYER AS S3 ON S3.e_id = S1.e_id AND S3.p_id = S1.p_id
+        </createView>
+    </changeSet>
+</databaseChangeLog>

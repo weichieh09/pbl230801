@@ -1,30 +1,31 @@
 entity Team {
     teamNm String,
     lstMtnUsr String,
-    lstMtnDt LocalDate,
+    lstMtnDt ZonedDateTime,
 }
 
 entity Player {
     plyrNm String,
     plyrLvl String,
     lstMtnUsr String,
-    lstMtnDt LocalDate,
+    lstMtnDt ZonedDateTime,
 }
 
 entity TeamPlayer {
     tId Long,
     pId Long,
     lstMtnUsr String,
-    lstMtnDt LocalDate,
+    lstMtnDt ZonedDateTime,
 }
 
-entity Event {
+entity EventZ {
     evntNm String,
-    evntDt LocalDate,
-    eventBegTime LocalDate,
-    eventEndTime LocalDate,
+    evntDt ZonedDateTime,
+    venue String,
+    eventBegTime ZonedDateTime,
+    eventEndTime ZonedDateTime,
     lstMtnUsr String,
-    lstMtnDt LocalDate,
+    lstMtnDt ZonedDateTime,
 }
 
 entity EventPlayer {
@@ -32,12 +33,12 @@ entity EventPlayer {
     pId Long,
     chkFg String,
     lstMtnUsr String,
-    lstMtnDt LocalDate,
+    lstMtnDt ZonedDateTime,
 }
 
-entity Match {
+entity MatchZ {
     eId Long,
-    mtchEndTime LocalDate,
+    mtchEndTime ZonedDateTime,
     wPlyr1 String,
     wPlyr2 String,
     wScr String,
@@ -45,18 +46,33 @@ entity Match {
     lPlyr2 String,
     lScr String,
     lstMtnUsr String,
-    lstMtnDt LocalDate,
+    lstMtnDt ZonedDateTime,
 }
 
 entity MatchPlayer {
     mId Long,
     pId Long,
     eId Long,
-    mtchEndTime LocalDate,
+    mtchEndTime ZonedDateTime,
     score String,
     winFg String,
     lstMtnUsr String,
-    lstMtnDt LocalDate,
+    lstMtnDt ZonedDateTime,
+}
+
+@readOnly
+entity VwEventResult {
+    eId Long,
+    pId Long,
+    mId Long,
+    winFg String,
+    plyrNm String,
+    plyrLvl String,
+    mtchEndTime ZonedDateTime,
+    totMatchs String,
+    totWins String,
+    acmlWins String,
+    chkFg String,
 }
 
 filter *
