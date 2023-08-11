@@ -27,13 +27,13 @@
         <h3 class="text-success">勝方</h3>
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-button block variant="outline-success" size="lg" @click="showModal('win1')">選手1</b-button>
+        <b-button block variant="outline-success" size="lg" @click="showModal('wPlyr1')">{{ resultForm.wPlyr1 }}</b-button>
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-form-input size="lg" style="border-color: #28a745" />
+        <b-form-input type="number" size="lg" class="form-control-success" v-model="resultForm.wScr" />
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-button block variant="outline-success" size="lg" @click="showModal('win2')">選手2</b-button>
+        <b-button block variant="outline-success" size="lg" @click="showModal('wPlyr2')">{{ resultForm.wPlyr2 }}</b-button>
       </b-col>
       <br />
     </b-row>
@@ -44,13 +44,13 @@
         <h3 class="text-danger">敗方</h3>
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-button block variant="outline-danger" size="lg" @click="showModal('lose1')">選手1</b-button>
+        <b-button block variant="outline-danger" size="lg" @click="showModal('lPlyr1')">{{ resultForm.lPlyr1 }}</b-button>
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-form-input size="lg" style="border-color: #dc3545" />
+        <b-form-input type="number" size="lg" class="form-control-danger" v-model="resultForm.lScr" />
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-button block variant="outline-danger" size="lg" @click="showModal('lose2')">選手2</b-button>
+        <b-button block variant="outline-danger" size="lg" @click="showModal('lPlyr2')">{{ resultForm.lPlyr2 }}</b-button>
       </b-col>
       <br />
     </b-row>
@@ -81,7 +81,7 @@
           <b-row>
             <b-col cols="12">
               <b-list-group v-for="item in items" :key="item.id">
-                <b-list-group-item button @click="hideModal()">
+                <b-list-group-item button @click="hideModal(item)">
                   <h5>{{ item.plyrNm }}</h5>
                 </b-list-group-item>
               </b-list-group>
@@ -100,5 +100,33 @@
     <br /><br />
   </b-container>
 </template>
+
+<style>
+.form-control-success {
+  color: #28a745;
+  border-color: #28a745;
+}
+.form-control-success:focus {
+  color: #28a745;
+  background-color: #fff;
+  border-color: #28a745;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+
+.form-control-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+.form-control-danger:focus {
+  color: #dc3545;
+  background-color: #fff;
+  border-color: #dc3545;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+</style>
 
 <script lang="ts" src="./p2.ts"></script>

@@ -5,4 +5,3 @@
     /_/  /_/ \____//_____//____//_/ /_/
 
 ${AnsiColor.BRIGHT_BLUE}:: MGDsn 🥭 :: Running Spring Boot ${spring-boot.version} ::
-:: https://www.jhipster.tech ::${AnsiColor.DEFAULT}

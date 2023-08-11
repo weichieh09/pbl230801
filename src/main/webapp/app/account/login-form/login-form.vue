@@ -20,8 +20,8 @@
           </b-form-checkbox>
           <div>
             <br />
-            <!-- <b-button data-cy="submit" type="submit" variant="primary">登入</b-button> -->
-            <b-button size="lg" variant="primary" to="/demo/p3">登入</b-button>
+            <b-button size="lg" data-cy="submit" type="submit" variant="primary">登入</b-button>
+            <b-button size="lg" variant="primary" to="/demo/p3">登入f</b-button>
           </div>
         </b-form>
         <p></p>

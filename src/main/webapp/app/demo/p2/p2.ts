@@ -7,7 +7,16 @@ export default {
         space: null,
         event: '請選擇',
       },
+      resultForm: {
+        wPlyr1: 'w選手1',
+        wPlyr2: 'w選手2',
+        wScr: 0,
+        lPlyr1: 'l選手1',
+        lPlyr2: 'l選手2',
+        lScr: 0,
+      },
       searchName: '',
+      type: null,
       teams: [
         { text: '請選擇', value: null },
         { text: '運動家羽球隊', value: '01' },
@@ -21,11 +30,11 @@ export default {
         { text: '鑫高手', value: '03' },
       ],
       items: [
-        { class: '12', plyrNm: 'Mark' },
-        { class: '14', plyrNm: 'Jacob' },
-        { class: '15', plyrNm: 'Larry' },
-        { class: '14', plyrNm: 'Sam' },
-        { class: '14', plyrNm: 'Jacky' },
+        { id: '1', class: '12', plyrNm: 'Mark' },
+        { id: '2', class: '14', plyrNm: 'Jacob' },
+        { id: '3', class: '15', plyrNm: 'Larry' },
+        { id: '4', class: '14', plyrNm: 'Sam' },
+        { id: '5', class: '14', plyrNm: 'Jacky' },
       ],
       perPage: 3,
       currentPage: 1,
@@ -36,10 +45,27 @@ export default {
     showModal(type: String): void {
       this.$refs['my-modal'].show();
       console.log('showModal ---> ' + type);
+      this.type = type;
     },
-    hideModal(): void {
+    hideModal(item): void {
       this.$refs['my-modal'].hide();
-      console.log('hideModal --- ');
+      console.log('hideModal ---> ' + item.id);
+      switch (this.type) {
+        case 'wPlyr1':
+          this.resultForm.wPlyr1 = item.plyrNm;
+          break;
+        case 'wPlyr2':
+          this.resultForm.wPlyr2 = item.plyrNm;
+          break;
+        case 'lPlyr1':
+          this.resultForm.lPlyr1 = item.plyrNm;
+          break;
+        case 'lPlyr2':
+          this.resultForm.lPlyr2 = item.plyrNm;
+          break;
+        default:
+          break;
+      }
     },
     teamChange(): void {
       console.log('teamChange ---> ' + this.form.team);
