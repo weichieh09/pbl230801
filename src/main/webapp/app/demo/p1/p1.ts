@@ -1,3 +1,4 @@
+import axios from 'axios';
 import LoginService from '@/account/login.service';
 
 export default {
@@ -6,22 +7,12 @@ export default {
       loginService: new LoginService(),
       form: {
         team: null,
-        date: '2023-08-10',
+        date: '',
         space: null,
-        event: '請選擇',
+        event: '',
       },
-      teams: [
-        { text: '請選擇', value: null },
-        { text: '運動家羽球隊', value: '01' },
-        { text: '夢想號不用燃料', value: '02' },
-        { text: '大聯盟隊', value: '03' },
-      ],
-      spaces: [
-        { text: '請選擇', value: null },
-        { text: '台藝大', value: '01' },
-        { text: '羽協', value: '02' },
-        { text: '鑫高手', value: '03' },
-      ],
+      teams: [],
+      spaces: [],
       items: [
         { class: '12', plyrNm: 'Mark', totWins: '5', matchEndTime: '11:40' },
         { class: '14', plyrNm: 'Jacob', totWins: '4', matchEndTime: '11:40' },
@@ -30,7 +21,50 @@ export default {
       ],
     };
   },
+  created() {
+    this.getNowDate();
+    this.getTeamList();
+    this.getSpaceList();
+  },
   methods: {
+    getSpaceList(): void {
+      this.spaces = [];
+      this.spaces.push({ text: '請選擇', value: null });
+      axios
+        .get('/api/event-zs?evntDt.equals=2023-08-01T08%3A00%3A00%2B08%3A00')
+        .then(response => {
+          console.log(response);
+          response.data.forEach((element: any) => {
+            this.spaces.push({ text: element.venue, value: element.id });
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getNowDate(): void {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      if (month < 10) {
+        month = '0' + month.toString();
+      }
+      const day = date.getDate();
+      this.form.date = year + '-' + month + '-' + day;
+    },
+    getTeamList(): void {
+      this.teams.push({ text: '請選擇', value: null });
+      axios
+        .get('/api/wcc101/teams')
+        .then(response => {
+          response.data.forEach((element: any) => {
+            this.teams.push({ text: element.teamNm, value: element.id });
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     openLogin(): void {
       this.loginService.openLogin(this.$root);
     },
@@ -39,24 +73,10 @@ export default {
     },
     dateChange(): void {
       console.log('dateChange ---> ' + this.form.date);
+      this.getSpaceList();
     },
     spaceChange(): void {
       console.log('spaceChange ---> ' + this.form.space);
-      // 賽事event改變
-      switch (this.form.space) {
-        case '01':
-          this.form.event = '爭分奪勝搶水果';
-          break;
-        case '02':
-          this.form.event = '棒打鴛鴦';
-          break;
-        case '03':
-          this.form.event = '魔王挑戰晉級賽';
-          break;
-        default:
-          this.form.event = '沒有資料';
-          break;
-      }
     },
   },
 };

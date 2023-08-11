@@ -58,7 +58,7 @@
             <span>球隊管理</span>
           </b-dropdown-item>
         </b-nav-item-dropdown>
-        <!-- <b-nav-item-dropdown
+        <b-nav-item-dropdown
           right
           id="admin-menu"
           v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated"
@@ -95,7 +95,7 @@
             <font-awesome-icon icon="book" />
             <span>API</span>
           </b-dropdown-item>
-        </b-nav-item-dropdown> -->
+        </b-nav-item-dropdown>
         <b-nav-item-dropdown
           right
           href="javascript:void(0);"
