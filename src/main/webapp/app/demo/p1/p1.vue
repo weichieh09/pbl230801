@@ -23,7 +23,8 @@
     <br />
     <b-row>
       <b-col cols="6" class="d-flex justify-content-center">
-        <b-button variant="outline-primary" size="lg" @click="openLogin()">管理者登入</b-button>
+        <!-- <b-button variant="outline-primary" size="lg" @click="openLogin()">管理者登入</b-button> -->
+        <b-button variant="outline-primary" size="lg" to="/demo/p3">管理者登入</b-button>
       </b-col>
       <b-col cols="6" class="d-flex justify-content-center">
         <b-button variant="outline-primary" size="lg" to="/demo/p2">球友登入</b-button>

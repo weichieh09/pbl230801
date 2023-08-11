@@ -1,16 +1,16 @@
 <template>
   <b-container fluid>
-    <b-row>
+    <!-- <b-row>
       <b-col cols="4">
         <b-button variant="outline-primary" size="lg">總覽頁面</b-button>
       </b-col>
       <b-col cols="4">
-        <b-button variant="outline-primary" size="lg">賽事管理</b-button>
+        <b-button variant="outline-primary" size="lg" to="/event-z">賽事管理</b-button>
       </b-col>
       <b-col cols="4">
-        <b-button variant="outline-primary" size="lg">球隊管理</b-button>
+        <b-button variant="outline-primary" size="lg" to="/team">球隊管理</b-button>
       </b-col>
-    </b-row>
+    </b-row> -->
     <b-row>
       <b-col cols="12">
         <br />

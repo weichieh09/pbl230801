@@ -21,7 +21,7 @@
           <div>
             <br />
             <b-button size="lg" data-cy="submit" type="submit" variant="primary">登入</b-button>
-            <b-button size="lg" variant="primary" to="/demo/p3">登入f</b-button>
+            <!-- <b-button size="lg" variant="outline-warning" to="/demo/p3">偽登入</b-button> -->
           </div>
         </b-form>
         <p></p>

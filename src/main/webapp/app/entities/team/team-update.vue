@@ -2,14 +2,14 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
-        <h2 id="pbl230801App.team.home.createOrEditLabel" data-cy="TeamCreateUpdateHeading">Create or edit a Team</h2>
+        <h2 id="pbl230801App.team.home.createOrEditLabel" data-cy="TeamCreateUpdateHeading">新增球隊</h2>
         <div>
           <div class="form-group" v-if="team.id">
-            <label for="id">ID</label>
+            <label for="id">序號</label>
             <input type="text" class="form-control" id="id" name="id" v-model="team.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="team-teamNm">Team Nm</label>
+            <label class="form-control-label" for="team-teamNm">名稱</label>
             <input
               type="text"
               class="form-control"
@@ -20,7 +20,7 @@
               v-model="$v.team.teamNm.$model"
             />
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="form-control-label" for="team-lstMtnUsr">Lst Mtn Usr</label>
             <input
               type="text"
@@ -31,8 +31,8 @@
               :class="{ valid: !$v.team.lstMtnUsr.$invalid, invalid: $v.team.lstMtnUsr.$invalid }"
               v-model="$v.team.lstMtnUsr.$model"
             />
-          </div>
-          <div class="form-group">
+          </div> -->
+          <!-- <div class="form-group">
             <label class="form-control-label" for="team-lstMtnDt">Lst Mtn Dt</label>
             <div class="d-flex">
               <input
@@ -46,13 +46,13 @@
                 @change="updateZonedDateTimeField('lstMtnDt', $event)"
               />
             </div>
-          </div>
+          </div> -->
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">
-            <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
+            <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>取消</span>
           </button>
-          <button
+          <!-- <button
             type="submit"
             id="save-entity"
             data-cy="entityCreateSaveButton"
@@ -60,6 +60,9 @@
             class="btn btn-primary"
           >
             <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
+          </button> -->
+          <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" :disabled="true" class="btn btn-primary">
+            <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>保存</span>
           </button>
         </div>
       </form>

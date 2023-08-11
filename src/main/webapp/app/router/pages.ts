@@ -20,5 +20,6 @@ export default [
     path: '/demo/p3',
     name: 'p3',
     component: () => import('@/demo/p3/p3.vue'),
+    meta: { authorities: [Authority.USER] },
   },
 ]

@@ -2,14 +2,14 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
-        <h2 id="pbl230801App.eventZ.home.createOrEditLabel" data-cy="EventZCreateUpdateHeading">Create or edit a EventZ</h2>
+        <h2 id="pbl230801App.eventZ.home.createOrEditLabel" data-cy="EventZCreateUpdateHeading">新增</h2>
         <div>
           <div class="form-group" v-if="eventZ.id">
-            <label for="id">ID</label>
+            <label for="id">序號</label>
             <input type="text" class="form-control" id="id" name="id" v-model="eventZ.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="event-z-evntNm">Evnt Nm</label>
+            <label class="form-control-label" for="event-z-evntNm">名稱</label>
             <input
               type="text"
               class="form-control"
@@ -21,7 +21,7 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="event-z-evntDt">Evnt Dt</label>
+            <label class="form-control-label" for="event-z-evntDt">日期</label>
             <div class="d-flex">
               <input
                 id="event-z-evntDt"
@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="event-z-venue">Venue</label>
+            <label class="form-control-label" for="event-z-venue">地點</label>
             <input
               type="text"
               class="form-control"
@@ -48,7 +48,7 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="event-z-eventBegTime">Event Beg Time</label>
+            <label class="form-control-label" for="event-z-eventBegTime">開始時間</label>
             <div class="d-flex">
               <input
                 id="event-z-eventBegTime"
@@ -63,7 +63,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="event-z-eventEndTime">Event End Time</label>
+            <label class="form-control-label" for="event-z-eventEndTime">結束時間</label>
             <div class="d-flex">
               <input
                 id="event-z-eventEndTime"
@@ -77,7 +77,7 @@
               />
             </div>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="form-control-label" for="event-z-lstMtnUsr">Lst Mtn Usr</label>
             <input
               type="text"
@@ -88,8 +88,8 @@
               :class="{ valid: !$v.eventZ.lstMtnUsr.$invalid, invalid: $v.eventZ.lstMtnUsr.$invalid }"
               v-model="$v.eventZ.lstMtnUsr.$model"
             />
-          </div>
-          <div class="form-group">
+          </div> -->
+          <!-- <div class="form-group">
             <label class="form-control-label" for="event-z-lstMtnDt">Lst Mtn Dt</label>
             <div class="d-flex">
               <input
@@ -103,20 +103,23 @@
                 @change="updateZonedDateTimeField('lstMtnDt', $event)"
               />
             </div>
-          </div>
+          </div> -->
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">
-            <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
+            <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>取消</span>
           </button>
-          <button
+          <!-- <button
             type="submit"
             id="save-entity"
             data-cy="entityCreateSaveButton"
             :disabled="$v.eventZ.$invalid || isSaving"
             class="btn btn-primary"
           >
-            <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
+            <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>保存</span>
+          </button> -->
+          <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" :disabled="true" class="btn btn-primary">
+            <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>保存</span>
           </button>
         </div>
       </form>
