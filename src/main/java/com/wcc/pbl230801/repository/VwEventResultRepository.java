@@ -26,7 +26,18 @@ public interface VwEventResultRepository extends JpaRepository<VwEventResult, Lo
         "GROUP  BY p_id,\n" +
         "          plyr_nm " +
         "",
-        countQuery = "" + "SELECT Count(*)\n" + "FROM   vw_event_result\n" + "WHERE  e_id = :eventId " + "",
+        countQuery = "" +
+        "SELECT Count(*) AS total_count\n" +
+        "FROM   (SELECT Max(plyr_lvl)      AS plyr_lvl,\n" +
+        "               p_id,\n" +
+        "               plyr_nm,\n" +
+        "               Max(tot_wins)      AS tot_wins,\n" +
+        "               Max(mtch_end_time) AS mtch_end_time\n" +
+        "        FROM   vw_event_result\n" +
+        "        WHERE  e_id = 1\n" +
+        "        GROUP  BY p_id,\n" +
+        "                  plyr_nm) AS total_count " +
+        "",
         nativeQuery = true
     )
     Page<Map<String, Object>> findMaxStatsByEventId(@Param("eventId") Long eventId, Pageable pageable);

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import LoginService from '@/account/login.service';
 
+const apiBaseUrl = '/api/wcc101';
+
 export default {
   data() {
     return {
@@ -10,27 +12,45 @@ export default {
         teams: [],
         date: '',
         space: null,
-        spaces: [],
+        spaces: [{ text: '請選擇', value: null }],
         event: null,
         events: [{ text: '請選擇', value: null }],
       },
       rtss: [],
+      page: {
+        previousPage: 1,
+        currentPage: 1,
+        objTotal: 0,
+        perPage: 5,
+      },
     };
   },
   created() {
     this.getNowDate();
     this.getTeamList();
-    this.getSpaceList();
   },
   methods: {
+    pageLoad(page: any): void {
+      if (page !== this.page.previousPage) {
+        this.page.previousPage = page;
+        this.getRtsList();
+      }
+    },
     getRtsList(): void {
-      this.rtss = [];
       axios
-        .get('/api/wcc101/realTimeScore?eId.equals=' + this.form.event + '&sort=mtch_end_time,desc&page=0&size=8')
+        .get(`${apiBaseUrl}/realTimeScore`, {
+          params: {
+            'eId.equals': this.form.event,
+            sort: 'mtch_end_time,desc',
+            page: this.page.currentPage - 1,
+            size: this.page.perPage,
+          },
+        })
         .then(response => {
           console.log(response);
           if (response.data.length > 0) {
             this.rtss = response.data;
+            this.page.objTotal = Number(response.headers['x-total-count']);
           }
         })
         .catch(error => {
@@ -38,12 +58,13 @@ export default {
         });
     },
     getEventList(): void {
-      this.form.events = [];
-      this.form.events.push({ text: '請選擇', value: null });
-      this.form.event = null;
-      this.rtss = [];
       axios
-        .get('/api/wcc101/events?evntDt.equals=' + this.getISOString(this.form.date) + '&venue.equals=' + this.form.space)
+        .get(`${apiBaseUrl}/events`, {
+          params: {
+            'evntDt.equals': this.getISOString(this.form.date),
+            'venue.equals': this.form.space,
+          },
+        })
         .then(response => {
           console.log(response);
           if (response.data.length > 0) {
@@ -57,15 +78,12 @@ export default {
         });
     },
     getSpaceList(): void {
-      this.form.spaces = [];
-      this.form.spaces.push({ text: '請選擇', value: null });
-      this.form.space = null;
-      this.form.events = [];
-      this.form.events.push({ text: '請選擇', value: null });
-      this.form.event = null;
-      this.rtss = [];
       axios
-        .get('/api/wcc101/venues?evntDt.equals=' + this.getISOString(this.form.date))
+        .get(`${apiBaseUrl}/venues`, {
+          params: {
+            'evntDt.equals': this.getISOString(this.form.date),
+          },
+        })
         .then(response => {
           console.log(response);
           if (response.data.length > 0) {
@@ -107,17 +125,30 @@ export default {
     },
     teamChange(): void {
       console.log('teamChange ---> ' + this.form.team);
+      this.dateChange();
     },
     dateChange(): void {
       console.log('dateChange ---> ' + this.form.date);
+      this.form.spaces = [];
+      this.form.spaces.push({ text: '請選擇', value: null });
+      this.form.space = null;
+      this.form.events = [];
+      this.form.events.push({ text: '請選擇', value: null });
+      this.form.event = null;
+      this.rtss = [];
       this.getSpaceList();
     },
     spaceChange(): void {
       console.log('spaceChange ---> ' + this.form.space);
+      this.form.events = [];
+      this.form.events.push({ text: '請選擇', value: null });
+      this.form.event = null;
+      this.rtss = [];
       this.getEventList();
     },
     eventChange(): void {
       console.log('eventChange ---> ' + this.form.event);
+      this.rtss = [];
       this.getRtsList();
     },
   },

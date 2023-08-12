@@ -59,9 +59,15 @@ public class Wcc101Service {
             rtsDTOC.setTotWins(((BigDecimal) map.get("tot_wins")).toString());
             rtsDTOC.setPlyrLvl((String) map.get("plyr_lvl"));
             rtsDTOC.setpId(((BigInteger) map.get("p_id")).toString());
-            rtsDTOC.setMtchEndTime(((Timestamp) map.get("mtch_end_time")).toString());
+            rtsDTOC.setMtchEndTime(this.getSimpleTime(((Timestamp) map.get("mtch_end_time")).toString()));
             result.add(rtsDTOC);
         }
+        return result;
+    }
+
+    private String getSimpleTime(String str) {
+        String result = "";
+        if (str.length() >= 19) result = str.substring(11, 16);
         return result;
     }
 }
