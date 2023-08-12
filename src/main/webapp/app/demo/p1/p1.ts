@@ -8,7 +8,7 @@ export default {
     return {
       loginService: new LoginService(),
       form: {
-        team: null,
+        team: 3,
         teams: [],
         date: '',
         space: null,
@@ -41,7 +41,7 @@ export default {
         .get(`${apiBaseUrl}/realTimeScore`, {
           params: {
             'eId.equals': this.form.event,
-            sort: 'mtch_end_time,desc',
+            sort: 'tot_wins,mtch_end_time,desc',
             page: this.page.currentPage - 1,
             size: this.page.perPage,
           },
