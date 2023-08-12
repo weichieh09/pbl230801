@@ -4,7 +4,7 @@
       <b-col cols="12">
         <br />
         <b-input-group size="lg" prepend="球隊">
-          <b-form-select v-model="form.team" :options="teams" v-on:change="teamChange()" />
+          <b-form-select v-model="form.team" :options="form.teams" v-on:change="teamChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="日期">
@@ -12,11 +12,11 @@
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="場地">
-          <b-form-select v-model="form.space" :options="spaces" v-on:change="spaceChange()" />
+          <b-form-select v-model="form.space" :options="form.spaces" v-on:change="spaceChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="賽事">
-          <b-form-input v-model="form.event" disabled />
+          <b-form-select v-model="form.event" :options="form.events" v-on:change="eventChange()" />
         </b-input-group>
       </b-col>
     </b-row>
@@ -36,7 +36,7 @@
         <h5>即時戰績排行榜</h5>
       </b-col>
       <b-col cols="12">
-        <b-table striped hover :items="items" />
+        <b-table striped hover :items="rtss" />
       </b-col>
     </b-row>
   </b-container>

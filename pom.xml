@@ -90,6 +90,9 @@
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
 
         <!-- jhipster-needle-maven-property -->
+        <!-- wccCode -->
+<!--        <org.projectlombok.version>1.18.20</org.projectlombok.version>-->
+        <!-- wccCode -->
     </properties>
 
     <dependencyManagement>
@@ -279,6 +282,14 @@
             <artifactId>metrics-core</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+        <!-- wccCode -->
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>${org.projectlombok.version}</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+        <!-- wccCode -->
     </dependencies>
 
     <build>
