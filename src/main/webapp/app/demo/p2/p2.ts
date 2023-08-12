@@ -1,19 +1,26 @@
+import axios from 'axios';
+
+const apiBaseUrl = '/api/wcc101';
+
 export default {
   data() {
     return {
       form: {
-        team: null,
-        date: '2023-08-10',
+        team: 3,
+        teams: [],
+        date: '',
         space: null,
-        event: '請選擇',
+        spaces: [{ text: '請選擇', value: null }],
+        event: null,
+        events: [{ text: '請選擇', value: null }],
       },
       resultForm: {
         wPlyr1: '選手1',
         wPlyr2: '選手2',
-        wScr: 0,
+        wScr: null,
         lPlyr1: '選手1',
         lPlyr2: '選手2',
-        lScr: 0,
+        lScr: null,
       },
       searchName: '',
       type: null,
@@ -41,7 +48,74 @@ export default {
       rows: 10,
     };
   },
+  created() {
+    this.getNowDate();
+    this.getTeamList();
+    this.getSpaceList();
+  },
   methods: {
+    getSpaceList(): void {
+      axios
+        .get(`${apiBaseUrl}/venues`, {
+          params: {
+            'evntDt.equals': this.getISOString(this.form.date),
+          },
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            response.data.forEach((element: any) => {
+              this.form.spaces.push({ text: element.name, value: element.name });
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getTeamList(): void {
+      this.form.teams.push({ text: '請選擇', value: null });
+      axios
+        .get('/api/wcc101/teams')
+        .then(response => {
+          response.data.forEach((element: any) => {
+            this.form.teams.push({ text: element.name, value: element.id });
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getEventList(): void {
+      axios
+        .get(`${apiBaseUrl}/events`, {
+          params: {
+            'evntDt.equals': this.getISOString(this.form.date),
+            'venue.equals': this.form.space,
+          },
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            response.data.forEach((element: any) => {
+              this.form.events.push({ text: element.name, value: element.id });
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getNowDate(): void {
+      const date = new Date();
+      const year = date.getFullYear();
+      let month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate();
+
+      // this.form.date = `${year}-${month}-${day}`;
+      this.form.date = '2023-08-01';
+    },
+    getISOString(input: any): string {
+      return input + 'T00:00:00.000Z';
+    },
     showModal(type: String): void {
       this.$refs['my-modal'].show();
       console.log('showModal ---> ' + type);
@@ -69,27 +143,30 @@ export default {
     },
     teamChange(): void {
       console.log('teamChange ---> ' + this.form.team);
+      this.dateChange();
     },
     dateChange(): void {
       console.log('dateChange ---> ' + this.form.date);
+      this.form.spaces = [];
+      this.form.spaces.push({ text: '請選擇', value: null });
+      this.form.space = null;
+      this.form.events = [];
+      this.form.events.push({ text: '請選擇', value: null });
+      this.form.event = null;
+      this.rtss = [];
+      this.getSpaceList();
     },
     spaceChange(): void {
-      console.log('spaceChange ---> ' + this.form.space);
-      // 賽事event改變
-      switch (this.form.space) {
-        case '01':
-          this.form.event = '爭分奪勝搶水果';
-          break;
-        case '02':
-          this.form.event = '棒打鴛鴦';
-          break;
-        case '03':
-          this.form.event = '魔王挑戰晉級賽';
-          break;
-        default:
-          this.form.event = '沒有資料';
-          break;
-      }
+      this.form.events = [];
+      this.form.events.push({ text: '請選擇', value: null });
+      this.form.event = null;
+      this.rtss = [];
+      if (this.form.space === null) return;
+      this.getEventList();
+    },
+    eventChange(): void {
+      this.rtss = [];
+      if (this.form.event === null) return;
     },
   },
 };

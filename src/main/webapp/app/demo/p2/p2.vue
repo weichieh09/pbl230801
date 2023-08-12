@@ -4,24 +4,24 @@
       <b-col cols="12">
         <br />
         <b-input-group size="lg" prepend="球隊">
-          <b-form-select v-model="form.team" :options="teams" v-on:change="teamChange()" />
+          <b-form-select v-model="form.team" :options="form.teams" v-on:change="teamChange()" disabled />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="日期">
-          <b-form-input type="date" v-model="form.date" v-on:change="dateChange()" />
+          <b-form-input type="date" v-model="form.date" v-on:change="dateChange()" disabled />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="場地">
-          <b-form-select v-model="form.space" :options="spaces" v-on:change="spaceChange()" />
+          <b-form-select v-model="form.space" :options="form.spaces" v-on:change="spaceChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="賽事">
-          <b-form-input v-model="form.event" disabled />
+          <b-form-select v-model="form.event" :options="form.events" v-on:change="eventChange()" />
         </b-input-group>
       </b-col>
     </b-row>
     <br />
-    <b-row>
+    <!-- <b-row>
       <br />
       <b-col cols="12" class="d-flex justify-content-center">
         <h3 class="text-success">勝方</h3>
@@ -30,7 +30,7 @@
         <b-button block variant="outline-success" size="lg" @click="showModal('wPlyr1')">{{ resultForm.wPlyr1 }}</b-button>
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-form-input type="number" size="lg" class="form-control-success" v-model="resultForm.wScr" />
+        <b-form-input type="number" size="lg" class="form-control-success" v-model="resultForm.wScr" placeholder="分數" />
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
         <b-button block variant="outline-success" size="lg" @click="showModal('wPlyr2')">{{ resultForm.wPlyr2 }}</b-button>
@@ -47,19 +47,41 @@
         <b-button block variant="outline-danger" size="lg" @click="showModal('lPlyr1')">{{ resultForm.lPlyr1 }}</b-button>
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-        <b-form-input type="number" size="lg" class="form-control-danger" v-model="resultForm.lScr" />
+        <b-form-input type="number" size="lg" class="form-control-danger" v-model="resultForm.lScr" placeholder="分數" />
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
         <b-button block variant="outline-danger" size="lg" @click="showModal('lPlyr2')">{{ resultForm.lPlyr2 }}</b-button>
       </b-col>
       <br />
+    </b-row> -->
+    <b-row>
+      <b-col cols="6">
+        <h3 class="text-success" style="text-align: center">勝方</h3>
+        <b-form-input type="number" size="lg" class="form-control-success" v-model="resultForm.wScr" placeholder="分數" /><br />
+        <b-button block variant="outline-success" size="lg" @click="showModal('wPlyr1')">{{ resultForm.wPlyr1 }}</b-button
+        ><br />
+        <b-button block variant="outline-success" size="lg" @click="showModal('wPlyr2')">{{ resultForm.wPlyr2 }}</b-button>
+      </b-col>
+      <b-col cols="6">
+        <h3 class="text-danger" style="text-align: center">敗方</h3>
+        <b-form-input type="number" size="lg" class="form-control-danger" v-model="resultForm.lScr" placeholder="分數" /><br />
+        <b-button block variant="outline-danger" size="lg" @click="showModal('lPlyr1')">{{ resultForm.lPlyr1 }}</b-button
+        ><br />
+        <b-button block variant="outline-danger" size="lg" @click="showModal('lPlyr2')">{{ resultForm.lPlyr2 }}</b-button>
+      </b-col>
     </b-row>
 
-    <br /><br />
+    <br />
 
     <b-row>
-      <b-col cols="12" class="d-flex justify-content-center">
-        <b-button block variant="outline-primary" size="lg" to="/demo/p1">賽後登錄</b-button>
+      <!-- <b-col cols="6" class="d-flex justify-content-center">
+        <b-button block variant="outline-primary" size="lg" to="/demo/p1">返回主頁</b-button>
+      </b-col>
+      <b-col cols="6" class="d-flex justify-content-center">
+        <b-button block variant="outline-primary" size="lg" to="/demo/p1">戰績登錄</b-button>
+      </b-col> -->
+      <b-col cols="12">
+        <b-button block variant="outline-primary" size="lg" to="/demo/p1">戰績登錄</b-button>
       </b-col>
     </b-row>
 
@@ -97,7 +119,7 @@
       </b-col>
     </b-row>
 
-    <br /><br />
+    <br />
   </b-container>
 </template>
 
@@ -105,6 +127,7 @@
 .form-control-success {
   color: #28a745;
   border-color: #28a745;
+  text-align: center;
 }
 .form-control-success:focus {
   color: #28a745;
@@ -114,10 +137,15 @@
   -webkit-box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
 }
+.form-control-success::placeholder {
+  color: #28a745;
+  text-align: center;
+}
 
 .form-control-danger {
   color: #dc3545;
   border-color: #dc3545;
+  text-align: center;
 }
 .form-control-danger:focus {
   color: #dc3545;
@@ -126,6 +154,10 @@
   outline: 0;
   -webkit-box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+.form-control-danger::placeholder {
+  color: #dc3545;
+  text-align: center;
 }
 </style>
 

@@ -23,6 +23,7 @@ export default {
         objTotal: 0,
         perPage: 5,
       },
+      isNoData: false,
     };
   },
   created() {
@@ -30,6 +31,12 @@ export default {
     this.getTeamList();
   },
   methods: {
+    getIcon(index: number): boolean {
+      if (this.page.currentPage === 1 && index <= 2) {
+        return true;
+      }
+      return false;
+    },
     pageLoad(page: any): void {
       if (page !== this.page.previousPage) {
         this.page.previousPage = page;
@@ -47,10 +54,12 @@ export default {
           },
         })
         .then(response => {
-          console.log(response);
           if (response.data.length > 0) {
+            this.isNoData = false;
             this.rtss = response.data;
             this.page.objTotal = Number(response.headers['x-total-count']);
+          } else {
+            this.isNoData = true;
           }
         })
         .catch(error => {
@@ -66,7 +75,6 @@ export default {
           },
         })
         .then(response => {
-          console.log(response);
           if (response.data.length > 0) {
             response.data.forEach((element: any) => {
               this.form.events.push({ text: element.name, value: element.id });
@@ -85,7 +93,6 @@ export default {
           },
         })
         .then(response => {
-          console.log(response);
           if (response.data.length > 0) {
             response.data.forEach((element: any) => {
               this.form.spaces.push({ text: element.name, value: element.name });
@@ -124,11 +131,9 @@ export default {
       this.loginService.openLogin(this.$root);
     },
     teamChange(): void {
-      console.log('teamChange ---> ' + this.form.team);
       this.dateChange();
     },
     dateChange(): void {
-      console.log('dateChange ---> ' + this.form.date);
       this.form.spaces = [];
       this.form.spaces.push({ text: '請選擇', value: null });
       this.form.space = null;
@@ -139,16 +144,16 @@ export default {
       this.getSpaceList();
     },
     spaceChange(): void {
-      console.log('spaceChange ---> ' + this.form.space);
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
       this.rtss = [];
+      if (this.form.space === null) return;
       this.getEventList();
     },
     eventChange(): void {
-      console.log('eventChange ---> ' + this.form.event);
       this.rtss = [];
+      if (this.form.event === null) return;
       this.getRtsList();
     },
   },

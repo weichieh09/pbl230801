@@ -48,7 +48,7 @@
           <tbody>
             <tr v-for="(rts, index) in rtss">
               <td>{{ rts.plyrLvl }}</td>
-              <td>{{ rts.plyrNm }}</td>
+              <td>{{ rts.plyrNm }} <b-icon icon="TrophyFill" style="color: orange" animation="fade" v-if="getIcon(index)" /></td>
               <td>{{ rts.totWins }}</td>
               <td>{{ rts.mtchEndTime }}</td>
             </tr>
@@ -59,9 +59,14 @@
         <b-pagination v-model="page.currentPage" :total-rows="page.objTotal" :per-page="page.perPage" @input="pageLoad(page.currentPage)" />
       </b-col>
     </b-row>
+    <b-row v-else-if="this.isNoData">
+      <b-col cols="12">
+        <b-alert show variant="warning">該賽事尚未有資料!</b-alert>
+      </b-col>
+    </b-row>
     <b-row v-else>
       <b-col cols="12">
-        <b-alert show variant="warning">尚未有資料</b-alert>
+        <b-alert show variant="warning">請選擇賽事</b-alert>
       </b-col>
     </b-row>
   </b-container>
