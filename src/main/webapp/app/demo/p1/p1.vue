@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container>
     <b-row>
       <b-col cols="12">
         <h3 style="text-align: center">即時戰績排行榜</h3>

@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container>
     <b-row>
       <b-col cols="12">
         <h3 style="text-align: center">戰績登錄</h3>
@@ -50,7 +50,7 @@
 
       <b-col cols="12">
         <br />
-        <b-button block variant="outline-primary" size="lg" @click="checkPoint()">戰績登錄</b-button>
+        <b-button block variant="outline-primary" size="lg" @click="checkPoint()">戰績登錄 <b-icon icon="cloudArrowUpFill" /></b-button>
       </b-col>
     </b-row>
     <b-row v-else>
