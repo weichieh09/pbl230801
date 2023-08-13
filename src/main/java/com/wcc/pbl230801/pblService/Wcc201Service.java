@@ -3,6 +3,7 @@ package com.wcc.pbl230801.pblService;
 import com.wcc.pbl230801.domain.MatchPlayer;
 import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
+import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
 import com.wcc.pbl230801.repository.MatchPlayerRepository;
 import com.wcc.pbl230801.service.MatchPlayerService;
 import com.wcc.pbl230801.service.MatchZService;
@@ -13,7 +14,6 @@ import com.wcc.pbl230801.service.dto.MatchZDTO;
 import com.wcc.pbl230801.service.dto.TeamDTO;
 import com.wcc.pbl230801.service.dto.TeamEventDTO;
 import java.math.BigInteger;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.*;
 import org.slf4j.Logger;
@@ -116,9 +116,9 @@ public class Wcc201Service {
         List<TeamEventDTO> byCriteria = teamEventQueryService.findByCriteria(criteria);
         if (byCriteria.size() == 0) return null;
 
-        matchZDTO.setMtchEndTime(ZonedDateTime.now());
+        matchZDTO.setMtchEndTime(ZonedDateTimeUtils.getTaiwanTime());
         matchZDTO.setLstMtnUsr("MGDsn");
-        matchZDTO.setLstMtnDt(ZonedDateTime.now());
+        matchZDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
         return matchZDTO;
     }
 
@@ -156,7 +156,7 @@ public class Wcc201Service {
         matchPlayer.setScore(scr);
         matchPlayer.setWinFg(winFg);
         matchPlayer.setLstMtnUsr("MGDsn");
-        matchPlayer.setLstMtnDt(ZonedDateTime.now());
+        matchPlayer.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
         return matchPlayer;
     }
 }

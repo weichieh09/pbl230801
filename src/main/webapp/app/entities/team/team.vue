@@ -75,9 +75,9 @@
                   <font-awesome-icon icon="times"></font-awesome-icon>
                   <span class="d-none d-md-inline">刪除</span>
                 </b-button>
-                <b-button variant="warning">
+                <b-button variant="warning" disabled>
                   <b-icon icon="peopleFill" />
-                  <span class="d-none d-md-inline">球員資料</span>
+                  <span class="d-none d-md-inline">球員</span>
                 </b-button>
               </div>
             </td>
@@ -86,29 +86,27 @@
       </table>
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
-      <span slot="modal-title"
-        ><span id="pbl230801App.team.delete.question" data-cy="teamDeleteDialogHeading">Confirm delete operation</span></span
-      >
+      <span slot="modal-title"><span id="pbl230801App.team.delete.question" data-cy="teamDeleteDialogHeading">刪除球隊</span></span>
       <div class="modal-body">
-        <p id="jhi-delete-team-heading">Are you sure you want to delete this Team?</p>
+        <p id="jhi-delete-team-heading">您確定要刪除此球隊嗎?</p>
       </div>
       <div slot="modal-footer">
-        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">取消</button>
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-danger"
           id="jhi-confirm-delete-team"
           data-cy="entityConfirmDeleteButton"
           v-on:click="removeTeam()"
         >
-          Delete
+          刪除
         </button>
       </div>
     </b-modal>
     <div v-show="teams && teams.length > 0">
-      <div class="row justify-content-center">
+      <!-- <div class="row justify-content-center">
         <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
-      </div>
+      </div> -->
       <div class="row justify-content-center">
         <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
       </div>

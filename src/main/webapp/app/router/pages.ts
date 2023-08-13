@@ -20,6 +20,12 @@ export default [
     path: '/demo/p3',
     name: 'p3',
     component: () => import('@/demo/p3/p3.vue'),
-    meta: { authorities: [Authority.USER] },
+    // meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/demo/p4',
+    name: 'p4',
+    component: () => import('@/demo/p4/p4.vue'),
+    // meta: { authorities: [Authority.USER] },
   },
 ]

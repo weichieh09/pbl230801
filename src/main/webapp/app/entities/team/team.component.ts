@@ -72,10 +72,10 @@ export default class Team extends Vue {
     this.teamService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Team is deleted with identifier ' + this.removeId;
+        const message = '球隊刪除成功';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
-          title: 'Info',
+          title: '刪除成功',
           variant: 'danger',
           solid: true,
           autoHideDelay: 5000,

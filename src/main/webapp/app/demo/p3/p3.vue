@@ -8,14 +8,14 @@
     </b-row>
     <b-row>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg">
+        <b-button block variant="outline-primary" size="lg" disabled>
           <b-icon icon="BrushFill" />
           <br />
           <h5>總覽</h5>
         </b-button>
       </b-col>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/team">
+        <b-button block variant="outline-primary" size="lg" to="/demo/p4">
           <b-icon icon="PeopleFill" />
           <br />
           <h5>球隊</h5>
@@ -25,14 +25,14 @@
     <br />
     <b-row>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/event-z">
+        <b-button block variant="outline-primary" size="lg" to="/event-z" disabled>
           <b-icon icon="Calendar3WeekFill" />
           <br />
           <h5>賽事</h5>
         </b-button>
       </b-col>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg">
+        <b-button block variant="outline-primary" size="lg" disabled>
           <b-icon icon="QuestionCircleFill" />
           <br />
           <h5>關於</h5>

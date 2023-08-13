@@ -15,11 +15,10 @@
             <b-form-input size="lg" id="password" type="password" name="password" v-model.trim="name" v-model="password" data-cy="password">
             </b-form-input>
           </b-form-group>
-          <b-form-checkbox size="lg" id="rememberMe" name="rememberMe" v-model="rememberMe" checked>
+          <!-- <b-form-checkbox size="lg" id="rememberMe" name="rememberMe" v-model="rememberMe" checked>
             <span>記住我</span>
-          </b-form-checkbox>
+          </b-form-checkbox> -->
           <div>
-            <br />
             <b-button size="lg" data-cy="submit" type="submit" variant="primary">登入</b-button>
           </div>
         </b-form>
