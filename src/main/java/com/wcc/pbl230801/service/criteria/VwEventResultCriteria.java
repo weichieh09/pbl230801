@@ -25,6 +25,8 @@ public class VwEventResultCriteria implements Serializable, Criteria {
 
     private LongFilter eId;
 
+    private LongFilter tId;
+
     private LongFilter pId;
 
     private LongFilter mId;
@@ -52,6 +54,7 @@ public class VwEventResultCriteria implements Serializable, Criteria {
     public VwEventResultCriteria(VwEventResultCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.eId = other.eId == null ? null : other.eId.copy();
+        this.tId = other.tId == null ? null : other.tId.copy();
         this.pId = other.pId == null ? null : other.pId.copy();
         this.mId = other.mId == null ? null : other.mId.copy();
         this.winFg = other.winFg == null ? null : other.winFg.copy();
@@ -98,6 +101,21 @@ public class VwEventResultCriteria implements Serializable, Criteria {
 
     public void seteId(LongFilter eId) {
         this.eId = eId;
+    }
+
+    public LongFilter gettId() {
+        return tId;
+    }
+
+    public LongFilter tId() {
+        if (tId == null) {
+            tId = new LongFilter();
+        }
+        return tId;
+    }
+
+    public void settId(LongFilter tId) {
+        this.tId = tId;
     }
 
     public LongFilter getpId() {
@@ -270,6 +288,7 @@ public class VwEventResultCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(eId, that.eId) &&
+            Objects.equals(tId, that.tId) &&
             Objects.equals(pId, that.pId) &&
             Objects.equals(mId, that.mId) &&
             Objects.equals(winFg, that.winFg) &&
@@ -286,7 +305,7 @@ public class VwEventResultCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, eId, pId, mId, winFg, plyrNm, plyrLvl, mtchEndTime, totMatchs, totWins, acmlWins, chkFg, distinct);
+        return Objects.hash(id, eId, tId, pId, mId, winFg, plyrNm, plyrLvl, mtchEndTime, totMatchs, totWins, acmlWins, chkFg, distinct);
     }
 
     // prettier-ignore
@@ -295,6 +314,7 @@ public class VwEventResultCriteria implements Serializable, Criteria {
         return "VwEventResultCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (eId != null ? "eId=" + eId + ", " : "") +
+            (tId != null ? "tId=" + tId + ", " : "") +
             (pId != null ? "pId=" + pId + ", " : "") +
             (mId != null ? "mId=" + mId + ", " : "") +
             (winFg != null ? "winFg=" + winFg + ", " : "") +

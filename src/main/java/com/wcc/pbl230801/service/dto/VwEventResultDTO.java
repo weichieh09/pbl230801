@@ -14,6 +14,8 @@ public class VwEventResultDTO implements Serializable {
 
     private Long eId;
 
+    private Long tId;
+
     private Long pId;
 
     private Long mId;
@@ -48,6 +50,14 @@ public class VwEventResultDTO implements Serializable {
 
     public void seteId(Long eId) {
         this.eId = eId;
+    }
+
+    public Long gettId() {
+        return tId;
+    }
+
+    public void settId(Long tId) {
+        this.tId = tId;
     }
 
     public Long getpId() {
@@ -157,6 +167,7 @@ public class VwEventResultDTO implements Serializable {
         return "VwEventResultDTO{" +
             "id=" + getId() +
             ", eId=" + geteId() +
+            ", tId=" + gettId() +
             ", pId=" + getpId() +
             ", mId=" + getmId() +
             ", winFg='" + getWinFg() + "'" +

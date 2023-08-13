@@ -63,6 +63,7 @@ entity MatchPlayer {
 @readOnly
 entity VwEventResult {
     eId Long,
+    tId Long,
     pId Long,
     mId Long,
     winFg String,

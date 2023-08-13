@@ -1,6 +1,7 @@
 export interface IVwEventResult {
   id?: number;
   eId?: number | null;
+  tId?: number | null;
   pId?: number | null;
   mId?: number | null;
   winFg?: string | null;
@@ -17,6 +18,7 @@ export class VwEventResult implements IVwEventResult {
   constructor(
     public id?: number,
     public eId?: number | null,
+    public tId?: number | null,
     public pId?: number | null,
     public mId?: number | null,
     public winFg?: string | null,

@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       form: {
-        team: 3,
+        team: null,
         teams: [],
         date: '',
         space: null,
@@ -32,7 +32,7 @@ export default {
         previousPage: 1,
         currentPage: 1,
         objTotal: 0,
-        perPage: 8,
+        perPage: 5,
       },
     };
   },
@@ -40,7 +40,6 @@ export default {
     this.getNowDate();
     this.dateChange();
     this.getTeamList();
-    this.getPlyrList();
   },
   methods: {
     saveResultForm(): void {
@@ -210,7 +209,7 @@ export default {
       }
     },
     teamChange(): void {
-      this.dateChange();
+      this.plyrs = [];
       this.getPlyrList();
     },
     dateChange(): void {

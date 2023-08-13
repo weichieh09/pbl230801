@@ -8,7 +8,7 @@ export default {
     return {
       loginService: new LoginService(),
       form: {
-        team: 3,
+        team: null,
         teams: [],
         date: '',
         space: null,
@@ -49,6 +49,7 @@ export default {
         .get(`${apiBaseUrl}/realTimeScore`, {
           params: {
             'eId.equals': this.form.event,
+            'tId.equals': this.form.team,
             sort: 'tot_wins,mtch_end_time,desc',
             page: this.page.currentPage - 1,
             size: this.page.perPage,
@@ -132,7 +133,10 @@ export default {
       this.loginService.openLogin(this.$root);
     },
     teamChange(): void {
-      this.dateChange();
+      this.rtss = [];
+      if (this.form.event === null) return;
+      if (this.form.team === null) return;
+      this.getRtsList();
     },
     dateChange(): void {
       this.form.spaces = [];
@@ -155,6 +159,7 @@ export default {
     eventChange(): void {
       this.rtss = [];
       if (this.form.event === null) return;
+      if (this.form.team === null) return;
       this.getRtsList();
     },
   },

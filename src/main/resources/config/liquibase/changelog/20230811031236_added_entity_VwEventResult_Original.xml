@@ -17,6 +17,9 @@
             <column name="e_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="t_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="p_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -64,12 +67,13 @@
     -->
     <changeSet id="20230811031236-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/vw_event_result.csv"
-                  separator=";"
-                  tableName="vw_event_result"
-                  usePreparedStatements="true">
+            file="config/liquibase/fake-data/vw_event_result.csv"
+            separator=";"
+            tableName="vw_event_result"
+            usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="e_id" type="numeric"/>
+            <column name="t_id" type="numeric"/>
             <column name="p_id" type="numeric"/>
             <column name="m_id" type="numeric"/>
             <column name="win_fg" type="string"/>

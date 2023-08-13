@@ -41,6 +41,10 @@ class VwEventResultResourceIT {
     private static final Long UPDATED_E_ID = 2L;
     private static final Long SMALLER_E_ID = 1L - 1L;
 
+    private static final Long DEFAULT_T_ID = 1L;
+    private static final Long UPDATED_T_ID = 2L;
+    private static final Long SMALLER_T_ID = 1L - 1L;
+
     private static final Long DEFAULT_P_ID = 1L;
     private static final Long UPDATED_P_ID = 2L;
     private static final Long SMALLER_P_ID = 1L - 1L;
@@ -103,6 +107,7 @@ class VwEventResultResourceIT {
     public static VwEventResult createEntity(EntityManager em) {
         VwEventResult vwEventResult = new VwEventResult()
             .eId(DEFAULT_E_ID)
+            .tId(DEFAULT_T_ID)
             .pId(DEFAULT_P_ID)
             .mId(DEFAULT_M_ID)
             .winFg(DEFAULT_WIN_FG)
@@ -125,6 +130,7 @@ class VwEventResultResourceIT {
     public static VwEventResult createUpdatedEntity(EntityManager em) {
         VwEventResult vwEventResult = new VwEventResult()
             .eId(UPDATED_E_ID)
+            .tId(UPDATED_T_ID)
             .pId(UPDATED_P_ID)
             .mId(UPDATED_M_ID)
             .winFg(UPDATED_WIN_FG)
@@ -156,6 +162,7 @@ class VwEventResultResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vwEventResult.getId().intValue())))
             .andExpect(jsonPath("$.[*].eId").value(hasItem(DEFAULT_E_ID.intValue())))
+            .andExpect(jsonPath("$.[*].tId").value(hasItem(DEFAULT_T_ID.intValue())))
             .andExpect(jsonPath("$.[*].pId").value(hasItem(DEFAULT_P_ID.intValue())))
             .andExpect(jsonPath("$.[*].mId").value(hasItem(DEFAULT_M_ID.intValue())))
             .andExpect(jsonPath("$.[*].winFg").value(hasItem(DEFAULT_WIN_FG)))
@@ -181,6 +188,7 @@ class VwEventResultResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(vwEventResult.getId().intValue()))
             .andExpect(jsonPath("$.eId").value(DEFAULT_E_ID.intValue()))
+            .andExpect(jsonPath("$.tId").value(DEFAULT_T_ID.intValue()))
             .andExpect(jsonPath("$.pId").value(DEFAULT_P_ID.intValue()))
             .andExpect(jsonPath("$.mId").value(DEFAULT_M_ID.intValue()))
             .andExpect(jsonPath("$.winFg").value(DEFAULT_WIN_FG))
@@ -300,6 +308,97 @@ class VwEventResultResourceIT {
 
         // Get all the vwEventResultList where eId is greater than SMALLER_E_ID
         defaultVwEventResultShouldBeFound("eId.greaterThan=" + SMALLER_E_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwEventResultsBytIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        vwEventResultRepository.saveAndFlush(vwEventResult);
+
+        // Get all the vwEventResultList where tId equals to DEFAULT_T_ID
+        defaultVwEventResultShouldBeFound("tId.equals=" + DEFAULT_T_ID);
+
+        // Get all the vwEventResultList where tId equals to UPDATED_T_ID
+        defaultVwEventResultShouldNotBeFound("tId.equals=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwEventResultsBytIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        vwEventResultRepository.saveAndFlush(vwEventResult);
+
+        // Get all the vwEventResultList where tId in DEFAULT_T_ID or UPDATED_T_ID
+        defaultVwEventResultShouldBeFound("tId.in=" + DEFAULT_T_ID + "," + UPDATED_T_ID);
+
+        // Get all the vwEventResultList where tId equals to UPDATED_T_ID
+        defaultVwEventResultShouldNotBeFound("tId.in=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwEventResultsBytIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        vwEventResultRepository.saveAndFlush(vwEventResult);
+
+        // Get all the vwEventResultList where tId is not null
+        defaultVwEventResultShouldBeFound("tId.specified=true");
+
+        // Get all the vwEventResultList where tId is null
+        defaultVwEventResultShouldNotBeFound("tId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllVwEventResultsBytIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        vwEventResultRepository.saveAndFlush(vwEventResult);
+
+        // Get all the vwEventResultList where tId is greater than or equal to DEFAULT_T_ID
+        defaultVwEventResultShouldBeFound("tId.greaterThanOrEqual=" + DEFAULT_T_ID);
+
+        // Get all the vwEventResultList where tId is greater than or equal to UPDATED_T_ID
+        defaultVwEventResultShouldNotBeFound("tId.greaterThanOrEqual=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwEventResultsBytIdIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        vwEventResultRepository.saveAndFlush(vwEventResult);
+
+        // Get all the vwEventResultList where tId is less than or equal to DEFAULT_T_ID
+        defaultVwEventResultShouldBeFound("tId.lessThanOrEqual=" + DEFAULT_T_ID);
+
+        // Get all the vwEventResultList where tId is less than or equal to SMALLER_T_ID
+        defaultVwEventResultShouldNotBeFound("tId.lessThanOrEqual=" + SMALLER_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwEventResultsBytIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        vwEventResultRepository.saveAndFlush(vwEventResult);
+
+        // Get all the vwEventResultList where tId is less than DEFAULT_T_ID
+        defaultVwEventResultShouldNotBeFound("tId.lessThan=" + DEFAULT_T_ID);
+
+        // Get all the vwEventResultList where tId is less than UPDATED_T_ID
+        defaultVwEventResultShouldBeFound("tId.lessThan=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwEventResultsBytIdIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        vwEventResultRepository.saveAndFlush(vwEventResult);
+
+        // Get all the vwEventResultList where tId is greater than DEFAULT_T_ID
+        defaultVwEventResultShouldNotBeFound("tId.greaterThan=" + DEFAULT_T_ID);
+
+        // Get all the vwEventResultList where tId is greater than SMALLER_T_ID
+        defaultVwEventResultShouldBeFound("tId.greaterThan=" + SMALLER_T_ID);
     }
 
     @Test
@@ -1040,6 +1139,7 @@ class VwEventResultResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vwEventResult.getId().intValue())))
             .andExpect(jsonPath("$.[*].eId").value(hasItem(DEFAULT_E_ID.intValue())))
+            .andExpect(jsonPath("$.[*].tId").value(hasItem(DEFAULT_T_ID.intValue())))
             .andExpect(jsonPath("$.[*].pId").value(hasItem(DEFAULT_P_ID.intValue())))
             .andExpect(jsonPath("$.[*].mId").value(hasItem(DEFAULT_M_ID.intValue())))
             .andExpect(jsonPath("$.[*].winFg").value(hasItem(DEFAULT_WIN_FG)))

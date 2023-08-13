@@ -93,6 +93,9 @@ public class VwEventResultQueryService extends QueryService<VwEventResult> {
             if (criteria.geteId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.geteId(), VwEventResult_.eId));
             }
+            if (criteria.gettId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.gettId(), VwEventResult_.tId));
+            }
             if (criteria.getpId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getpId(), VwEventResult_.pId));
             }

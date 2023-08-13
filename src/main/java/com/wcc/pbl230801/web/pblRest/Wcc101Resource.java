@@ -70,7 +70,8 @@ public class Wcc101Resource {
     @GetMapping("/realTimeScore")
     public ResponseEntity<List<RtsDTOC>> realTimeScore(VwEventResultCriteria criteria, Pageable pageable) {
         Long eventId = criteria.geteId().getEquals();
-        Page<Map<String, Object>> page = vwEventResultRepository.findMaxStatsByEventId(eventId, pageable);
+        Long teamId = criteria.gettId().getEquals();
+        Page<Map<String, Object>> page = vwEventResultRepository.findMaxStatsByEventId(eventId, teamId, pageable);
         List<RtsDTOC> result = wcc101Service.getRealTimeScore(page.getContent());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(result);

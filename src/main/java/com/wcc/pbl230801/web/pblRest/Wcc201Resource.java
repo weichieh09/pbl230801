@@ -81,7 +81,6 @@ public class Wcc201Resource {
         try {
             if (wcc201Service.checkMatchZ(matchZDTO) == null) throw new Exception("MatchZ is not valid");
             MatchZDTO result = wcc201Service.saveMatchZ(matchZDTO);
-            //            MatchZDTO result = matchZService.save(matchZDTO);
             return ResponseEntity.ok().body(wcc201Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc201Service.getErrorResp());

@@ -22,6 +22,9 @@
             <th scope="row" v-on:click="changeOrder('eId')">
               <span>E Id</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'eId'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('tId')">
+              <span>T Id</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'tId'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('pId')">
               <span>P Id</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'pId'"></jhi-sort-indicator>
             </th>
@@ -71,6 +74,7 @@
               }}</router-link>
             </td>
             <td>{{ vwEventResult.eId }}</td>
+            <td>{{ vwEventResult.tId }}</td>
             <td>{{ vwEventResult.pId }}</td>
             <td>{{ vwEventResult.mId }}</td>
             <td>{{ vwEventResult.winFg }}</td>

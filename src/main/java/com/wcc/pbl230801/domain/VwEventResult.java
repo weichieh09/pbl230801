@@ -22,6 +22,9 @@ public class VwEventResult implements Serializable {
     @Column(name = "e_id")
     private Long eId;
 
+    @Column(name = "t_id")
+    private Long tId;
+
     @Column(name = "p_id")
     private Long pId;
 
@@ -78,6 +81,19 @@ public class VwEventResult implements Serializable {
 
     public void seteId(Long eId) {
         this.eId = eId;
+    }
+
+    public Long gettId() {
+        return this.tId;
+    }
+
+    public VwEventResult tId(Long tId) {
+        this.settId(tId);
+        return this;
+    }
+
+    public void settId(Long tId) {
+        this.tId = tId;
     }
 
     public Long getpId() {
@@ -235,6 +251,7 @@ public class VwEventResult implements Serializable {
         return "VwEventResult{" +
             "id=" + getId() +
             ", eId=" + geteId() +
+            ", tId=" + gettId() +
             ", pId=" + getpId() +
             ", mId=" + getmId() +
             ", winFg='" + getWinFg() + "'" +

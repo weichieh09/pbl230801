@@ -7,7 +7,7 @@
       </b-col>
       <b-col cols="12">
         <b-input-group size="lg" prepend="球隊">
-          <b-form-select v-model="form.team" :options="form.teams" v-on:change="teamChange()" disabled />
+          <b-form-select v-model="form.team" :options="form.teams" v-on:change="teamChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="日期">

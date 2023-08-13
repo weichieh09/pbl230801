@@ -38,6 +38,7 @@ describe('Service Tests', () => {
         0,
         0,
         0,
+        0,
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
@@ -78,6 +79,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             eId: 1,
+            tId: 1,
             pId: 1,
             mId: 1,
             winFg: 'BBBBBB',

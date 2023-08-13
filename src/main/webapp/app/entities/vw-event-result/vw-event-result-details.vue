@@ -11,6 +11,12 @@
             <span>{{ vwEventResult.eId }}</span>
           </dd>
           <dt>
+            <span>T Id</span>
+          </dt>
+          <dd>
+            <span>{{ vwEventResult.tId }}</span>
+          </dd>
+          <dt>
             <span>P Id</span>
           </dt>
           <dd>
