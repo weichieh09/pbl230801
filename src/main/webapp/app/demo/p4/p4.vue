@@ -6,7 +6,7 @@
         <hr />
       </b-col>
       <b-col cols="12">
-        <b-button block variant="primary" disabled>新增球隊</b-button>
+        <b-button block variant="primary" @click="createTeam()" size="lg">新增球隊</b-button>
       </b-col>
     </b-row>
     <br />
@@ -25,20 +25,11 @@
               <td class="align-middle">{{ index + 1 }}</td>
               <td class="align-middle">{{ item.teamNm }}</td>
               <td>
-                <b-button style="margin: 1px" variant="info" @click="editTeam(item)" disabled>編輯</b-button><br />
-                <b-button style="margin: 1px" variant="danger" @click="deleteTeam(item)" disabled>刪除</b-button><br />
+                <b-button style="margin: 1px" variant="info" @click="editTeam(item)">編輯</b-button><br />
+                <b-button style="margin: 1px" variant="danger" @click="prepareRemoveTeam(item)">刪除</b-button><br />
                 <b-button style="margin: 1px" variant="warning" @click="editPlayer(item)" disabled>球員</b-button>
               </td>
             </tr>
-            <!-- <tr>
-              <td class="align-middle">1</td>
-              <td class="align-middle">123</td>
-              <td>
-                <b-button style="margin: 1px;" variant="info" disabled>編輯</b-button><br />
-                <b-button style="margin: 1px;" variant="danger" disabled>刪除</b-button><br />
-                <b-button style="margin: 1px;" variant="warning" disabled>球員</b-button>
-              </td>
-            </tr> -->
           </tbody>
         </table>
       </b-col>
@@ -46,7 +37,26 @@
         <b-pagination v-model="page.currentPage" :total-rows="page.objTotal" :per-page="page.perPage" @input="pageLoad(page.currentPage)" />
       </b-col>
     </b-row>
+    <b-row>
+      <b-col cols="12">
+        <hr />
+      </b-col>
+      <b-col cols="12">
+        <b-button block variant="outline-primary" size="lg" @click="$router.go(-1)">返回</b-button>
+      </b-col>
+    </b-row>
     <br />
+
+    <!-- The modal -->
+    <b-row>
+      <b-col cols="12">
+        <b-modal ref="removeTeam-modal" ok-title="刪除" ok-variant="danger" @ok="removeTeam()" cancel-title="取消" title="刪除球隊">
+          <b-row>
+            <b-col cols="12"> 您確定要刪除球隊嗎? </b-col>
+          </b-row>
+        </b-modal>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 

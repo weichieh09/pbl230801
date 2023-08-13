@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiBaseUrl = '/api/wcc301';
+const apiBaseUrl = '/api/wcc401';
 
 export default {
   data() {
@@ -18,6 +18,48 @@ export default {
     this.getTeamList();
   },
   methods: {
+    prepareRemoveTeam(team: any): void {
+      this.$refs['removeTeam-modal'].show();
+      this.$refs['removeTeam-modal'].team = team;
+    },
+    removeTeam(): void {
+      axios
+        .delete(`${apiBaseUrl}/teams/${this.$refs['removeTeam-modal'].team.id}`)
+        .then(response => {
+          if (response.data.status === '0') {
+            this.$bvToast.toast('刪除球隊成功', {
+              toaster: 'b-toaster-top-center',
+              title: '刪除成功',
+              variant: 'success',
+              solid: true,
+            });
+            this.$refs['removeTeam-modal'].hide();
+            this.getTeamList();
+          } else {
+            this.$bvToast.toast('刪除球隊失敗', {
+              toaster: 'b-toaster-top-center',
+              title: '刪除失敗',
+              variant: 'danger',
+              solid: true,
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.$bvToast.toast('刪除球隊失敗', {
+            toaster: 'b-toaster-top-center',
+            title: '刪除失敗',
+            variant: 'danger',
+            solid: true,
+          });
+        });
+    },
+    createTeam(): void {
+      this.$router.push('/demo/p4/0');
+    },
+    editTeam(team: any): void {
+      this.$router.push(`/demo/p4/${team.id}`);
+    },
     pageLoad(page: any): void {
       if (page !== this.page.previousPage) {
         this.page.previousPage = page;

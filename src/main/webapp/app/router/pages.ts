@@ -28,4 +28,10 @@ export default [
     component: () => import('@/demo/p4/p4.vue'),
     meta: { authorities: [Authority.USER] },
   },
+  {
+    path: '/demo/p4/:tId',
+    name: 'p4Upate',
+    component: () => import('@/demo/p4/p4-update.vue'),
+    meta: { authorities: [Authority.USER] },
+  },
 ]
