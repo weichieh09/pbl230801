@@ -46,6 +46,7 @@ export default {
       axios
         .post(`${apiBaseUrl}/match-zs`, {
           eId: this.form.event,
+          tId: this.form.team,
           wScr: this.resultForm.wScr,
           wPlyr1: this.resultForm.wPlyr1,
           wPlyr2: this.resultForm.wPlyr2,
@@ -72,7 +73,7 @@ export default {
             this.resultForm.lPlyr2 = null;
             this.resultForm.lPlyr2Nm = '選手2';
           } else {
-            this.$bvToast.toast('儲存失敗', {
+            this.$bvToast.toast('資料不正確 或 該球隊未參加此賽事', {
               toaster: 'b-toaster-top-center',
               title: '失敗',
               variant: 'danger',

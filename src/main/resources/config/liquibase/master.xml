@@ -19,6 +19,7 @@
     <include file="config/liquibase/changelog/20230811031234_added_entity_MatchZ.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230811031235_added_entity_MatchPlayer.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230811031236_added_entity_VwEventResult.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230813085904_added_entity_TeamEvent.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

@@ -32,6 +32,10 @@
       <font-awesome-icon icon="asterisk" />
       <span>Vw Event Result</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/team-event">
+      <font-awesome-icon icon="asterisk" />
+      <span>Team Event</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

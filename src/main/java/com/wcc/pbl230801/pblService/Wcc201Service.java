@@ -2,18 +2,23 @@ package com.wcc.pbl230801.pblService;
 
 import com.wcc.pbl230801.domain.MatchPlayer;
 import com.wcc.pbl230801.pblService.dto.*;
+import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.repository.MatchPlayerRepository;
 import com.wcc.pbl230801.service.MatchPlayerService;
 import com.wcc.pbl230801.service.MatchZService;
+import com.wcc.pbl230801.service.TeamEventQueryService;
+import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
 import com.wcc.pbl230801.service.dto.EventZDTO;
 import com.wcc.pbl230801.service.dto.MatchZDTO;
 import com.wcc.pbl230801.service.dto.TeamDTO;
+import com.wcc.pbl230801.service.dto.TeamEventDTO;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +36,9 @@ public class Wcc201Service {
 
     @Autowired
     private MatchPlayerRepository matchPlayerRepository;
+
+    @Autowired
+    private TeamEventQueryService teamEventQueryService;
 
     public List<VenueDTOC> getDistinctVenue(List<EventZDTO> content) {
         Set<VenueDTOC> venueSet = new HashSet<>();
@@ -90,19 +98,24 @@ public class Wcc201Service {
         return respDTOC;
     }
 
-    public MatchZDTO checkMatchZ(MatchZDTO matchZDTO) {
-        if (matchZDTO.getwPlyr1() == null && matchZDTO.getwPlyr2() == null) {
-            return null;
-        }
-        if (matchZDTO.getlPlyr1() == null && matchZDTO.getlPlyr2() == null) {
-            return null;
-        }
-        if (matchZDTO.getwScr() == null && matchZDTO.getlScr() == null) {
-            return null;
-        }
-        if (Long.parseLong(matchZDTO.getwScr()) < Long.parseLong(matchZDTO.getlScr())) {
-            return null;
-        }
+    public MatchZDTO checkMatchZ(MatchZsReqDTOC matchZsReqDTOC) {
+        MatchZDTO matchZDTO = new MatchZDTO();
+        BeanUtils.copyProperties(matchZsReqDTOC, matchZDTO);
+
+        if (matchZDTO.getwPlyr1() == null && matchZDTO.getwPlyr2() == null) return null;
+        if (matchZDTO.getlPlyr1() == null && matchZDTO.getlPlyr2() == null) return null;
+        if (matchZDTO.getwScr() == null && matchZDTO.getlScr() == null) return null;
+        if (Long.parseLong(matchZDTO.getwScr()) < Long.parseLong(matchZDTO.getlScr())) return null;
+
+        long tId = Long.parseLong(matchZsReqDTOC.gettId());
+        long eId = Long.parseLong(matchZsReqDTOC.geteId());
+
+        TeamEventCriteria criteria = new TeamEventCriteria();
+        criteria.seteId(LongFilterUtils.toEqualLongFilter(eId));
+        criteria.settId(LongFilterUtils.toEqualLongFilter(tId));
+        List<TeamEventDTO> byCriteria = teamEventQueryService.findByCriteria(criteria);
+        if (byCriteria.size() == 0) return null;
+
         matchZDTO.setMtchEndTime(ZonedDateTime.now());
         matchZDTO.setLstMtnUsr("MGDsn");
         matchZDTO.setLstMtnDt(ZonedDateTime.now());

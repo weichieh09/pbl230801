@@ -49,6 +49,12 @@ const MatchPlayerDetails = () => import('@/entities/match-player/match-player-de
 const VwEventResult = () => import('@/entities/vw-event-result/vw-event-result.vue');
 // prettier-ignore
 const VwEventResultDetails = () => import('@/entities/vw-event-result/vw-event-result-details.vue');
+// prettier-ignore
+const TeamEvent = () => import('@/entities/team-event/team-event.vue');
+// prettier-ignore
+const TeamEventUpdate = () => import('@/entities/team-event/team-event-update.vue');
+// prettier-ignore
+const TeamEventDetails = () => import('@/entities/team-event/team-event-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -233,6 +239,42 @@ export default {
       path: '/vw-event-result/:vwEventResultId/view',
       name: 'VwEventResultView',
       component: VwEventResultDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: '/vw-event-result',
+      name: 'VwEventResult',
+      component: VwEventResult,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: '/vw-event-result/:vwEventResultId/view',
+      name: 'VwEventResultView',
+      component: VwEventResultDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'team-event',
+      name: 'TeamEvent',
+      component: TeamEvent,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'team-event/new',
+      name: 'TeamEventCreate',
+      component: TeamEventUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'team-event/:teamEventId/edit',
+      name: 'TeamEventEdit',
+      component: TeamEventUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'team-event/:teamEventId/view',
+      name: 'TeamEventView',
+      component: TeamEventDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

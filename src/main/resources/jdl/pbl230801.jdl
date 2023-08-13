@@ -76,6 +76,13 @@ entity VwEventResult {
     chkFg String,
 }
 
+entity TeamEvent {
+    tId Long,
+    eId Long,
+    lstMtnUsr String,
+    lstMtnDt ZonedDateTime,
+}
+
 filter *
 dto * with mapstruct
 paginate * with pagination
