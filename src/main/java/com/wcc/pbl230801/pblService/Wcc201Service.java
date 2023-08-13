@@ -101,7 +101,9 @@ public class Wcc201Service {
     public MatchZDTO checkMatchZ(MatchZsReqDTOC matchZsReqDTOC) {
         MatchZDTO matchZDTO = new MatchZDTO();
         BeanUtils.copyProperties(matchZsReqDTOC, matchZDTO);
+        matchZDTO.seteId(Long.parseLong(matchZsReqDTOC.geteId()));
 
+        if (matchZDTO.geteId() == null) return null;
         if (matchZDTO.getwPlyr1() == null && matchZDTO.getwPlyr2() == null) return null;
         if (matchZDTO.getlPlyr1() == null && matchZDTO.getlPlyr2() == null) return null;
         if (matchZDTO.getwScr() == null && matchZDTO.getlScr() == null) return null;
