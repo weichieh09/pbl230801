@@ -45,7 +45,8 @@
         <tbody>
           <tr v-for="team in teams" :key="team.id" data-cy="entityTable">
             <td>
-              <router-link :to="{ name: 'TeamView', params: { teamId: team.id } }">{{ team.id }}</router-link>
+              <!-- <router-link :to="{ name: 'TeamView', params: { teamId: team.id } }">{{ team.id }}</router-link> -->
+              {{ team.id }}
             </td>
             <td>{{ team.teamNm }}</td>
             <!-- <td>{{ team.lstMtnUsr }}</td>

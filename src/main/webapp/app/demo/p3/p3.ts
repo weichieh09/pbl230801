@@ -1,59 +1,166 @@
+import axios from 'axios';
+import LoginService from '@/account/login.service';
+
+const apiBaseUrl = '/api/wcc101';
+
 export default {
   data() {
     return {
+      loginService: new LoginService(),
       form: {
         team: null,
-        date: '2023-08-10',
+        teams: [],
+        date: '',
         space: null,
-        event: '請選擇',
+        spaces: [{ text: '請選擇', value: null }],
+        event: null,
+        events: [{ text: '請選擇', value: null }],
       },
-      teams: [
-        { text: '請選擇', value: null },
-        { text: '運動家羽球隊', value: '01' },
-        { text: '夢想號不用燃料', value: '02' },
-        { text: '大聯盟隊', value: '03' },
-      ],
-      spaces: [
-        { text: '請選擇', value: null },
-        { text: '台藝大', value: '01' },
-        { text: '羽協', value: '02' },
-        { text: '鑫高手', value: '03' },
-      ],
-      items: [
-        { class: '12', plyrNm: 'Mark', totWins: '5', matchEndTime: '11:40' },
-        { class: '14', plyrNm: 'Jacob', totWins: '4', matchEndTime: '11:40' },
-        { class: '15', plyrNm: 'Larry', totWins: '4', matchEndTime: '11:45' },
-        { class: '14', plyrNm: 'Sam', totWins: '3', matchEndTime: '11:30' },
-      ],
-      perPage: 3,
-      currentPage: 1,
-      rows: 10,
+      rtss: [],
+      page: {
+        previousPage: 1,
+        currentPage: 1,
+        objTotal: 0,
+        perPage: 5,
+      },
+      isNoData: false,
     };
   },
+  created() {
+    this.getNowDate();
+    this.dateChange();
+    this.getTeamList();
+  },
   methods: {
+    getIcon(index: number): boolean {
+      if (this.page.currentPage === 1 && index <= 2) {
+        return true;
+      }
+      return false;
+    },
+    pageLoad(page: any): void {
+      if (page !== this.page.previousPage) {
+        this.page.previousPage = page;
+        this.getRtsList();
+      }
+    },
+    getRtsList(): void {
+      axios
+        .get(`${apiBaseUrl}/realTimeScore`, {
+          params: {
+            'eId.equals': this.form.event,
+            'tId.equals': this.form.team,
+            sort: 'tot_wins,mtch_end_time,desc',
+            page: this.page.currentPage - 1,
+            size: this.page.perPage,
+          },
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            this.isNoData = false;
+            this.rtss = response.data;
+            this.page.objTotal = Number(response.headers['x-total-count']);
+          } else {
+            this.isNoData = true;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getEventList(): void {
+      axios
+        .get(`${apiBaseUrl}/events`, {
+          params: {
+            'evntDt.equals': this.getISOString(this.form.date),
+            'venue.equals': this.form.space,
+          },
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            response.data.forEach((element: any) => {
+              this.form.events.push({ text: element.name, value: element.id });
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getSpaceList(): void {
+      axios
+        .get(`${apiBaseUrl}/venues`, {
+          params: {
+            'evntDt.equals': this.getISOString(this.form.date),
+          },
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            response.data.forEach((element: any) => {
+              this.form.spaces.push({ text: element.name, value: element.name });
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getISOString(input: any): string {
+      return input + 'T00:00:00.000Z';
+    },
+    getNowDate(): void {
+      const date = new Date();
+      const year = date.getFullYear();
+      let month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate();
+
+      this.form.date = `${year}-${month}-${day}`;
+    },
+    getTeamList(): void {
+      this.form.teams.push({ text: '請選擇', value: null });
+      axios
+        .get('/api/wcc101/teams')
+        .then(response => {
+          response.data.forEach((element: any) => {
+            this.form.teams.push({ text: element.name, value: element.id });
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    openLogin(): void {
+      this.loginService.openLogin(this.$root);
+    },
     teamChange(): void {
-      console.log('teamChange ---> ' + this.form.team);
+      this.rtss = [];
+      if (this.form.event === null) return;
+      if (this.form.team === null) return;
+      this.getRtsList();
     },
     dateChange(): void {
-      console.log('dateChange ---> ' + this.form.date);
+      this.form.spaces = [];
+      this.form.spaces.push({ text: '請選擇', value: null });
+      this.form.space = null;
+      this.form.events = [];
+      this.form.events.push({ text: '請選擇', value: null });
+      this.form.event = null;
+      this.rtss = [];
+      this.getSpaceList();
     },
     spaceChange(): void {
-      console.log('spaceChange ---> ' + this.form.space);
-      // 賽事event改變
-      switch (this.form.space) {
-        case '01':
-          this.form.event = '爭分奪勝搶水果';
-          break;
-        case '02':
-          this.form.event = '棒打鴛鴦';
-          break;
-        case '03':
-          this.form.event = '魔王挑戰晉級賽';
-          break;
-        default:
-          this.form.event = '沒有資料';
-          break;
-      }
+      this.form.events = [];
+      this.form.events.push({ text: '請選擇', value: null });
+      this.form.event = null;
+      this.rtss = [];
+      if (this.form.space === null) return;
+      this.getEventList();
+    },
+    eventChange(): void {
+      this.rtss = [];
+      if (this.form.event === null) return;
+      if (this.form.team === null) return;
+      this.getRtsList();
     },
   },
 };

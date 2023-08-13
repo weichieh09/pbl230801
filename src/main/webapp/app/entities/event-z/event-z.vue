@@ -42,14 +42,14 @@
               <span>地點</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'venue'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('eventBegTime')">
+            <!-- <th scope="row" v-on:click="changeOrder('eventBegTime')">
               <span>開始時間</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'eventBegTime'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('eventEndTime')">
+            </th> -->
+            <!-- <th scope="row" v-on:click="changeOrder('eventEndTime')">
               <span>結束時間</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'eventEndTime'"></jhi-sort-indicator>
-            </th>
+            </th> -->
             <!-- <th scope="row" v-on:click="changeOrder('lstMtnUsr')">
               <span>Lst Mtn Usr</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lstMtnUsr'"></jhi-sort-indicator>
@@ -66,13 +66,14 @@
         <tbody>
           <tr v-for="eventZ in eventZS" :key="eventZ.id" data-cy="entityTable">
             <td>
-              <router-link :to="{ name: 'EventZView', params: { eventZId: eventZ.id } }">{{ eventZ.id }}</router-link>
+              <!-- <router-link :to="{ name: 'EventZView', params: { eventZId: eventZ.id } }">{{ eventZ.id }}</router-link> -->
+              {{ eventZ.id }}
             </td>
             <td>{{ eventZ.evntNm }}</td>
             <td>{{ eventZ.evntDt | formatDate }}</td>
             <td>{{ eventZ.venue }}</td>
-            <td>{{ eventZ.eventBegTime | formatDate }}</td>
-            <td>{{ eventZ.eventEndTime | formatDate }}</td>
+            <!-- <td>{{ eventZ.eventBegTime | formatDate }}</td> -->
+            <!-- <td>{{ eventZ.eventEndTime | formatDate }}</td> -->
             <!-- <td>{{ eventZ.lstMtnUsr }}</td>
             <td>{{ eventZ.lstMtnDt | formatDate }}</td> -->
             <td>
