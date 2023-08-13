@@ -28,6 +28,7 @@ export default {
   },
   created() {
     this.getNowDate();
+    this.dateChange();
     this.getTeamList();
   },
   methods: {

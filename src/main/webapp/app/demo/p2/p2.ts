@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiBaseUrl = '/api/wcc101';
+const apiBaseUrl = '/api/wcc201';
 
 export default {
   data() {
@@ -15,45 +15,108 @@ export default {
         events: [{ text: '請選擇', value: null }],
       },
       resultForm: {
-        wPlyr1: '選手1',
-        wPlyr2: '選手2',
+        wPlyr1: null,
+        wPlyr1Nm: '選手1',
+        wPlyr2: null,
+        wPlyr2Nm: '選手2',
         wScr: null,
-        lPlyr1: '選手1',
-        lPlyr2: '選手2',
+        lPlyr1: null,
+        lPlyr1Nm: '選手1',
+        lPlyr2: null,
+        lPlyr2Nm: '選手2',
         lScr: null,
       },
-      searchName: '',
       type: null,
-      teams: [
-        { text: '請選擇', value: null },
-        { text: '運動家羽球隊', value: '01' },
-        { text: '夢想號不用燃料', value: '02' },
-        { text: '大聯盟隊', value: '03' },
-      ],
-      spaces: [
-        { text: '請選擇', value: null },
-        { text: '台藝大', value: '01' },
-        { text: '羽協', value: '02' },
-        { text: '鑫高手', value: '03' },
-      ],
-      items: [
-        { id: '1', class: '12', plyrNm: 'Mark' },
-        { id: '2', class: '14', plyrNm: 'Jacob' },
-        { id: '3', class: '15', plyrNm: 'Larry' },
-        { id: '4', class: '14', plyrNm: 'Sam' },
-        { id: '5', class: '14', plyrNm: 'Jacky' },
-      ],
-      perPage: 3,
-      currentPage: 1,
-      rows: 10,
+      plyrs: [],
+      page: {
+        previousPage: 1,
+        currentPage: 1,
+        objTotal: 0,
+        perPage: 8,
+      },
     };
   },
   created() {
     this.getNowDate();
+    this.dateChange();
     this.getTeamList();
-    this.getSpaceList();
+    this.getPlyrList();
   },
   methods: {
+    saveResultForm(): void {
+      axios
+        .post(`${apiBaseUrl}/match-zs`, {
+          eId: this.form.event,
+          wScr: this.resultForm.wScr,
+          wPlyr1: this.resultForm.wPlyr1,
+          wPlyr2: this.resultForm.wPlyr2,
+          lScr: this.resultForm.lScr,
+          lPlyr1: this.resultForm.lPlyr1,
+          lPlyr2: this.resultForm.lPlyr2,
+        })
+        .then(response => {
+          if (response.data.status === '0') {
+            this.$bvToast.toast('儲存成功', {
+              title: '成功',
+              variant: 'success',
+              solid: true,
+            });
+            this.resultForm.wScr = null;
+            this.resultForm.wPlyr1 = null;
+            this.resultForm.wPlyr1Nm = '選手1';
+            this.resultForm.wPlyr2 = null;
+            this.resultForm.wPlyr2Nm = '選手2';
+            this.resultForm.lScr = null;
+            this.resultForm.lPlyr1 = null;
+            this.resultForm.lPlyr1Nm = '選手1';
+            this.resultForm.lPlyr2 = null;
+            this.resultForm.lPlyr2Nm = '選手2';
+          } else {
+            this.$bvToast.toast('儲存失敗', {
+              title: '失敗',
+              variant: 'danger',
+              solid: true,
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.$bvToast.toast('儲存失敗', {
+            title: '失敗',
+            variant: 'danger',
+            solid: true,
+          });
+        });
+    },
+    checkPoint(): void {
+      this.$refs['checkPoint-modal'].show();
+    },
+    pageLoad(page: any): void {
+      if (page !== this.page.previousPage) {
+        this.page.previousPage = page;
+        this.getPlyrList();
+      }
+    },
+    getPlyrList(): void {
+      axios
+        .get(`${apiBaseUrl}/players`, {
+          params: {
+            'tId.equals': this.form.team,
+            sort: 'plyrLvl,desc',
+            page: this.page.currentPage - 1,
+            size: this.page.perPage,
+          },
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            this.plyrs = response.data;
+            this.page.objTotal = Number(response.headers['x-total-count']);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getSpaceList(): void {
       axios
         .get(`${apiBaseUrl}/venues`, {
@@ -110,62 +173,60 @@ export default {
       let month = (date.getMonth() + 1).toString().padStart(2, '0');
       const day = date.getDate();
 
-      // this.form.date = `${year}-${month}-${day}`;
-      this.form.date = '2023-08-01';
+      this.form.date = `${year}-${month}-${day}`;
     },
     getISOString(input: any): string {
       return input + 'T00:00:00.000Z';
     },
     showModal(type: String): void {
-      this.$refs['my-modal'].show();
-      console.log('showModal ---> ' + type);
+      this.$refs['selectPlyr-modal'].show();
       this.type = type;
     },
     hideModal(item): void {
-      this.$refs['my-modal'].hide();
-      console.log('hideModal ---> ' + item.id);
+      this.$refs['selectPlyr-modal'].hide();
+      if (item === null) return;
       switch (this.type) {
         case 'wPlyr1':
-          this.resultForm.wPlyr1 = item.plyrNm;
+          this.resultForm.wPlyr1 = item.id;
+          this.resultForm.wPlyr1Nm = item.plyrNm;
           break;
         case 'wPlyr2':
-          this.resultForm.wPlyr2 = item.plyrNm;
+          this.resultForm.wPlyr2 = item.id;
+          this.resultForm.wPlyr2Nm = item.plyrNm;
           break;
         case 'lPlyr1':
-          this.resultForm.lPlyr1 = item.plyrNm;
+          this.resultForm.lPlyr1 = item.id;
+          this.resultForm.lPlyr1Nm = item.plyrNm;
           break;
         case 'lPlyr2':
-          this.resultForm.lPlyr2 = item.plyrNm;
+          this.resultForm.lPlyr2 = item.id;
+          this.resultForm.lPlyr2Nm = item.plyrNm;
           break;
         default:
           break;
       }
     },
     teamChange(): void {
-      console.log('teamChange ---> ' + this.form.team);
       this.dateChange();
+      this.getPlyrList();
     },
     dateChange(): void {
-      console.log('dateChange ---> ' + this.form.date);
       this.form.spaces = [];
       this.form.spaces.push({ text: '請選擇', value: null });
       this.form.space = null;
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
-      this.rtss = [];
       this.getSpaceList();
     },
     spaceChange(): void {
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
-      this.rtss = [];
       if (this.form.space === null) return;
       this.getEventList();
     },
     eventChange(): void {
-      this.rtss = [];
       if (this.form.event === null) return;
     },
   },

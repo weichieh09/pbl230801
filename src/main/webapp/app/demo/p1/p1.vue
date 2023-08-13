@@ -2,7 +2,10 @@
   <b-container fluid>
     <b-row>
       <b-col cols="12">
-        <br />
+        <h3 style="text-align: center">即時戰績排行榜</h3>
+        <hr />
+      </b-col>
+      <b-col cols="12">
         <b-input-group size="lg" prepend="球隊">
           <b-form-select v-model="form.team" :options="form.teams" v-on:change="teamChange()" disabled />
         </b-input-group>
@@ -21,20 +24,7 @@
       </b-col>
     </b-row>
     <br />
-    <b-row>
-      <b-col cols="6" class="d-flex justify-content-center">
-        <!-- <b-button variant="outline-primary" size="lg" @click="openLogin()">管理者登入</b-button> -->
-        <b-button variant="outline-primary" size="lg" to="/demo/p3">管理者登入</b-button>
-      </b-col>
-      <b-col cols="6" class="d-flex justify-content-center">
-        <b-button variant="outline-primary" size="lg" to="/demo/p2">球友登入</b-button>
-      </b-col>
-    </b-row>
-    <br />
     <b-row v-if="this.rtss.length > 0">
-      <b-col cols="12" class="d-flex justify-content-center">
-        <h3>即時戰績排行榜</h3>
-      </b-col>
       <b-col cols="12">
         <table class="table table-hover">
           <thead>
@@ -69,6 +59,18 @@
         <b-alert show variant="warning">請選擇賽事</b-alert>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col cols="12">
+        <hr />
+      </b-col>
+      <b-col cols="6">
+        <b-button block variant="outline-primary" size="lg" to="/demo/p3">管理功能</b-button>
+      </b-col>
+      <b-col cols="6">
+        <b-button block variant="outline-primary" size="lg" to="/demo/p2">戰績登錄</b-button>
+      </b-col>
+    </b-row>
+    <br />
   </b-container>
 </template>
 

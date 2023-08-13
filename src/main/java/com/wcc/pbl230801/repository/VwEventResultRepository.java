@@ -28,15 +28,17 @@ public interface VwEventResultRepository extends JpaRepository<VwEventResult, Lo
         "",
         countQuery = "" +
         "SELECT Count(*) AS total_count\n" +
-        "FROM   (SELECT Max(plyr_lvl)      AS plyr_lvl,\n" +
+        "FROM   (" +
+        "        SELECT Max(plyr_lvl)      AS plyr_lvl,\n" +
         "               p_id,\n" +
         "               plyr_nm,\n" +
         "               Max(tot_wins)      AS tot_wins,\n" +
         "               Max(mtch_end_time) AS mtch_end_time\n" +
         "        FROM   vw_event_result\n" +
-        "        WHERE  e_id = 1\n" +
+        "        WHERE  e_id = :eventId\n" +
         "        GROUP  BY p_id,\n" +
-        "                  plyr_nm) AS total_count " +
+        "                  plyr_nm\n" +
+        ")AS total_count " +
         "",
         nativeQuery = true
     )
