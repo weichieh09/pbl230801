@@ -57,6 +57,7 @@ export default {
         .then(response => {
           if (response.data.status === '0') {
             this.$bvToast.toast('儲存成功', {
+              toaster: 'b-toaster-top-center',
               title: '成功',
               variant: 'success',
               solid: true,
@@ -73,6 +74,7 @@ export default {
             this.resultForm.lPlyr2Nm = '選手2';
           } else {
             this.$bvToast.toast('儲存失敗', {
+              toaster: 'b-toaster-top-center',
               title: '失敗',
               variant: 'danger',
               solid: true,
@@ -82,6 +84,7 @@ export default {
         .catch(error => {
           console.log(error);
           this.$bvToast.toast('儲存失敗', {
+            toaster: 'b-toaster-top-center',
             title: '失敗',
             variant: 'danger',
             solid: true,
