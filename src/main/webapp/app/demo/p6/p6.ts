@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const apiBaseUrl = '/api/wcc401';
+const apiBaseUrl = '/api/wcc601';
 
 export default {
   data() {
     return {
-      teams: [],
+      eventZs: [],
       page: {
         previousPage: 1,
         currentPage: 1,
@@ -15,7 +15,7 @@ export default {
     };
   },
   created() {
-    this.getTeamList();
+    this.getEventZList();
   },
   methods: {
     editPlayer(team: any): void {
@@ -37,7 +37,7 @@ export default {
               solid: true,
             });
             this.$refs['removeTeam-modal'].hide();
-            this.getTeamList();
+            this.getEventZList();
           } else {
             this.$bvToast.toast('刪除球隊失敗', {
               toaster: 'b-toaster-top-center',
@@ -57,8 +57,8 @@ export default {
           });
         });
     },
-    createTeam(): void {
-      this.$router.push('/demo/p4/0');
+    createEventZ(): void {
+      this.$router.push('/demo/p6/0');
     },
     editTeam(team: any): void {
       this.$router.push(`/demo/p4/${team.id}`);
@@ -66,13 +66,13 @@ export default {
     pageLoad(page: any): void {
       if (page !== this.page.previousPage) {
         this.page.previousPage = page;
-        this.getTeamList();
+        this.getEventZList();
       }
     },
-    getTeamList(): void {
-      this.teams = [];
+    getEventZList(): void {
+      this.eventZs = [];
       axios
-        .get(`${apiBaseUrl}/teams`, {
+        .get(`${apiBaseUrl}/event-zs`, {
           params: {
             sort: 'id,desc',
             page: this.page.currentPage - 1,
@@ -81,7 +81,7 @@ export default {
         })
         .then(response => {
           if (response.data.length > 0) {
-            this.teams = response.data;
+            this.eventZs = response.data;
             this.page.objTotal = Number(response.headers['x-total-count']);
           }
         });

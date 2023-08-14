@@ -25,7 +25,7 @@
     <br />
     <b-row>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/event-z" disabled>
+        <b-button block variant="outline-primary" size="lg" to="/demo/p6">
           <b-icon icon="Calendar3WeekFill" />
           <br />
           <h5>賽事</h5>

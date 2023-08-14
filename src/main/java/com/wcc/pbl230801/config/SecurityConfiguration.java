@@ -85,6 +85,8 @@ public class SecurityConfiguration {
             .antMatchers("/api/wcc101/**").permitAll()
             .antMatchers("/api/wcc201/**").permitAll()
             .antMatchers("/api/wcc401/**").permitAll()
+            .antMatchers("/api/wcc501/**").permitAll()
+            .antMatchers("/api/wcc601/**").permitAll()
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
