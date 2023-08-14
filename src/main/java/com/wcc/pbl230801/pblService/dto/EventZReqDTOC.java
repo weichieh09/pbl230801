@@ -11,6 +11,8 @@ public class EventZReqDTOC implements Serializable {
     private String eventBegTime;
     private String eventEndTime;
 
+    private String tId;
+
     public String geteId() {
         return eId;
     }
@@ -57,5 +59,13 @@ public class EventZReqDTOC implements Serializable {
 
     public void setEventEndTime(String eventEndTime) {
         this.eventEndTime = eventEndTime;
+    }
+
+    public String gettId() {
+        return tId;
+    }
+
+    public void settId(String tId) {
+        this.tId = tId;
     }
 }

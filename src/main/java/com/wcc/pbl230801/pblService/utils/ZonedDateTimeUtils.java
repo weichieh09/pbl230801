@@ -23,6 +23,6 @@ public class ZonedDateTimeUtils {
 
         ZonedDateTime zonedDateTime = ZonedDateTime.of(date, time, taiwanZone);
 
-        return zonedDateTime.plus(Duration.ofHours(8));
+        return zonedDateTime;
     }
 }

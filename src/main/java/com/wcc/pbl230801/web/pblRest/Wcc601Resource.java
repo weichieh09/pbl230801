@@ -1,24 +1,14 @@
 package com.wcc.pbl230801.web.pblRest;
 
-import com.wcc.pbl230801.domain.Player;
-import com.wcc.pbl230801.pblService.Wcc501Service;
 import com.wcc.pbl230801.pblService.Wcc601Service;
-import com.wcc.pbl230801.pblService.dto.EventZReqDTOC;
-import com.wcc.pbl230801.pblService.dto.PlayersReqDTOC;
-import com.wcc.pbl230801.pblService.dto.RespDTOC;
+import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.repository.EventZRepository;
-import com.wcc.pbl230801.repository.PlayerRepository;
-import com.wcc.pbl230801.service.EventZQueryService;
-import com.wcc.pbl230801.service.EventZService;
-import com.wcc.pbl230801.service.PlayerService;
-import com.wcc.pbl230801.service.TeamPlayerQueryService;
+import com.wcc.pbl230801.service.*;
 import com.wcc.pbl230801.service.criteria.EventZCriteria;
-import com.wcc.pbl230801.service.criteria.TeamPlayerCriteria;
+import com.wcc.pbl230801.service.criteria.TeamCriteria;
 import com.wcc.pbl230801.service.dto.EventZDTO;
-import com.wcc.pbl230801.service.dto.PlayerDTO;
-import com.wcc.pbl230801.service.dto.TeamPlayerDTO;
+import com.wcc.pbl230801.service.dto.TeamDTO;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
 
 @RestController
 @RequestMapping("/api/wcc601")
@@ -44,6 +33,9 @@ public class Wcc601Resource {
     private Wcc601Service wcc601Service;
 
     @Autowired
+    private TeamQueryService teamQueryService;
+
+    @Autowired
     private EventZService eventZService;
 
     @Autowired
@@ -51,6 +43,13 @@ public class Wcc601Resource {
 
     @Autowired
     private EventZQueryService eventZQueryService;
+
+    @GetMapping("/teams")
+    public ResponseEntity<List<TeamDTOC>> teams(TeamCriteria criteria, Pageable pageable) {
+        Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
+        List<TeamDTOC> result = wcc601Service.getTeam(page.getContent());
+        return ResponseEntity.ok().body(result);
+    }
 
     @GetMapping("/event-zs")
     public ResponseEntity<List<EventZDTO>> getAllEventZs(EventZCriteria criteria, Pageable pageable) {
@@ -63,7 +62,7 @@ public class Wcc601Resource {
     public ResponseEntity<RespDTOC> createEventZs(@RequestBody EventZReqDTOC reqDTOC) {
         try {
             EventZDTO eventZDTO = wcc601Service.getEventZDTO(reqDTOC);
-            EventZDTO result = eventZService.save(eventZDTO);
+            EventZDTO result = wcc601Service.saveEventZ(eventZDTO, reqDTOC.gettId());
             if (result == null) throw new Exception("Event save failed");
             return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
@@ -72,9 +71,10 @@ public class Wcc601Resource {
     }
 
     @GetMapping("/event-zs/{id}")
-    public ResponseEntity<EventZDTO> getEventZs(@PathVariable Long id) {
+    public ResponseEntity<EventZRespDTOC> getEventZs(@PathVariable Long id) {
         Optional<EventZDTO> eventZDTO = eventZService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(eventZDTO);
+        EventZRespDTOC result = wcc601Service.getEventZRespDTOC(eventZDTO.get());
+        return ResponseEntity.ok().body(result);
     }
 
     @PutMapping("/event-zs/{id}")

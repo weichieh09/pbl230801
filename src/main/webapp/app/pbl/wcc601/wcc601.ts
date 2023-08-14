@@ -18,8 +18,17 @@ export default {
     this.getEventZList();
   },
   methods: {
+    getSimpleTime(str: string): string {
+      const date = new Date(str);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const hour = date.getHours().toString().padStart(2, '0');
+      const minute = date.getMinutes().toString().padStart(2, '0');
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    },
     editPlayer(team: any): void {
-      this.$router.push(`/demo/p4/${team.id}/p5`);
+      this.$router.push(`/pbl/wcc401/${team.id}/wcc501`);
     },
     prepareRemoveEventZ(eventZ: any): void {
       this.$refs['removeEventZ-modal'].show();
@@ -58,10 +67,10 @@ export default {
         });
     },
     createEventZ(): void {
-      this.$router.push('/demo/p6/0');
+      this.$router.push('/pbl/wcc601/0');
     },
     editEventZ(eventZ: any): void {
-      this.$router.push(`/demo/p6/${eventZ.id}`);
+      this.$router.push(`/pbl/wcc601/${eventZ.id}`);
     },
     pageLoad(page: any): void {
       if (page !== this.page.previousPage) {

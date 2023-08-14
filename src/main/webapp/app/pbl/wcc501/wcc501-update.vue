@@ -50,4 +50,4 @@
   </b-container>
 </template>
 
-<script lang="ts" src="./p5-update.ts"></script>
+<script lang="ts" src="./wcc501-update.ts"></script>

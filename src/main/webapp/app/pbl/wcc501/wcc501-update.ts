@@ -107,7 +107,8 @@ export default {
               variant: 'success',
               solid: true,
             });
-            this.form.tName = '';
+            this.form.plyrLvl = '';
+            this.form.plyrNm = '';
           } else {
             this.$bvToast.toast('資料不正確 或 球員名稱已存在', {
               toaster: 'b-toaster-top-center',

@@ -25,7 +25,7 @@
     <!-- 隱藏漢堡按鈕 -->
 
     <!-- 隱藏右上按鈕 -->
-    <!-- <b-collapse is-nav id="header-tabs">
+    <b-collapse is-nav id="header-tabs">
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/" exact>
           <span>
@@ -39,24 +39,6 @@
             <span class="no-bold">Entities</span>
           </span>
           <entities-menu></entities-menu>
-        </b-nav-item-dropdown>
-        <b-nav-item-dropdown right id="entity-menu" v-if="authenticated" active-class="active" class="pointer" data-cy="entity">
-          <span slot="button-content" class="navbar-dropdown-menu">
-            <font-awesome-icon icon="th-list" />
-            <span class="no-bold">功能</span>
-          </span>
-          <b-dropdown-item to="/">
-            <font-awesome-icon icon="asterisk" />
-            <span>總覽頁面</span>
-          </b-dropdown-item>
-          <b-dropdown-item to="/event-z">
-            <font-awesome-icon icon="asterisk" />
-            <span>賽事管理</span>
-          </b-dropdown-item>
-          <b-dropdown-item to="/team">
-            <font-awesome-icon icon="asterisk" />
-            <span>球隊管理</span>
-          </b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown
           right
@@ -138,7 +120,7 @@
           </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
-    </b-collapse> -->
+    </b-collapse>
     <!-- 隱藏右上按鈕 -->
   </b-navbar>
 </template>

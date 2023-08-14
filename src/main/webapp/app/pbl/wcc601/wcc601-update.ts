@@ -12,16 +12,30 @@ export default {
         venue: '',
         eventBegTime: '',
         eventEndTime: '',
+        tId: null,
       },
+      teams: [{ text: '請選擇', value: null }],
     };
   },
   created() {
+    this.getTeamList();
     if (this.form.eId != 0) this.getEventZ();
     else this.getNowDate();
   },
   methods: {
-    test(): void {
-      console.log(this.form);
+    getTeamList(): void {
+      this.teams = [];
+      this.teams.push({ text: '請選擇', value: null });
+      axios
+        .get('/api/wcc101/teams')
+        .then(response => {
+          response.data.forEach((element: any) => {
+            this.teams.push({ text: element.name, value: element.id });
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     getNowDate(): void {
       const date = new Date();
@@ -74,7 +88,6 @@ export default {
     },
     getSimpleTime(str: string): string {
       const date = new Date(str);
-      date.setTime(date.getTime() - 8 * 60 * 60 * 1000);
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, '0');
       const day = date.getDate().toString().padStart(2, '0');
@@ -92,6 +105,7 @@ export default {
             this.form.evntDt = this.getSimpleTime(response.data.evntDt).substring(0, 10);
             this.form.eventBegTime = this.getSimpleTime(response.data.eventBegTime).substring(11, 16);
             this.form.eventEndTime = this.getSimpleTime(response.data.eventEndTime).substring(11, 16);
+            this.form.tId = response.data.tId;
           } else {
             this.$bvToast.toast('讀取賽事資料失敗', {
               toaster: 'b-toaster-top-center',
@@ -131,7 +145,10 @@ export default {
               variant: 'success',
               solid: true,
             });
-            (this.form.evntNm = ''), (this.form.venue = ''), this.getNowDate();
+            this.form.evntNm = '';
+            this.form.venue = '';
+            this.getNowDate();
+            this.form.tId = null;
           } else {
             this.$bvToast.toast('資料不正確', {
               toaster: 'b-toaster-top-center',

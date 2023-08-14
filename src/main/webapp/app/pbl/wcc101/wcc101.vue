@@ -64,14 +64,14 @@
         <hr />
       </b-col>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/demo/p3">管理功能</b-button>
+        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc301">管理功能</b-button>
       </b-col>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/demo/p2">戰績登錄</b-button>
+        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc201">戰績登錄</b-button>
       </b-col>
     </b-row>
     <br />
   </b-container>
 </template>
 
-<script lang="ts" src="./p1.ts"></script>
+<script lang="ts" src="./wcc101.ts"></script>

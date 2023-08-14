@@ -1,28 +1,16 @@
 package com.wcc.pbl230801.pblService;
 
-import com.wcc.pbl230801.domain.Player;
-import com.wcc.pbl230801.pblService.dto.EventZReqDTOC;
-import com.wcc.pbl230801.pblService.dto.PlayersReqDTOC;
-import com.wcc.pbl230801.pblService.dto.RespDTOC;
+import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
-import com.wcc.pbl230801.pblService.utils.StringFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
-import com.wcc.pbl230801.repository.PlayerRepository;
-import com.wcc.pbl230801.service.PlayerQueryService;
-import com.wcc.pbl230801.service.PlayerService;
-import com.wcc.pbl230801.service.TeamPlayerQueryService;
-import com.wcc.pbl230801.service.TeamPlayerService;
-import com.wcc.pbl230801.service.criteria.PlayerCriteria;
-import com.wcc.pbl230801.service.criteria.TeamPlayerCriteria;
-import com.wcc.pbl230801.service.dto.EventZDTO;
-import com.wcc.pbl230801.service.dto.PlayerDTO;
-import com.wcc.pbl230801.service.dto.TeamPlayerDTO;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import com.wcc.pbl230801.service.*;
+import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
+import com.wcc.pbl230801.service.dto.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,25 +21,13 @@ public class Wcc601Service {
     private final Logger log = LoggerFactory.getLogger(Wcc601Service.class);
 
     @Autowired
-    private PlayerRepository playerRepository;
+    private EventZService eventZService;
 
     @Autowired
-    private PlayerQueryService playerQueryService;
+    private TeamEventService teamEventService;
 
     @Autowired
-    private TeamPlayerQueryService teamPlayerQueryService;
-
-    @Autowired
-    private TeamPlayerService teamPlayerService;
-
-    @Autowired
-    private PlayerService playerService;
-
-    public List<Player> getPlyrs(List<TeamPlayerDTO> content) {
-        List<Long> pIds = content.stream().map(TeamPlayerDTO::getpId).collect(Collectors.toList());
-        List<Player> allById = playerRepository.findAllById(pIds);
-        return allById;
-    }
+    private TeamEventQueryService teamEventQueryService;
 
     public RespDTOC getSuccessResp() {
         RespDTOC respDTOC = new RespDTOC();
@@ -67,25 +43,6 @@ public class Wcc601Service {
         return respDTOC;
     }
 
-    @Transactional
-    public PlayerDTO savePlayer(PlayersReqDTOC reqDTOC) {
-        // player
-        PlayerDTO playerDTO = new PlayerDTO();
-        playerDTO.setPlyrNm(reqDTOC.getPlyrNm());
-        playerDTO.setPlyrLvl(reqDTOC.getPlyrLvl());
-        playerDTO.setLstMtnUsr("MGDsn");
-        playerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
-        PlayerDTO reulst = playerService.save(playerDTO);
-        // team player
-        TeamPlayerDTO teamPlayerDTO = new TeamPlayerDTO();
-        teamPlayerDTO.settId(Long.parseLong(reqDTOC.gettId()));
-        teamPlayerDTO.setpId(reulst.getId());
-        teamPlayerDTO.setLstMtnUsr("MGDsn");
-        teamPlayerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
-        teamPlayerService.save(teamPlayerDTO);
-        return reulst;
-    }
-
     public EventZDTO getEventZDTO(EventZReqDTOC reqDTOC) {
         EventZDTO eventZDTO = new EventZDTO();
         eventZDTO.setId(Long.parseLong(reqDTOC.geteId()));
@@ -98,5 +55,42 @@ public class Wcc601Service {
         eventZDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
 
         return eventZDTO;
+    }
+
+    public List<TeamDTOC> getTeam(List<TeamDTO> content) {
+        List<TeamDTOC> result = new ArrayList<>();
+        for (TeamDTO teamDTO : content) {
+            TeamDTOC teamDTOC = new TeamDTOC();
+            teamDTOC.setId(String.valueOf(teamDTO.getId()));
+            teamDTOC.setName(teamDTO.getTeamNm());
+            result.add(teamDTOC);
+        }
+        return result;
+    }
+
+    @Transactional
+    public EventZDTO saveEventZ(EventZDTO eventZDTO, String tId) {
+        // 1. save eventZ
+        EventZDTO result = eventZService.save(eventZDTO);
+        // 2. save teamEvent
+        TeamEventDTO teamEventDTO = new TeamEventDTO();
+        teamEventDTO.settId(Long.parseLong(tId));
+        teamEventDTO.seteId(result.getId());
+        teamEventDTO.setLstMtnUsr("MGDsn");
+        teamEventDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
+        teamEventService.save(teamEventDTO);
+        return result;
+    }
+
+    public EventZRespDTOC getEventZRespDTOC(EventZDTO eventZDTO) {
+        if (eventZDTO == null) return null;
+        TeamEventCriteria teamEventCriteria = new TeamEventCriteria();
+        teamEventCriteria.seteId(LongFilterUtils.toEqualLongFilter(eventZDTO.getId()));
+        List<TeamEventDTO> byCriteria = teamEventQueryService.findByCriteria(teamEventCriteria);
+        if (byCriteria.size() != 1) return null;
+        EventZRespDTOC result = new EventZRespDTOC();
+        BeanUtils.copyProperties(eventZDTO, result);
+        result.settId(String.valueOf(byCriteria.get(0).gettId()));
+        return result;
     }
 }

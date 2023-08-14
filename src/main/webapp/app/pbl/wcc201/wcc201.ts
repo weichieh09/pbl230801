@@ -141,7 +141,7 @@ export default {
     getTeamList(): void {
       this.form.teams.push({ text: '請選擇', value: null });
       axios
-        .get('/api/wcc101/teams')
+        .get(`${apiBaseUrl}/teams`)
         .then(response => {
           response.data.forEach((element: any) => {
             this.form.teams.push({ text: element.name, value: element.id });
@@ -178,8 +178,10 @@ export default {
 
       this.form.date = `${year}-${month}-${day}`;
     },
-    getISOString(input: any): string {
-      return input + 'T00:00:00.000Z';
+    getISOString(str: any): string {
+      const date = new Date(str);
+      date.setTime(date.getTime() - 8 * 60 * 60 * 1000);
+      return date.toISOString();
     },
     showModal(type: String): void {
       this.$refs['selectPlyr-modal'].show();

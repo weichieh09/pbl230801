@@ -42,4 +42,4 @@
   </b-container>
 </template>
 
-<script lang="ts" src="./p4-update.ts"></script>
+<script lang="ts" src="./wcc401-update.ts"></script>

@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-const apiBaseUrl = '/api/wcc501';
+const apiBaseUrl = '/api/wcc401';
 
 export default {
   data() {
     return {
-      teamId: this.$route.params.tId,
-      plyrs: [],
+      teams: [],
       page: {
         previousPage: 1,
         currentPage: 1,
@@ -16,28 +15,31 @@ export default {
     };
   },
   created() {
-    this.getPlyrList();
+    this.getTeamList();
   },
   methods: {
-    prepareRemovePlyr(plyr: any): void {
-      this.$refs['removePlyr-modal'].show();
-      this.$refs['removePlyr-modal'].plyr = plyr;
+    editPlayer(team: any): void {
+      this.$router.push(`/pbl/wcc401/${team.id}/wcc501`);
     },
-    removePlyr(): void {
+    prepareRemoveTeam(team: any): void {
+      this.$refs['removeTeam-modal'].show();
+      this.$refs['removeTeam-modal'].team = team;
+    },
+    removeTeam(): void {
       axios
-        .delete(`${apiBaseUrl}/players/${this.$refs['removePlyr-modal'].plyr.id}`)
+        .delete(`${apiBaseUrl}/teams/${this.$refs['removeTeam-modal'].team.id}`)
         .then(response => {
           if (response.data.status === '0') {
-            this.$bvToast.toast('刪除球員成功', {
+            this.$bvToast.toast('刪除球隊成功', {
               toaster: 'b-toaster-top-center',
               title: '刪除成功',
               variant: 'success',
               solid: true,
             });
-            this.$refs['removePlyr-modal'].hide();
-            this.getPlyrList();
+            this.$refs['removeTeam-modal'].hide();
+            this.getTeamList();
           } else {
-            this.$bvToast.toast('刪除球員失敗', {
+            this.$bvToast.toast('刪除球隊失敗', {
               toaster: 'b-toaster-top-center',
               title: '刪除失敗',
               variant: 'danger',
@@ -47,7 +49,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          this.$bvToast.toast('刪除球員失敗', {
+          this.$bvToast.toast('刪除球隊失敗', {
             toaster: 'b-toaster-top-center',
             title: '刪除失敗',
             variant: 'danger',
@@ -55,24 +57,23 @@ export default {
           });
         });
     },
-    createPlyr(): void {
-      this.$router.push(`/demo/p4/${this.teamId}/p5/0`);
+    createTeam(): void {
+      this.$router.push('/pbl/wcc401/0');
     },
-    editPlyr(plyr: any): void {
-      this.$router.push(`/demo/p4/${this.teamId}/p5/${plyr.id}`);
+    editTeam(team: any): void {
+      this.$router.push(`/pbl/wcc401/${team.id}`);
     },
     pageLoad(page: any): void {
       if (page !== this.page.previousPage) {
         this.page.previousPage = page;
-        this.getPlyrList();
+        this.getTeamList();
       }
     },
-    getPlyrList(): void {
-      this.plyrs = [];
+    getTeamList(): void {
+      this.teams = [];
       axios
-        .get(`${apiBaseUrl}/team-players`, {
+        .get(`${apiBaseUrl}/teams`, {
           params: {
-            'tId.equals': this.teamId,
             sort: 'id,desc',
             page: this.page.currentPage - 1,
             size: this.page.perPage,
@@ -80,7 +81,7 @@ export default {
         })
         .then(response => {
           if (response.data.length > 0) {
-            this.plyrs = response.data;
+            this.teams = response.data;
             this.page.objTotal = Number(response.headers['x-total-count']);
           }
         });

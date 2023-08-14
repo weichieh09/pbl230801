@@ -15,7 +15,24 @@
         </b-button>
       </b-col>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/demo/p4">
+        <b-button block variant="outline-primary" size="lg" disabled>
+          <b-icon icon="download" />
+          <br />
+          <h5>下載</h5>
+        </b-button>
+      </b-col>
+    </b-row>
+    <br />
+    <b-row>
+      <b-col cols="6">
+        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc601">
+          <b-icon icon="Calendar3WeekFill" />
+          <br />
+          <h5>賽事</h5>
+        </b-button>
+      </b-col>
+      <b-col cols="6">
+        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc401">
           <b-icon icon="PeopleFill" />
           <br />
           <h5>球隊</h5>
@@ -25,18 +42,18 @@
     <br />
     <b-row>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/demo/p6">
-          <b-icon icon="Calendar3WeekFill" />
-          <br />
-          <h5>賽事</h5>
-        </b-button>
-      </b-col>
-      <b-col cols="6">
         <b-button block variant="outline-primary" size="lg" disabled>
           <b-icon icon="QuestionCircleFill" />
           <br />
           <h5>關於</h5>
         </b-button>
+      </b-col>
+      <b-col cols="6">
+        <!-- <b-button block variant="outline-primary" size="lg" disabled>
+          <b-icon icon="QuestionCircleFill" />
+          <br />
+          <h5>??</h5>
+        </b-button> -->
       </b-col>
     </b-row>
     <b-row>
@@ -51,4 +68,4 @@
   </b-container>
 </template>
 
-<script lang="ts" src="./p3.ts"></script>
+<script lang="ts" src="./wcc301.ts"></script>

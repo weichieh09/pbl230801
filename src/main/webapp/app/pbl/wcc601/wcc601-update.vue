@@ -32,8 +32,16 @@
     <br />
     <b-row>
       <b-col cols="12">
+        <b-input-group size="lg" prepend="球隊">
+          <b-form-select v-model="form.tId" :options="teams" :disabled="form.eId != 0" />
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <br />
+    <b-row>
+      <b-col cols="12">
         <b-input-group size="lg" prepend="日期">
-          <b-form-input type="date" v-model="form.evntDt" v-on:change="test()" />
+          <b-form-input type="date" v-model="form.evntDt" />
         </b-input-group>
       </b-col>
     </b-row>
@@ -74,4 +82,4 @@
   </b-container>
 </template>
 
-<script lang="ts" src="./p6-update.ts"></script>
+<script lang="ts" src="./wcc601-update.ts"></script>

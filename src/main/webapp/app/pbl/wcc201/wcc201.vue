@@ -176,4 +176,4 @@
 }
 </style>
 
-<script lang="ts" src="./p2.ts"></script>
+<script lang="ts" src="./wcc201.ts"></script>
