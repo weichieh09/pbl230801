@@ -32,8 +32,8 @@
                 <h5>{{ new Date(item.evntDt).toISOString().substr(0, 10) }}</h5>
               </td>
               <td>
-                <b-button style="margin: 1px" variant="info" @click="editTeam(item)" disabled>編輯</b-button><br />
-                <b-button style="margin: 1px" variant="danger" @click="prepareRemoveTeam(item)" disabled>刪除</b-button><br />
+                <b-button style="margin: 1px" variant="info" @click="editEventZ(item)">編輯</b-button><br />
+                <b-button style="margin: 1px" variant="danger" @click="prepareRemoveEventZ(item)">刪除</b-button><br />
                 <b-button style="margin: 1px" variant="warning" @click="editPlayer(item)" disabled>球隊</b-button>
               </td>
             </tr>
@@ -62,7 +62,7 @@
     <!-- The modal -->
     <b-row>
       <b-col cols="12">
-        <b-modal ref="removeTeam-modal" ok-title="刪除" ok-variant="danger" @ok="removeTeam()" cancel-title="取消" title="刪除賽事">
+        <b-modal ref="removeEventZ-modal" ok-title="刪除" ok-variant="danger" @ok="removeEventZ()" cancel-title="取消" title="刪除賽事">
           <b-row>
             <b-col cols="12"> 您確定要刪除此賽事嗎? </b-col>
           </b-row>

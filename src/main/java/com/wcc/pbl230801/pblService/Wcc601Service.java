@@ -1,6 +1,7 @@
 package com.wcc.pbl230801.pblService;
 
 import com.wcc.pbl230801.domain.Player;
+import com.wcc.pbl230801.pblService.dto.EventZReqDTOC;
 import com.wcc.pbl230801.pblService.dto.PlayersReqDTOC;
 import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
@@ -13,8 +14,11 @@ import com.wcc.pbl230801.service.TeamPlayerQueryService;
 import com.wcc.pbl230801.service.TeamPlayerService;
 import com.wcc.pbl230801.service.criteria.PlayerCriteria;
 import com.wcc.pbl230801.service.criteria.TeamPlayerCriteria;
+import com.wcc.pbl230801.service.dto.EventZDTO;
 import com.wcc.pbl230801.service.dto.PlayerDTO;
 import com.wcc.pbl230801.service.dto.TeamPlayerDTO;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -63,32 +67,6 @@ public class Wcc601Service {
         return respDTOC;
     }
 
-    public boolean checkPlayer(PlayersReqDTOC reqDTOC) {
-        if (reqDTOC.gettId().isBlank()) return false;
-
-        PlayerCriteria playerCriteria = new PlayerCriteria();
-        playerCriteria.setPlyrNm(StringFilterUtils.toEqualStringFilter(reqDTOC.getPlyrNm()));
-        List<PlayerDTO> playerDTOList = playerQueryService.findByCriteria(playerCriteria);
-
-        List<Long> list = playerDTOList.stream().map(PlayerDTO::getId).collect(Collectors.toList());
-
-        TeamPlayerCriteria teamPlayerCriteria = new TeamPlayerCriteria();
-        teamPlayerCriteria.settId(LongFilterUtils.toEqualLongFilter(Long.parseLong(reqDTOC.gettId())));
-        teamPlayerCriteria.setpId(LongFilterUtils.toInLongFilter(list));
-        List<TeamPlayerDTO> teamPlayerDTOList = teamPlayerQueryService.findByCriteria(teamPlayerCriteria);
-
-        return teamPlayerDTOList.isEmpty();
-    }
-
-    public boolean checkPlayer(PlayerDTO playerDTO, Long tId) {
-        PlayersReqDTOC reqDTOC = new PlayersReqDTOC();
-        reqDTOC.setpId(playerDTO.getId().toString());
-        reqDTOC.settId(tId.toString());
-        reqDTOC.setPlyrLvl(playerDTO.getPlyrLvl());
-        reqDTOC.setPlyrNm(playerDTO.getPlyrNm());
-        return this.checkPlayer(reqDTOC);
-    }
-
     @Transactional
     public PlayerDTO savePlayer(PlayersReqDTOC reqDTOC) {
         // player
@@ -108,8 +86,17 @@ public class Wcc601Service {
         return reulst;
     }
 
-    public void addInfo(PlayerDTO playerDTO) {
-        playerDTO.setLstMtnUsr("MGDsn");
-        playerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
+    public EventZDTO getEventZDTO(EventZReqDTOC reqDTOC) {
+        EventZDTO eventZDTO = new EventZDTO();
+        eventZDTO.setId(Long.parseLong(reqDTOC.geteId()));
+        eventZDTO.setEvntNm(reqDTOC.getEvntNm());
+        eventZDTO.setVenue(reqDTOC.getVenue());
+        eventZDTO.setEvntDt(ZonedDateTimeUtils.getZonedDateTime(reqDTOC.getEvntDt(), "00:00"));
+        eventZDTO.setEventBegTime(ZonedDateTimeUtils.getZonedDateTime(reqDTOC.getEvntDt(), reqDTOC.getEventBegTime()));
+        eventZDTO.setEventEndTime(ZonedDateTimeUtils.getZonedDateTime(reqDTOC.getEvntDt(), reqDTOC.getEventEndTime()));
+        eventZDTO.setLstMtnUsr("MGDsn");
+        eventZDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
+
+        return eventZDTO;
     }
 }

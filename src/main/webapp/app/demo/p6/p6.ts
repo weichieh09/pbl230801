@@ -21,25 +21,25 @@ export default {
     editPlayer(team: any): void {
       this.$router.push(`/demo/p4/${team.id}/p5`);
     },
-    prepareRemoveTeam(team: any): void {
-      this.$refs['removeTeam-modal'].show();
-      this.$refs['removeTeam-modal'].team = team;
+    prepareRemoveEventZ(eventZ: any): void {
+      this.$refs['removeEventZ-modal'].show();
+      this.$refs['removeEventZ-modal'].eventZ = eventZ;
     },
-    removeTeam(): void {
+    removeEventZ(): void {
       axios
-        .delete(`${apiBaseUrl}/teams/${this.$refs['removeTeam-modal'].team.id}`)
+        .delete(`${apiBaseUrl}/event-zs/${this.$refs['removeEventZ-modal'].eventZ.id}`)
         .then(response => {
           if (response.data.status === '0') {
-            this.$bvToast.toast('刪除球隊成功', {
+            this.$bvToast.toast('刪除賽事成功', {
               toaster: 'b-toaster-top-center',
               title: '刪除成功',
               variant: 'success',
               solid: true,
             });
-            this.$refs['removeTeam-modal'].hide();
+            this.$refs['removeEventZ-modal'].hide();
             this.getEventZList();
           } else {
-            this.$bvToast.toast('刪除球隊失敗', {
+            this.$bvToast.toast('刪除賽事失敗', {
               toaster: 'b-toaster-top-center',
               title: '刪除失敗',
               variant: 'danger',
@@ -49,7 +49,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          this.$bvToast.toast('刪除球隊失敗', {
+          this.$bvToast.toast('刪除賽事失敗', {
             toaster: 'b-toaster-top-center',
             title: '刪除失敗',
             variant: 'danger',
@@ -60,8 +60,8 @@ export default {
     createEventZ(): void {
       this.$router.push('/demo/p6/0');
     },
-    editTeam(team: any): void {
-      this.$router.push(`/demo/p4/${team.id}`);
+    editEventZ(eventZ: any): void {
+      this.$router.push(`/demo/p6/${eventZ.id}`);
     },
     pageLoad(page: any): void {
       if (page !== this.page.previousPage) {

@@ -33,20 +33,23 @@
     <b-row>
       <b-col cols="12">
         <b-input-group size="lg" prepend="日期">
-          <b-form-input type="date" v-model="form.evntDt" />
+          <b-form-input type="date" v-model="form.evntDt" v-on:change="test()" />
         </b-input-group>
       </b-col>
     </b-row>
     <br />
     <b-row>
-      <b-col cols="6">
+      <b-col cols="12">
         <b-input-group size="lg" prepend="開始">
-          <b-form-input v-model="form.eventBegTime" placeholder="13:30" />
+          <b-form-input type="time" v-model="form.eventBegTime" />
         </b-input-group>
       </b-col>
-      <b-col cols="6">
+    </b-row>
+    <br />
+    <b-row>
+      <b-col cols="12">
         <b-input-group size="lg" prepend="結束">
-          <b-form-input v-model="form.eventEndTime" placeholder="18:30" />
+          <b-form-input type="time" v-model="form.eventEndTime" />
         </b-input-group>
       </b-col>
     </b-row>

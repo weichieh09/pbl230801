@@ -118,7 +118,7 @@
           >
             <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>保存</span>
           </button> -->
-          <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" :disabled="true" class="btn btn-primary">
+          <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
             <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>保存</span>
           </button>
         </div>

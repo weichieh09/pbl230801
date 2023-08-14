@@ -3,10 +3,13 @@ package com.wcc.pbl230801.web.pblRest;
 import com.wcc.pbl230801.domain.Player;
 import com.wcc.pbl230801.pblService.Wcc501Service;
 import com.wcc.pbl230801.pblService.Wcc601Service;
+import com.wcc.pbl230801.pblService.dto.EventZReqDTOC;
 import com.wcc.pbl230801.pblService.dto.PlayersReqDTOC;
 import com.wcc.pbl230801.pblService.dto.RespDTOC;
+import com.wcc.pbl230801.repository.EventZRepository;
 import com.wcc.pbl230801.repository.PlayerRepository;
 import com.wcc.pbl230801.service.EventZQueryService;
+import com.wcc.pbl230801.service.EventZService;
 import com.wcc.pbl230801.service.PlayerService;
 import com.wcc.pbl230801.service.TeamPlayerQueryService;
 import com.wcc.pbl230801.service.criteria.EventZCriteria;
@@ -41,63 +44,57 @@ public class Wcc601Resource {
     private Wcc601Service wcc601Service;
 
     @Autowired
+    private EventZService eventZService;
+
+    @Autowired
+    private EventZRepository eventZRepository;
+
+    @Autowired
     private EventZQueryService eventZQueryService;
 
-    @Autowired
-    private PlayerService playerService;
-
-    @Autowired
-    private PlayerRepository playerRepository;
-
     @GetMapping("/event-zs")
-    public ResponseEntity<List<EventZDTO>> getAllTeamPlayers(EventZCriteria criteria, Pageable pageable) {
+    public ResponseEntity<List<EventZDTO>> getAllEventZs(EventZCriteria criteria, Pageable pageable) {
         Page<EventZDTO> page = eventZQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @PostMapping("/players")
-    public ResponseEntity<RespDTOC> createPlayers(@RequestBody PlayersReqDTOC reqDTOC) {
+    @PostMapping("/event-zs")
+    public ResponseEntity<RespDTOC> createEventZs(@RequestBody EventZReqDTOC reqDTOC) {
         try {
-            if (!wcc601Service.checkPlayer(reqDTOC)) throw new Exception("Player save failed");
-            PlayerDTO result = wcc601Service.savePlayer(reqDTOC);
-            if (result == null) throw new Exception("Player save failed");
+            EventZDTO eventZDTO = wcc601Service.getEventZDTO(reqDTOC);
+            EventZDTO result = eventZService.save(eventZDTO);
+            if (result == null) throw new Exception("Event save failed");
             return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }
     }
 
-    @GetMapping("/players/{id}")
-    public ResponseEntity<PlayerDTO> getTeam(@PathVariable Long id) {
-        Optional<PlayerDTO> playerDTO = playerService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(playerDTO);
+    @GetMapping("/event-zs/{id}")
+    public ResponseEntity<EventZDTO> getEventZs(@PathVariable Long id) {
+        Optional<EventZDTO> eventZDTO = eventZService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(eventZDTO);
     }
 
-    @PutMapping("/players/{tId}/{pId}")
-    public ResponseEntity<RespDTOC> updateTeam(
-        @PathVariable(value = "tId") final Long tId,
-        @PathVariable(value = "pId") final Long pId,
-        @RequestBody PlayerDTO playerDTO
-    ) {
+    @PutMapping("/event-zs/{id}")
+    public ResponseEntity<RespDTOC> updateTeam(@PathVariable(value = "id") final Long id, @RequestBody EventZReqDTOC reqDTOC) {
         try {
-            if (playerDTO.getId() == null) throw new Exception("Player update failed");
-            if (!Objects.equals(pId, playerDTO.getId())) throw new Exception("Player update failed");
-            if (!playerRepository.existsById(pId)) throw new Exception("Player update failed");
-            if (!wcc601Service.checkPlayer(playerDTO, tId)) throw new Exception("Player save failed");
-            wcc601Service.addInfo(playerDTO);
-            PlayerDTO result = playerService.update(playerDTO);
-            if (result == null) throw new Exception("Player update failed");
+            if (reqDTOC.geteId() == null) throw new Exception("Event update failed");
+            if (!reqDTOC.geteId().equals(String.valueOf(id))) throw new Exception("Event update failed");
+            if (!eventZRepository.existsById(id)) throw new Exception("Event update failed");
+            EventZDTO result = eventZService.update(wcc601Service.getEventZDTO(reqDTOC));
+            if (result == null) throw new Exception("Event update failed");
             return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }
     }
 
-    @DeleteMapping("/players/{id}")
+    @DeleteMapping("/event-zs/{id}")
     public ResponseEntity<RespDTOC> deleteTeam(@PathVariable Long id) {
         try {
-            playerService.delete(id);
+            eventZService.delete(id);
             return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());

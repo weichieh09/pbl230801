@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiBaseUrl = '/api/wcc401';
+const apiBaseUrl = '/api/wcc601';
 
 export default {
   data() {
@@ -20,6 +20,9 @@ export default {
     else this.getNowDate();
   },
   methods: {
+    test(): void {
+      console.log(this.form);
+    },
     getNowDate(): void {
       const date = new Date();
       const year = date.getFullYear();
@@ -27,10 +30,12 @@ export default {
       const day = date.getDate();
 
       this.form.evntDt = `${year}-${month}-${day}`;
+      this.form.eventBegTime = '13:30';
+      this.form.eventEndTime = '17:30';
     },
     updateEventZ(): void {
-      if (!this.form.tName) {
-        this.$bvToast.toast('請輸入球隊名稱', {
+      if (!(this.form.evntNm && this.form.evntDt && this.form.venue && this.form.eventBegTime && this.form.eventEndTime)) {
+        this.$bvToast.toast('請輸入賽事名稱', {
           toaster: 'b-toaster-top-center',
           title: '失敗',
           variant: 'danger',
@@ -39,17 +44,17 @@ export default {
         return;
       }
       axios
-        .put(`${apiBaseUrl}/teams/${this.form.eId}`, { id: this.form.eId, teamNm: this.form.tName })
+        .put(`${apiBaseUrl}/event-zs/${this.form.eId}`, this.form)
         .then(response => {
           if (response.data.status === '0') {
-            this.$bvToast.toast('修改球隊成功', {
+            this.$bvToast.toast('修改賽事成功', {
               toaster: 'b-toaster-top-center',
               title: '修改成功',
               variant: 'success',
               solid: true,
             });
           } else {
-            this.$bvToast.toast('資料不正確 或 球隊名稱已存在', {
+            this.$bvToast.toast('資料不正確', {
               toaster: 'b-toaster-top-center',
               title: '修改失敗',
               variant: 'danger',
@@ -59,7 +64,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          this.$bvToast.toast('修改球隊失敗', {
+          this.$bvToast.toast('修改賽事失敗', {
             toaster: 'b-toaster-top-center',
             title: '修改失敗',
             variant: 'danger',
@@ -67,14 +72,28 @@ export default {
           });
         });
     },
+    getSimpleTime(str: string): string {
+      const date = new Date(str);
+      date.setTime(date.getTime() - 8 * 60 * 60 * 1000);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const hour = date.getHours().toString().padStart(2, '0');
+      const minute = date.getMinutes().toString().padStart(2, '0');
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    },
     getEventZ(): void {
       axios
-        .get(`${apiBaseUrl}/teams/${this.form.eId}`)
+        .get(`${apiBaseUrl}/event-zs/${this.form.eId}`)
         .then(response => {
           if (response.data != null) {
-            this.form.tName = response.data.teamNm;
+            this.form.evntNm = response.data.evntNm;
+            this.form.venue = response.data.venue;
+            this.form.evntDt = this.getSimpleTime(response.data.evntDt).substring(0, 10);
+            this.form.eventBegTime = this.getSimpleTime(response.data.eventBegTime).substring(11, 16);
+            this.form.eventEndTime = this.getSimpleTime(response.data.eventEndTime).substring(11, 16);
           } else {
-            this.$bvToast.toast('讀取球隊資料失敗', {
+            this.$bvToast.toast('讀取賽事資料失敗', {
               toaster: 'b-toaster-top-center',
               title: '讀取失敗',
               variant: 'danger',
@@ -84,7 +103,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          this.$bvToast.toast('讀取球隊資料失敗', {
+          this.$bvToast.toast('讀取賽事資料失敗', {
             toaster: 'b-toaster-top-center',
             title: '讀取失敗',
             variant: 'danger',
@@ -93,8 +112,8 @@ export default {
         });
     },
     saveEventZ(): void {
-      if (!this.form.tName) {
-        this.$bvToast.toast('請輸入球隊名稱', {
+      if (!(this.form.evntNm && this.form.evntDt && this.form.venue && this.form.eventBegTime && this.form.eventEndTime)) {
+        this.$bvToast.toast('請輸入賽事資訊', {
           toaster: 'b-toaster-top-center',
           title: '失敗',
           variant: 'danger',
@@ -103,18 +122,18 @@ export default {
         return;
       }
       axios
-        .post(`${apiBaseUrl}/teams`, { id: this.form.eId, teamNm: this.form.tName })
+        .post(`${apiBaseUrl}/event-zs`, this.form)
         .then(response => {
           if (response.data.status === '0') {
-            this.$bvToast.toast('新增球隊成功', {
+            this.$bvToast.toast('新增賽事成功', {
               toaster: 'b-toaster-top-center',
               title: '新增成功',
               variant: 'success',
               solid: true,
             });
-            this.form.tName = '';
+            (this.form.evntNm = ''), (this.form.venue = ''), this.getNowDate();
           } else {
-            this.$bvToast.toast('資料不正確 或 球隊名稱已存在', {
+            this.$bvToast.toast('資料不正確', {
               toaster: 'b-toaster-top-center',
               title: '新增失敗',
               variant: 'danger',
@@ -124,7 +143,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          this.$bvToast.toast('新增球隊失敗', {
+          this.$bvToast.toast('新增賽事失敗', {
             toaster: 'b-toaster-top-center',
             title: '新增失敗',
             variant: 'danger',

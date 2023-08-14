@@ -65,13 +65,13 @@ public class Wcc501Resource {
     }
 
     @GetMapping("/players/{id}")
-    public ResponseEntity<PlayerDTO> getTeam(@PathVariable Long id) {
+    public ResponseEntity<PlayerDTO> getPlayers(@PathVariable Long id) {
         Optional<PlayerDTO> playerDTO = playerService.findOne(id);
         return ResponseUtil.wrapOrNotFound(playerDTO);
     }
 
     @PutMapping("/players/{tId}/{pId}")
-    public ResponseEntity<RespDTOC> updateTeam(
+    public ResponseEntity<RespDTOC> updatePlayers(
         @PathVariable(value = "tId") final Long tId,
         @PathVariable(value = "pId") final Long pId,
         @RequestBody PlayerDTO playerDTO
@@ -91,7 +91,7 @@ public class Wcc501Resource {
     }
 
     @DeleteMapping("/players/{id}")
-    public ResponseEntity<RespDTOC> deleteTeam(@PathVariable Long id) {
+    public ResponseEntity<RespDTOC> deletePlayers(@PathVariable Long id) {
         try {
             playerService.delete(id);
             return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
