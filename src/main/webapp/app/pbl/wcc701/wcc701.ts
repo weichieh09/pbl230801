@@ -1,7 +1,7 @@
 import axios from 'axios';
 import LoginService from '@/account/login.service';
 
-const apiBaseUrl = '/api/wcc101';
+const apiBaseUrl = '/api/wcc701';
 
 export default {
   data() {
@@ -16,14 +16,8 @@ export default {
         event: null,
         events: [{ text: '請選擇', value: null }],
       },
-      rtss: [],
-      page: {
-        previousPage: 1,
-        currentPage: 1,
-        objTotal: 0,
-        perPage: 5,
-      },
-      isNoData: false,
+      xlsxData: [],
+      xlsxType: '',
     };
   },
   created() {
@@ -32,39 +26,44 @@ export default {
     this.getTeamList();
   },
   methods: {
-    test(): void {
-      console.log('test');
+    getSbList(): void {
+      if (this.form.event === null) return;
+      this.xlsxData = [];
+      axios
+        .get(`${apiBaseUrl}/vw-wcc-701-results`, {
+          params: {
+            'eId.equals': this.form.event,
+            'tId.equals': this.form.team,
+          },
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            this.xlsxData = response.data;
+            this.xlsxType = '戰績表';
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    getIcon(index: number): boolean {
-      if (this.page.currentPage === 1 && index <= 2) {
-        return true;
-      }
-      return false;
-    },
-    pageLoad(page: any): void {
-      if (page !== this.page.previousPage) {
-        this.page.previousPage = page;
-        this.getRtsList();
-      }
+    getXlsxName(): string {
+      return `${this.form.date}_${this.form.events.find(option => option.value === this.form.event).text}_${this.xlsxType}.xlsx`;
     },
     getRtsList(): void {
+      if (this.form.event === null) return;
+      if (this.form.team === null) return;
+      this.xlsxData = [];
       axios
         .get(`${apiBaseUrl}/realTimeScore`, {
           params: {
             'eId.equals': this.form.event,
             'tId.equals': this.form.team,
-            sort: 'tot_wins,mtch_end_time,desc',
-            page: this.page.currentPage - 1,
-            size: this.page.perPage,
           },
         })
         .then(response => {
           if (response.data.length > 0) {
-            this.isNoData = false;
-            this.rtss = response.data;
-            this.page.objTotal = Number(response.headers['x-total-count']);
-          } else {
-            this.isNoData = true;
+            this.xlsxData = response.data;
+            this.xlsxType = '英雄榜';
           }
         })
         .catch(error => {
@@ -138,10 +137,8 @@ export default {
       this.loginService.openLogin(this.$root);
     },
     teamChange(): void {
-      this.rtss = [];
       if (this.form.event === null) return;
       if (this.form.team === null) return;
-      this.getRtsList();
     },
     dateChange(): void {
       this.form.spaces = [];
@@ -150,23 +147,18 @@ export default {
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
-      this.rtss = [];
       this.getSpaceList();
     },
     spaceChange(): void {
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
-      this.rtss = [];
       if (this.form.space === null) return;
       this.getEventList();
     },
     eventChange(): void {
-      this.rtss = [];
       if (this.form.event === null) return;
       if (this.form.team === null) return;
-      // this.getRtsList();
-      console.log('eventChange');
     },
   },
 };

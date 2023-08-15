@@ -25,10 +25,19 @@
     </b-row>
     <br />
     <b-row>
+      <b-col cols="6">
+        <b-button block variant="outline-primary" size="lg" @click="getSbList()">戰績表 <b-icon icon="FileEarmarkText" /></b-button>
+      </b-col>
+      <b-col cols="6">
+        <b-button block variant="outline-primary" size="lg" @click="getRtsList()">英雄榜 <b-icon icon="Award" /></b-button>
+      </b-col>
+    </b-row>
+    <br />
+    <b-row>
       <b-col cols="12">
-        <b-button block variant="outline-primary" size="lg" @click="test()">戰績表 <b-icon icon="FileEarmarkTextFill" /></b-button>
-        <br />
-        <b-button block variant="outline-primary" size="lg" disabled>英雄榜 <b-icon icon="AwardFill" /></b-button>
+        <download-excel :data="xlsxData" :name="getXlsxName()">
+          <b-button block variant="success" size="lg" :disabled="xlsxData == 0">Excel下載 <b-icon icon="download" /></b-button>
+        </download-excel>
       </b-col>
     </b-row>
     <!-- <b-row v-if="this.rtss.length > 0">
