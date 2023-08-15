@@ -10,7 +10,7 @@ import com.wcc.pbl230801.service.dto.VwWcc701ResultDTO;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import org.slf4j.Logger;
@@ -69,14 +69,11 @@ public class Wcc701Service {
     }
 
     private String getSimpleTime(String inputTime) {
-        // 定義時間字串格式
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        // 解析字串為 LocalTime 物件
-        LocalTime time = LocalTime.parse(inputTime, formatter);
-        // 加上八小時
-        LocalTime newTime = time.plusHours(8);
-        // 格式化新時間為字串
-        String result = newTime.format(formatter);
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+        LocalDateTime dateTime = LocalDateTime.parse(inputTime, inputFormatter);
+        LocalDateTime newDateTime = dateTime.plusHours(8);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        String result = newDateTime.format(outputFormatter);
         return result;
     }
 
