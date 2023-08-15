@@ -14,6 +14,8 @@ public class VwWcc701ResultDTO implements Serializable {
 
     private Long eId;
 
+    private Long tId;
+
     private String evntNm;
 
     private ZonedDateTime evntDt;
@@ -68,6 +70,14 @@ public class VwWcc701ResultDTO implements Serializable {
 
     public void seteId(Long eId) {
         this.eId = eId;
+    }
+
+    public Long gettId() {
+        return tId;
+    }
+
+    public void settId(Long tId) {
+        this.tId = tId;
     }
 
     public String getEvntNm() {
@@ -257,6 +267,7 @@ public class VwWcc701ResultDTO implements Serializable {
         return "VwWcc701ResultDTO{" +
             "id=" + getId() +
             ", eId=" + geteId() +
+            ", tId=" + gettId() +
             ", evntNm='" + getEvntNm() + "'" +
             ", evntDt='" + getEvntDt() + "'" +
             ", venue='" + getVenue() + "'" +

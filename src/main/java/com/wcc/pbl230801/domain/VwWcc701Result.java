@@ -22,6 +22,9 @@ public class VwWcc701Result implements Serializable {
     @Column(name = "e_id")
     private Long eId;
 
+    @Column(name = "t_id")
+    private Long tId;
+
     @Column(name = "evnt_nm")
     private String evntNm;
 
@@ -108,6 +111,19 @@ public class VwWcc701Result implements Serializable {
 
     public void seteId(Long eId) {
         this.eId = eId;
+    }
+
+    public Long gettId() {
+        return this.tId;
+    }
+
+    public VwWcc701Result tId(Long tId) {
+        this.settId(tId);
+        return this;
+    }
+
+    public void settId(Long tId) {
+        this.tId = tId;
     }
 
     public String getEvntNm() {
@@ -395,6 +411,7 @@ public class VwWcc701Result implements Serializable {
         return "VwWcc701Result{" +
             "id=" + getId() +
             ", eId=" + geteId() +
+            ", tId=" + gettId() +
             ", evntNm='" + getEvntNm() + "'" +
             ", evntDt='" + getEvntDt() + "'" +
             ", venue='" + getVenue() + "'" +

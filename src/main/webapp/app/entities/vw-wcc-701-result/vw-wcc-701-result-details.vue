@@ -11,6 +11,12 @@
             <span>{{ vwWcc701Result.eId }}</span>
           </dd>
           <dt>
+            <span>T Id</span>
+          </dt>
+          <dd>
+            <span>{{ vwWcc701Result.tId }}</span>
+          </dd>
+          <dt>
             <span>Evnt Nm</span>
           </dt>
           <dd>

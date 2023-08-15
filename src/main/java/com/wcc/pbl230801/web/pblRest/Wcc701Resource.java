@@ -83,7 +83,8 @@ public class Wcc701Resource {
 
     @GetMapping("/vw-wcc-701-results")
     public ResponseEntity<List<VwWcc701ResultDTO>> getAllVwWcc701Results(VwWcc701ResultCriteria criteria) {
-        List<VwWcc701ResultDTO> result = vwWcc701ResultQueryService.findByCriteria(criteria);
-        return ResponseEntity.ok().body(result);
+        List<VwWcc701ResultDTO> byCriteria = vwWcc701ResultQueryService.findByCriteria(criteria);
+        //        List<Map<String, String>> result = wcc701Service.getVwWcc701Result(byCriteria);
+        return ResponseEntity.ok().body(byCriteria);
     }
 }

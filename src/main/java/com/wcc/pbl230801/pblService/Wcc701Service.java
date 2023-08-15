@@ -6,6 +6,7 @@ import com.wcc.pbl230801.pblService.dto.TeamDTOC;
 import com.wcc.pbl230801.pblService.dto.VenueDTOC;
 import com.wcc.pbl230801.service.dto.EventZDTO;
 import com.wcc.pbl230801.service.dto.TeamDTO;
+import com.wcc.pbl230801.service.dto.VwWcc701ResultDTO;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -68,6 +69,16 @@ public class Wcc701Service {
     private String getSimpleTime(String str) {
         String result = "";
         if (str.length() >= 19) result = str.substring(11, 16);
+        return result;
+    }
+
+    public List<Map<String, String>> getVwWcc701Result(List<VwWcc701ResultDTO> byCriteria) {
+        List<Map<String, String>> result = new LinkedList<>();
+        for (VwWcc701ResultDTO vwWcc701ResultDTO : byCriteria) {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("級數1", vwWcc701ResultDTO.getlPlyr1Lvl());
+            result.add(map);
+        }
         return result;
     }
 }

@@ -22,6 +22,9 @@
             <th scope="row" v-on:click="changeOrder('eId')">
               <span>E Id</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'eId'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('tId')">
+              <span>T Id</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'tId'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('evntNm')">
               <span>Evnt Nm</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'evntNm'"></jhi-sort-indicator>
@@ -111,6 +114,7 @@
               }}</router-link>
             </td>
             <td>{{ vwWcc701Result.eId }}</td>
+            <td>{{ vwWcc701Result.tId }}</td>
             <td>{{ vwWcc701Result.evntNm }}</td>
             <td>{{ vwWcc701Result.evntDt | formatDate }}</td>
             <td>{{ vwWcc701Result.venue }}</td>

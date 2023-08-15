@@ -41,6 +41,10 @@ class VwWcc701ResultResourceIT {
     private static final Long UPDATED_E_ID = 2L;
     private static final Long SMALLER_E_ID = 1L - 1L;
 
+    private static final Long DEFAULT_T_ID = 1L;
+    private static final Long UPDATED_T_ID = 2L;
+    private static final Long SMALLER_T_ID = 1L - 1L;
+
     private static final String DEFAULT_EVNT_NM = "AAAAAAAAAA";
     private static final String UPDATED_EVNT_NM = "BBBBBBBBBB";
 
@@ -137,6 +141,7 @@ class VwWcc701ResultResourceIT {
     public static VwWcc701Result createEntity(EntityManager em) {
         VwWcc701Result vwWcc701Result = new VwWcc701Result()
             .eId(DEFAULT_E_ID)
+            .tId(DEFAULT_T_ID)
             .evntNm(DEFAULT_EVNT_NM)
             .evntDt(DEFAULT_EVNT_DT)
             .venue(DEFAULT_VENUE)
@@ -169,6 +174,7 @@ class VwWcc701ResultResourceIT {
     public static VwWcc701Result createUpdatedEntity(EntityManager em) {
         VwWcc701Result vwWcc701Result = new VwWcc701Result()
             .eId(UPDATED_E_ID)
+            .tId(UPDATED_T_ID)
             .evntNm(UPDATED_EVNT_NM)
             .evntDt(UPDATED_EVNT_DT)
             .venue(UPDATED_VENUE)
@@ -210,6 +216,7 @@ class VwWcc701ResultResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vwWcc701Result.getId().intValue())))
             .andExpect(jsonPath("$.[*].eId").value(hasItem(DEFAULT_E_ID.intValue())))
+            .andExpect(jsonPath("$.[*].tId").value(hasItem(DEFAULT_T_ID.intValue())))
             .andExpect(jsonPath("$.[*].evntNm").value(hasItem(DEFAULT_EVNT_NM)))
             .andExpect(jsonPath("$.[*].evntDt").value(hasItem(sameInstant(DEFAULT_EVNT_DT))))
             .andExpect(jsonPath("$.[*].venue").value(hasItem(DEFAULT_VENUE)))
@@ -245,6 +252,7 @@ class VwWcc701ResultResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(vwWcc701Result.getId().intValue()))
             .andExpect(jsonPath("$.eId").value(DEFAULT_E_ID.intValue()))
+            .andExpect(jsonPath("$.tId").value(DEFAULT_T_ID.intValue()))
             .andExpect(jsonPath("$.evntNm").value(DEFAULT_EVNT_NM))
             .andExpect(jsonPath("$.evntDt").value(sameInstant(DEFAULT_EVNT_DT)))
             .andExpect(jsonPath("$.venue").value(DEFAULT_VENUE))
@@ -374,6 +382,97 @@ class VwWcc701ResultResourceIT {
 
         // Get all the vwWcc701ResultList where eId is greater than SMALLER_E_ID
         defaultVwWcc701ResultShouldBeFound("eId.greaterThan=" + SMALLER_E_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwWcc701ResultsBytIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        vwWcc701ResultRepository.saveAndFlush(vwWcc701Result);
+
+        // Get all the vwWcc701ResultList where tId equals to DEFAULT_T_ID
+        defaultVwWcc701ResultShouldBeFound("tId.equals=" + DEFAULT_T_ID);
+
+        // Get all the vwWcc701ResultList where tId equals to UPDATED_T_ID
+        defaultVwWcc701ResultShouldNotBeFound("tId.equals=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwWcc701ResultsBytIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        vwWcc701ResultRepository.saveAndFlush(vwWcc701Result);
+
+        // Get all the vwWcc701ResultList where tId in DEFAULT_T_ID or UPDATED_T_ID
+        defaultVwWcc701ResultShouldBeFound("tId.in=" + DEFAULT_T_ID + "," + UPDATED_T_ID);
+
+        // Get all the vwWcc701ResultList where tId equals to UPDATED_T_ID
+        defaultVwWcc701ResultShouldNotBeFound("tId.in=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwWcc701ResultsBytIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        vwWcc701ResultRepository.saveAndFlush(vwWcc701Result);
+
+        // Get all the vwWcc701ResultList where tId is not null
+        defaultVwWcc701ResultShouldBeFound("tId.specified=true");
+
+        // Get all the vwWcc701ResultList where tId is null
+        defaultVwWcc701ResultShouldNotBeFound("tId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllVwWcc701ResultsBytIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        vwWcc701ResultRepository.saveAndFlush(vwWcc701Result);
+
+        // Get all the vwWcc701ResultList where tId is greater than or equal to DEFAULT_T_ID
+        defaultVwWcc701ResultShouldBeFound("tId.greaterThanOrEqual=" + DEFAULT_T_ID);
+
+        // Get all the vwWcc701ResultList where tId is greater than or equal to UPDATED_T_ID
+        defaultVwWcc701ResultShouldNotBeFound("tId.greaterThanOrEqual=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwWcc701ResultsBytIdIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        vwWcc701ResultRepository.saveAndFlush(vwWcc701Result);
+
+        // Get all the vwWcc701ResultList where tId is less than or equal to DEFAULT_T_ID
+        defaultVwWcc701ResultShouldBeFound("tId.lessThanOrEqual=" + DEFAULT_T_ID);
+
+        // Get all the vwWcc701ResultList where tId is less than or equal to SMALLER_T_ID
+        defaultVwWcc701ResultShouldNotBeFound("tId.lessThanOrEqual=" + SMALLER_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwWcc701ResultsBytIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        vwWcc701ResultRepository.saveAndFlush(vwWcc701Result);
+
+        // Get all the vwWcc701ResultList where tId is less than DEFAULT_T_ID
+        defaultVwWcc701ResultShouldNotBeFound("tId.lessThan=" + DEFAULT_T_ID);
+
+        // Get all the vwWcc701ResultList where tId is less than UPDATED_T_ID
+        defaultVwWcc701ResultShouldBeFound("tId.lessThan=" + UPDATED_T_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllVwWcc701ResultsBytIdIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        vwWcc701ResultRepository.saveAndFlush(vwWcc701Result);
+
+        // Get all the vwWcc701ResultList where tId is greater than DEFAULT_T_ID
+        defaultVwWcc701ResultShouldNotBeFound("tId.greaterThan=" + DEFAULT_T_ID);
+
+        // Get all the vwWcc701ResultList where tId is greater than SMALLER_T_ID
+        defaultVwWcc701ResultShouldBeFound("tId.greaterThan=" + SMALLER_T_ID);
     }
 
     @Test
@@ -1868,6 +1967,7 @@ class VwWcc701ResultResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vwWcc701Result.getId().intValue())))
             .andExpect(jsonPath("$.[*].eId").value(hasItem(DEFAULT_E_ID.intValue())))
+            .andExpect(jsonPath("$.[*].tId").value(hasItem(DEFAULT_T_ID.intValue())))
             .andExpect(jsonPath("$.[*].evntNm").value(hasItem(DEFAULT_EVNT_NM)))
             .andExpect(jsonPath("$.[*].evntDt").value(hasItem(sameInstant(DEFAULT_EVNT_DT))))
             .andExpect(jsonPath("$.[*].venue").value(hasItem(DEFAULT_VENUE)))

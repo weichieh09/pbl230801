@@ -86,6 +86,7 @@ entity TeamEvent {
 @readOnly
 entity VwWcc701Result {
     eId Long,
+    tId Long,
     evntNm String,
     evntDt ZonedDateTime,
     venue String,

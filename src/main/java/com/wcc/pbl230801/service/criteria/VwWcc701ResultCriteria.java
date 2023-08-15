@@ -25,6 +25,8 @@ public class VwWcc701ResultCriteria implements Serializable, Criteria {
 
     private LongFilter eId;
 
+    private LongFilter tId;
+
     private StringFilter evntNm;
 
     private ZonedDateTimeFilter evntDt;
@@ -72,6 +74,7 @@ public class VwWcc701ResultCriteria implements Serializable, Criteria {
     public VwWcc701ResultCriteria(VwWcc701ResultCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.eId = other.eId == null ? null : other.eId.copy();
+        this.tId = other.tId == null ? null : other.tId.copy();
         this.evntNm = other.evntNm == null ? null : other.evntNm.copy();
         this.evntDt = other.evntDt == null ? null : other.evntDt.copy();
         this.venue = other.venue == null ? null : other.venue.copy();
@@ -128,6 +131,21 @@ public class VwWcc701ResultCriteria implements Serializable, Criteria {
 
     public void seteId(LongFilter eId) {
         this.eId = eId;
+    }
+
+    public LongFilter gettId() {
+        return tId;
+    }
+
+    public LongFilter tId() {
+        if (tId == null) {
+            tId = new LongFilter();
+        }
+        return tId;
+    }
+
+    public void settId(LongFilter tId) {
+        this.tId = tId;
     }
 
     public StringFilter getEvntNm() {
@@ -450,6 +468,7 @@ public class VwWcc701ResultCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(eId, that.eId) &&
+            Objects.equals(tId, that.tId) &&
             Objects.equals(evntNm, that.evntNm) &&
             Objects.equals(evntDt, that.evntDt) &&
             Objects.equals(venue, that.venue) &&
@@ -479,6 +498,7 @@ public class VwWcc701ResultCriteria implements Serializable, Criteria {
         return Objects.hash(
             id,
             eId,
+            tId,
             evntNm,
             evntDt,
             venue,
@@ -509,6 +529,7 @@ public class VwWcc701ResultCriteria implements Serializable, Criteria {
         return "VwWcc701ResultCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (eId != null ? "eId=" + eId + ", " : "") +
+            (tId != null ? "tId=" + tId + ", " : "") +
             (evntNm != null ? "evntNm=" + evntNm + ", " : "") +
             (evntDt != null ? "evntDt=" + evntDt + ", " : "") +
             (venue != null ? "venue=" + venue + ", " : "") +

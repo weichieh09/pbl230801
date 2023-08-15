@@ -36,6 +36,7 @@ describe('Service Tests', () => {
       elemDefault = new VwWcc701Result(
         123,
         0,
+        0,
         'AAAAAAA',
         currentDate,
         'AAAAAAA',
@@ -89,6 +90,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             eId: 1,
+            tId: 1,
             evntNm: 'BBBBBB',
             evntDt: dayjs(currentDate).format(DATE_TIME_FORMAT),
             venue: 'BBBBBB',

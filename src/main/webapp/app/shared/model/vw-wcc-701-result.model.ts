@@ -1,6 +1,7 @@
 export interface IVwWcc701Result {
   id?: number;
   eId?: number | null;
+  tId?: number | null;
   evntNm?: string | null;
   evntDt?: Date | null;
   venue?: string | null;
@@ -27,6 +28,7 @@ export class VwWcc701Result implements IVwWcc701Result {
   constructor(
     public id?: number,
     public eId?: number | null,
+    public tId?: number | null,
     public evntNm?: string | null,
     public evntDt?: Date | null,
     public venue?: string | null,

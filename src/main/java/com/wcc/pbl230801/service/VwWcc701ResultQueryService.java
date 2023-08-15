@@ -93,6 +93,9 @@ public class VwWcc701ResultQueryService extends QueryService<VwWcc701Result> {
             if (criteria.geteId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.geteId(), VwWcc701Result_.eId));
             }
+            if (criteria.gettId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.gettId(), VwWcc701Result_.tId));
+            }
             if (criteria.getEvntNm() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEvntNm(), VwWcc701Result_.evntNm));
             }

@@ -28,6 +28,7 @@ export default {
   methods: {
     getSbList(): void {
       if (this.form.event === null) return;
+      if (this.form.team === null) return;
       this.xlsxData = [];
       axios
         .get(`${apiBaseUrl}/vw-wcc-701-results`, {
