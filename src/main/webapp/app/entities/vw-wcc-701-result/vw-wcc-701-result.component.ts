@@ -1,15 +1,15 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
-import { ITeam } from '@/shared/model/team.model';
+import { IVwWcc701Result } from '@/shared/model/vw-wcc-701-result.model';
 
-import TeamService from './team.service';
+import VwWcc701ResultService from './vw-wcc-701-result.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class Team extends Vue {
-  @Inject('teamService') private teamService: () => TeamService;
+export default class VwWcc701Result extends Vue {
+  @Inject('vwWcc701ResultService') private vwWcc701ResultService: () => VwWcc701ResultService;
   @Inject('alertService') private alertService: () => AlertService;
 
   private removeId: number = null;
@@ -21,31 +21,31 @@ export default class Team extends Vue {
   public reverse = false;
   public totalItems = 0;
 
-  public teams: ITeam[] = [];
+  public vwWcc701Results: IVwWcc701Result[] = [];
 
   public isFetching = false;
 
   public mounted(): void {
-    this.retrieveAllTeams();
+    this.retrieveAllVwWcc701Results();
   }
 
   public clear(): void {
     this.page = 1;
-    this.retrieveAllTeams();
+    this.retrieveAllVwWcc701Results();
   }
 
-  public retrieveAllTeams(): void {
+  public retrieveAllVwWcc701Results(): void {
     this.isFetching = true;
     const paginationQuery = {
       page: this.page - 1,
       size: this.itemsPerPage,
       sort: this.sort(),
     };
-    this.teamService()
+    this.vwWcc701ResultService()
       .retrieve(paginationQuery)
       .then(
         res => {
-          this.teams = res.data;
+          this.vwWcc701Results = res.data;
           this.totalItems = Number(res.headers['x-total-count']);
           this.queryCount = this.totalItems;
           this.isFetching = false;
@@ -59,34 +59,6 @@ export default class Team extends Vue {
 
   public handleSyncList(): void {
     this.clear();
-  }
-
-  public prepareRemove(instance: ITeam): void {
-    this.removeId = instance.id;
-    if (<any>this.$refs.removeEntity) {
-      (<any>this.$refs.removeEntity).show();
-    }
-  }
-
-  public removeTeam(): void {
-    this.teamService()
-      .delete(this.removeId)
-      .then(() => {
-        const message = 'A Team is deleted with identifier ' + this.removeId;
-        this.$bvToast.toast(message.toString(), {
-          toaster: 'b-toaster-top-center',
-          title: 'Info',
-          variant: 'danger',
-          solid: true,
-          autoHideDelay: 5000,
-        });
-        this.removeId = null;
-        this.retrieveAllTeams();
-        this.closeDialog();
-      })
-      .catch(error => {
-        this.alertService().showHttpError(this, error.response);
-      });
   }
 
   public sort(): Array<any> {
@@ -105,7 +77,7 @@ export default class Team extends Vue {
   }
 
   public transition(): void {
-    this.retrieveAllTeams();
+    this.retrieveAllVwWcc701Results();
   }
 
   public changeOrder(propOrder): void {

@@ -83,6 +83,31 @@ entity TeamEvent {
     lstMtnDt ZonedDateTime,
 }
 
+@readOnly
+entity VwWcc701Result {
+    eId Long,
+    evntNm String,
+    evntDt ZonedDateTime,
+    venue String,
+    mId Long,
+    mtchEndTime ZonedDateTime,
+    wPlyr1Id Long,
+    wPlyr1Lvl String,
+    wPlyr1Nm String,
+    wPlyr2Id Long,
+    wPlyr2Lvl String,
+    wPlyr2Nm String,
+    vs String,
+    lPlyr1Id Long,
+    lPlyr1Lvl String,
+    lPlyr1Nm String,
+    lPlyr2Id Long,
+    lPlyr2Lvl String,
+    lPlyr2Nm String,
+    wScr String,
+    lScr String,
+}
+
 filter *
 dto * with mapstruct
 paginate * with pagination

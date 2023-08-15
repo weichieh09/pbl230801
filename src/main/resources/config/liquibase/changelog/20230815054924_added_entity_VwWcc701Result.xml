@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity VwWcc701Result.
+    -->
+    <changeSet id="20230815054924-1" author="mgdsn-weichieh09">
+        <createView
+            replaceIfExists="true"
+            viewName="vw_wcc_701_result">
+            SELECT
+            ROW_NUMBER() OVER (ORDER BY S2.id) AS id,
+            S2.id            AS e_id,
+            S2.evnt_nm       AS evnt_nm,
+            S2.evnt_dt       AS evnt_dt,
+            S2.venue         AS venue,
+            S1.id            AS m_id,
+            S1.mtch_end_time AS mtch_end_time,
+            S1.w_plyr_1      AS w_plyr_1,
+            S3.plyr_lvl      AS w_plyr_1_lvl,
+            S3.plyr_nm       AS w_plyr_1_nm1,
+            S1.w_plyr_2      AS w_plyr_2,
+            S4.plyr_lvl      AS w_plyr_2_lvl,
+            S4.plyr_nm       AS w_plyr_2_nm,
+            'VS'             AS vs,
+            S1.l_plyr_1      AS l_plyr_1,
+            S5.plyr_lvl      AS l_plyr_1_lvl,
+            S5.plyr_nm       AS l_plyr_1_nm1,
+            S1.l_plyr_2      AS l_plyr_2,
+            S6.plyr_lvl      AS l_plyr_2_lvl,
+            S6.plyr_nm       AS l_plyr_2_nm,
+            S1.w_scr         AS w_scr,
+            S1.l_scr         AS l_scr
+            FROM   match_z AS S1
+            LEFT JOIN event_z AS S2
+            ON S2.id = S1.e_id
+            LEFT JOIN player AS S3
+            ON S3.id = S1.w_plyr_1
+            LEFT JOIN player AS S4
+            ON S4.id = S1.w_plyr_2
+            LEFT JOIN player AS S5
+            ON S5.id = S1.l_plyr_1
+            LEFT JOIN player AS S6
+            ON S6.id = S1.l_plyr_2
+        </createView>
+    </changeSet>
+</databaseChangeLog>

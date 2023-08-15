@@ -55,6 +55,10 @@ const TeamEvent = () => import('@/entities/team-event/team-event.vue');
 const TeamEventUpdate = () => import('@/entities/team-event/team-event-update.vue');
 // prettier-ignore
 const TeamEventDetails = () => import('@/entities/team-event/team-event-details.vue');
+// prettier-ignore
+const VwWcc701Result = () => import('@/entities/vw-wcc-701-result/vw-wcc-701-result.vue');
+// prettier-ignore
+const VwWcc701ResultDetails = () => import('@/entities/vw-wcc-701-result/vw-wcc-701-result-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -242,18 +246,6 @@ export default {
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: '/vw-event-result',
-      name: 'VwEventResult',
-      component: VwEventResult,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: '/vw-event-result/:vwEventResultId/view',
-      name: 'VwEventResultView',
-      component: VwEventResultDetails,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
       path: 'team-event',
       name: 'TeamEvent',
       component: TeamEvent,
@@ -275,6 +267,18 @@ export default {
       path: 'team-event/:teamEventId/view',
       name: 'TeamEventView',
       component: TeamEventDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: '/vw-wcc-701-result',
+      name: 'VwWcc701Result',
+      component: VwWcc701Result,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: '/vw-wcc-701-result/:vwWcc701ResultId/view',
+      name: 'VwWcc701ResultView',
+      component: VwWcc701ResultDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

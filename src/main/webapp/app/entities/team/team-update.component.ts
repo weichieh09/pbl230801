@@ -53,11 +53,11 @@ export default class TeamUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = '球隊更新成功!';
+          const message = 'A Team is updated with identifier ' + param.id;
           return (this.$root as any).$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
-            title: '更新成功',
-            variant: 'success',
+            title: 'Info',
+            variant: 'info',
             solid: true,
             autoHideDelay: 5000,
           });
@@ -72,10 +72,10 @@ export default class TeamUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = '球隊建立成功!';
+          const message = 'A Team is created with identifier ' + param.id;
           (this.$root as any).$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
-            title: '建立成功',
+            title: 'Success',
             variant: 'success',
             solid: true,
             autoHideDelay: 5000,

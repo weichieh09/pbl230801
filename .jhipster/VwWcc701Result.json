@@ -1,0 +1,100 @@
+{
+  "applications": "*",
+  "changelogDate": "20230815054924",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "vw_wcc_701_result",
+  "fields": [
+    {
+      "fieldName": "eId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "evntNm",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "evntDt",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "venue",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "mtchEndTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "wPlyr1Id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "wPlyr1Lvl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "wPlyr1Nm",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "wPlyr2Id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "wPlyr2Lvl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "wPlyr2Nm",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vs",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lPlyr1Id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "lPlyr1Lvl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lPlyr1Nm",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lPlyr2Id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "lPlyr2Lvl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lPlyr2Nm",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "wScr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lScr",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "VwWcc701Result",
+  "pagination": "pagination",
+  "readOnly": true,
+  "relationships": [],
+  "service": "serviceClass"
+}

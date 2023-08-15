@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="EventZHeading">
-      <span id="event-z-heading">賽事管理</span>
+      <span id="event-z-heading">Event ZS</span>
       <div class="d-flex justify-content-end">
-        <!-- <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
+        <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
-        </button> -->
+        </button>
         <router-link :to="{ name: 'EventZCreate' }" custom v-slot="{ navigate }">
           <button
             @click="navigate"
@@ -14,7 +14,7 @@
             class="btn btn-primary jh-create-entity create-event-z"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span>新增</span>
+            <span> Create a new Event Z </span>
           </button>
         </router-link>
       </div>
@@ -28,81 +28,74 @@
         <thead>
           <tr>
             <th scope="row" v-on:click="changeOrder('id')">
-              <span>序號</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+              <span>ID</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('evntNm')">
-              <span>名稱</span>
+              <span>Evnt Nm</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'evntNm'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('evntDt')">
-              <span>日期</span>
+              <span>Evnt Dt</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'evntDt'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('venue')">
-              <span>地點</span>
+              <span>Venue</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'venue'"></jhi-sort-indicator>
             </th>
-            <!-- <th scope="row" v-on:click="changeOrder('eventBegTime')">
-              <span>開始時間</span>
+            <th scope="row" v-on:click="changeOrder('eventBegTime')">
+              <span>Event Beg Time</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'eventBegTime'"></jhi-sort-indicator>
-            </th> -->
-            <!-- <th scope="row" v-on:click="changeOrder('eventEndTime')">
-              <span>結束時間</span>
+            </th>
+            <th scope="row" v-on:click="changeOrder('eventEndTime')">
+              <span>Event End Time</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'eventEndTime'"></jhi-sort-indicator>
-            </th> -->
-            <!-- <th scope="row" v-on:click="changeOrder('lstMtnUsr')">
+            </th>
+            <th scope="row" v-on:click="changeOrder('lstMtnUsr')">
               <span>Lst Mtn Usr</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lstMtnUsr'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('lstMtnDt')">
               <span>Lst Mtn Dt</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lstMtnDt'"></jhi-sort-indicator>
-            </th> -->
-            <th scope="row">
-              <span>操作</span>
             </th>
+            <th scope="row"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="eventZ in eventZS" :key="eventZ.id" data-cy="entityTable">
             <td>
-              <!-- <router-link :to="{ name: 'EventZView', params: { eventZId: eventZ.id } }">{{ eventZ.id }}</router-link> -->
-              {{ eventZ.id }}
+              <router-link :to="{ name: 'EventZView', params: { eventZId: eventZ.id } }">{{ eventZ.id }}</router-link>
             </td>
             <td>{{ eventZ.evntNm }}</td>
             <td>{{ eventZ.evntDt | formatDate }}</td>
             <td>{{ eventZ.venue }}</td>
-            <!-- <td>{{ eventZ.eventBegTime | formatDate }}</td> -->
-            <!-- <td>{{ eventZ.eventEndTime | formatDate }}</td> -->
-            <!-- <td>{{ eventZ.lstMtnUsr }}</td>
-            <td>{{ eventZ.lstMtnDt | formatDate }}</td> -->
-            <td>
-              <div class="btn-group-vertical">
-                <!-- <router-link :to="{ name: 'EventZView', params: { eventZId: eventZ.id } }" custom v-slot="{ navigate }">
+            <td>{{ eventZ.eventBegTime | formatDate }}</td>
+            <td>{{ eventZ.eventEndTime | formatDate }}</td>
+            <td>{{ eventZ.lstMtnUsr }}</td>
+            <td>{{ eventZ.lstMtnDt | formatDate }}</td>
+            <td class="text-right">
+              <div class="btn-group">
+                <router-link :to="{ name: 'EventZView', params: { eventZId: eventZ.id } }" custom v-slot="{ navigate }">
                   <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
                   </button>
-                </router-link> -->
+                </router-link>
                 <router-link :to="{ name: 'EventZEdit', params: { eventZId: eventZ.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary edit" data-cy="entityEditButton">
+                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
-                    <span class="d-none d-md-inline">編輯</span>
+                    <span class="d-none d-md-inline">Edit</span>
                   </button>
                 </router-link>
                 <b-button
                   v-on:click="prepareRemove(eventZ)"
                   variant="danger"
-                  class="btn"
+                  class="btn btn-sm"
                   data-cy="entityDeleteButton"
                   v-b-modal.removeEntity
                 >
                   <font-awesome-icon icon="times"></font-awesome-icon>
-                  <span class="d-none d-md-inline">刪除</span>
-                </b-button>
-                <b-button variant="warning">
-                  <b-icon icon="fileText" />
-                  <span class="d-none d-md-inline">參賽選手</span>
+                  <span class="d-none d-md-inline">Delete</span>
                 </b-button>
               </div>
             </td>
