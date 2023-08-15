@@ -8,10 +8,10 @@
     </b-row>
     <b-row>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc801" disabled>
-          <b-icon icon="BrushFill" />
+        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc801">
+          <b-icon icon="GiftFill" />
           <br />
-          <h5>總覽</h5>
+          <h5>獎勵</h5>
         </b-button>
       </b-col>
       <b-col cols="6">

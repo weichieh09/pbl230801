@@ -55,7 +55,7 @@
     </b-row>
     <b-row v-else>
       <b-col cols="12">
-        <b-alert show variant="warning">請選擇賽事</b-alert>
+        <b-alert show variant="warning">請選擇<strong> 隊伍 </strong>及<strong> 賽事 </strong></b-alert>
       </b-col>
     </b-row>
     <b-row>

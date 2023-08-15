@@ -29,18 +29,26 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>等級</th>
-              <th>姓名</th>
-              <th>勝場</th>
-              <th>達成時間</th>
+              <th><h5>姓名</h5></th>
+              <th><h5>等級</h5></th>
+              <th><h5>勝場</h5></th>
+              <th><h5>時間</h5></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(rts, index) in rtss">
-              <td>{{ rts.plyrLvl }}</td>
-              <td>{{ rts.plyrNm }} <b-icon icon="TrophyFill" style="color: orange" animation="fade" v-if="getIcon(index)" /></td>
-              <td>{{ rts.totWins }}</td>
-              <td>{{ rts.mtchEndTime }}</td>
+              <td>
+                <h5>{{ rts.plyrLvl }}</h5>
+              </td>
+              <td>
+                <h5>{{ rts.plyrNm }} <b-icon icon="TrophyFill" style="color: orange" animation="fade" v-if="getIcon(index)" /></h5>
+              </td>
+              <td>
+                <h5>{{ rts.totWins }}</h5>
+              </td>
+              <td>
+                <h5>{{ rts.mtchEndTime }}</h5>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -51,12 +59,12 @@
     </b-row>
     <b-row v-else-if="this.isNoData">
       <b-col cols="12">
-        <b-alert show variant="warning">該賽事尚未有資料!</b-alert>
+        <b-alert show variant="warning">該賽事尚未有資料登錄!</b-alert>
       </b-col>
     </b-row>
     <b-row v-else>
       <b-col cols="12">
-        <b-alert show variant="warning">請選擇賽事</b-alert>
+        <b-alert show variant="warning">請選擇<strong> 隊伍 </strong>及<strong> 賽事 </strong></b-alert>
       </b-col>
     </b-row>
     <b-row>

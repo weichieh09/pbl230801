@@ -7,40 +7,60 @@
       </b-col>
       <b-col cols="12">
         <b-input-group size="lg" prepend="球隊">
-          <b-form-select v-model="form.team" :options="form.teams" v-on:change="teamChange()" disabled />
+          <b-form-select v-model="form.team" :options="form.teams" v-on:change="teamChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="日期">
-          <b-form-input type="date" v-model="form.date" v-on:change="dateChange()" disabled />
+          <b-form-input type="date" v-model="form.date" v-on:change="dateChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="場地">
-          <b-form-select v-model="form.space" :options="form.spaces" v-on:change="spaceChange()" disabled />
+          <b-form-select v-model="form.space" :options="form.spaces" v-on:change="spaceChange()" />
         </b-input-group>
         <br />
         <b-input-group size="lg" prepend="賽事">
-          <b-form-select v-model="form.event" :options="form.events" v-on:change="eventChange()" disabled />
+          <b-form-select v-model="form.event" :options="form.events" v-on:change="eventChange()" />
         </b-input-group>
       </b-col>
     </b-row>
     <br />
     <b-row v-if="this.rtss.length > 0">
       <b-col cols="12">
-        <table class="table table-hover">
+        <table class="table">
           <thead>
             <tr>
-              <th>等級</th>
-              <th>姓名</th>
-              <th>勝場</th>
-              <th>達成時間</th>
+              <th @click="changeOrder('plyr_nm')">
+                <h5>姓名</h5>
+              </th>
+              <th :class="sort.type === 'plyr_lvl' ? 'table-success' : ''" @click="changeOrder('plyr_lvl')">
+                <h5>等級</h5>
+              </th>
+              <th :class="sort.type === 'tot_wins' ? 'table-success' : ''" @click="changeOrder('tot_wins')">
+                <h5>勝場</h5>
+              </th>
+              <th :class="sort.type === 'mtch_end_time' ? 'table-success' : ''" @click="changeOrder('mtch_end_time')">
+                <h5>時間</h5>
+              </th>
+              <!-- <th style="width: 20%"><h5>註記</h5></th> -->
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(rts, index) in rtss">
-              <td>{{ rts.plyrLvl }}</td>
-              <td>{{ rts.plyrNm }} <b-icon icon="TrophyFill" style="color: orange" animation="fade" v-if="getIcon(index)" /></td>
-              <td>{{ rts.totWins }}</td>
-              <td>{{ rts.mtchEndTime }}</td>
+            <tr v-for="(rts, index) in rtss" @click="checkFlag(rts)">
+              <td :class="rts.chkFg === 'Y' ? 'table-warning' : ''">
+                <h5><b-icon icon="GiftFill" style="color: red" v-if="rts.chkFg === 'Y'" /> {{ rts.plyrNm }}</h5>
+              </td>
+              <td :class="rts.chkFg === 'Y' ? 'table-warning' : ''">
+                <h5>{{ rts.plyrLvl }}</h5>
+              </td>
+              <td :class="rts.chkFg === 'Y' ? 'table-warning' : ''">
+                <h5>{{ rts.totWins }}</h5>
+              </td>
+              <td :class="rts.chkFg === 'Y' ? 'table-warning' : ''">
+                <h5>{{ rts.mtchEndTime }}</h5>
+              </td>
+              <!-- <td>
+                <h5>{{ rts.chkFg }}</h5>
+              </td> -->
             </tr>
           </tbody>
         </table>
@@ -51,13 +71,12 @@
     </b-row>
     <b-row v-else-if="this.isNoData">
       <b-col cols="12">
-        <b-alert show variant="warning">該賽事尚未有資料!</b-alert>
+        <b-alert show variant="warning">該賽事尚未有戰績登錄!</b-alert>
       </b-col>
     </b-row>
     <b-row v-else>
       <b-col cols="12">
-        <b-alert show variant="warning">開發中...</b-alert>
-        <!-- <b-alert show variant="warning">請選擇賽事</b-alert> -->
+        <b-alert show variant="warning">請選擇<strong> 隊伍 </strong>及<strong> 賽事 </strong></b-alert>
       </b-col>
     </b-row>
     <b-row>

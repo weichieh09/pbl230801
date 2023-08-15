@@ -1,9 +1,11 @@
 package com.wcc.pbl230801.pblService;
 
+import com.wcc.pbl230801.domain.EventPlayer;
 import com.wcc.pbl230801.domain.MatchPlayer;
 import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
+import com.wcc.pbl230801.repository.EventPlayerRepository;
 import com.wcc.pbl230801.repository.MatchPlayerRepository;
 import com.wcc.pbl230801.service.MatchPlayerService;
 import com.wcc.pbl230801.service.MatchZService;
@@ -39,6 +41,9 @@ public class Wcc201Service {
 
     @Autowired
     private TeamEventQueryService teamEventQueryService;
+
+    @Autowired
+    private EventPlayerRepository eventPlayerRepository;
 
     public List<VenueDTOC> getDistinctVenue(List<EventZDTO> content) {
         Set<VenueDTOC> venueSet = new HashSet<>();
@@ -143,10 +148,26 @@ public class Wcc201Service {
         if (wPlyr2 != null) matchPlayerDTOList.add(this.getMatchPlayer(mId, Long.parseLong(wPlyr2), eId, mtchEndTime, wScr, "Y"));
         if (lPlyr1 != null) matchPlayerDTOList.add(this.getMatchPlayer(mId, Long.parseLong(lPlyr1), eId, mtchEndTime, lScr, "N"));
         if (lPlyr2 != null) matchPlayerDTOList.add(this.getMatchPlayer(mId, Long.parseLong(lPlyr2), eId, mtchEndTime, lScr, "N"));
-
         matchPlayerRepository.saveAll(matchPlayerDTOList);
 
+        List<EventPlayer> eventPlayerDTOList = new ArrayList<>();
+        if (wPlyr1 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(wPlyr1), "N"));
+        if (wPlyr2 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(wPlyr2), "N"));
+        if (lPlyr1 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(lPlyr1), "N"));
+        if (lPlyr2 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(lPlyr2), "N"));
+        eventPlayerRepository.saveAll(eventPlayerDTOList);
+
         return result;
+    }
+
+    private EventPlayer getEventPlayer(Long eId, Long pId, String chkFg) {
+        EventPlayer eventPlayer = new EventPlayer();
+        eventPlayer.seteId(eId);
+        eventPlayer.setpId(pId);
+        eventPlayer.setChkFg(chkFg);
+        eventPlayer.setLstMtnUsr("MGDsn");
+        eventPlayer.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
+        return eventPlayer;
     }
 
     private MatchPlayer getMatchPlayer(Long mId, Long pId, Long eId, ZonedDateTime mtchEndTime, String scr, String winFg) {

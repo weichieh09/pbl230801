@@ -10,6 +10,24 @@ public class RtsDTOC implements Serializable {
     private String totWins;
     private String mtchEndTime;
 
+    private String chkFg;
+
+    public String getpId() {
+        return pId;
+    }
+
+    public void setpId(String pId) {
+        this.pId = pId;
+    }
+
+    public String getPlyrLvl() {
+        return plyrLvl;
+    }
+
+    public void setPlyrLvl(String plyrLvl) {
+        this.plyrLvl = plyrLvl;
+    }
+
     public String getPlyrNm() {
         return plyrNm;
     }
@@ -26,27 +44,19 @@ public class RtsDTOC implements Serializable {
         this.totWins = totWins;
     }
 
-    public String getPlyrLvl() {
-        return plyrLvl;
-    }
-
-    public void setPlyrLvl(String plyrLvl) {
-        this.plyrLvl = plyrLvl;
-    }
-
-    public String getpId() {
-        return pId;
-    }
-
-    public void setpId(String pId) {
-        this.pId = pId;
-    }
-
     public String getMtchEndTime() {
         return mtchEndTime;
     }
 
     public void setMtchEndTime(String mtchEndTime) {
         this.mtchEndTime = mtchEndTime;
+    }
+
+    public String getChkFg() {
+        return chkFg;
+    }
+
+    public void setChkFg(String chkFg) {
+        this.chkFg = chkFg;
     }
 }

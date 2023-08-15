@@ -1,7 +1,7 @@
 import axios from 'axios';
 import LoginService from '@/account/login.service';
 
-const apiBaseUrl = '/api/wcc101';
+const apiBaseUrl = '/api/wcc801';
 
 export default {
   data() {
@@ -22,8 +22,13 @@ export default {
         currentPage: 1,
         objTotal: 0,
         perPage: 5,
+        sort: 'tot_wins,mtch_end_time,desc',
       },
       isNoData: false,
+      sort: {
+        reverse: false,
+        type: '',
+      },
     };
   },
   created() {
@@ -32,11 +37,31 @@ export default {
     this.getTeamList();
   },
   methods: {
-    getIcon(index: number): boolean {
-      if (this.page.currentPage === 1 && index <= 2) {
-        return true;
+    changeOrder(type: string): void {
+      if (type === 'plyr_nm') {
+        this.page.sort = 'tot_wins,mtch_end_time,desc';
+        this.sort.reverse = false;
+        this.sort.type = '';
+      } else {
+        this.sort.type = type;
+        this.page.sort = type + ',' + (this.sort.reverse ? 'desc' : 'asc');
+        this.sort.reverse = !this.sort.reverse;
       }
-      return false;
+      this.getRtsList();
+    },
+    checkFlag(rts: any): void {
+      axios
+        .post(`${apiBaseUrl}/checkFlag`, {
+          eId: this.form.event,
+          pId: rts.pId,
+          chkFg: rts.chkFg === 'Y' ? 'N' : 'Y',
+        })
+        .then(response => {
+          if (response.data.status === '0') rts.chkFg = rts.chkFg === 'Y' ? 'N' : 'Y';
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     pageLoad(page: any): void {
       if (page !== this.page.previousPage) {
@@ -50,7 +75,7 @@ export default {
           params: {
             'eId.equals': this.form.event,
             'tId.equals': this.form.team,
-            sort: 'tot_wins,mtch_end_time,desc',
+            sort: this.page.sort,
             page: this.page.currentPage - 1,
             size: this.page.perPage,
           },
@@ -162,8 +187,7 @@ export default {
       this.rtss = [];
       if (this.form.event === null) return;
       if (this.form.team === null) return;
-      // this.getRtsList();
-      console.log('eventChange');
+      this.getRtsList();
     },
   },
 };
