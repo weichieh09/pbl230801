@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col cols="12">
-        <h3 style="text-align: center">總覽</h3>
+        <h3 style="text-align: center">獎勵</h3>
         <hr />
       </b-col>
       <b-col cols="12">

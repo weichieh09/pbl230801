@@ -62,10 +62,12 @@ export default [
     path: '/pbl/wcc701',
     name: 'wcc701',
     component: () => import('@/pbl/wcc701/wcc701.vue'),
+    meta: { authorities: [Authority.USER] },
   },
   {
     path: '/pbl/wcc801',
     name: 'wcc801',
     component: () => import('@/pbl/wcc801/wcc801.vue'),
+    meta: { authorities: [Authority.USER] },
   },
 ]

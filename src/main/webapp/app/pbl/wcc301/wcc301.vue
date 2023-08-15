@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col cols="12">
-        <h3 style="text-align: center">管理者功能</h3>
+        <h3 style="text-align: center">管理功能</h3>
         <hr />
       </b-col>
     </b-row>

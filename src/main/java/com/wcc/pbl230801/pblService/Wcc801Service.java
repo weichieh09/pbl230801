@@ -13,6 +13,8 @@ import com.wcc.pbl230801.service.dto.TeamDTO;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,9 +93,15 @@ public class Wcc801Service {
         return result;
     }
 
-    private String getSimpleTime(String str) {
-        String result = "";
-        if (str.length() >= 19) result = str.substring(11, 16);
+    private String getSimpleTime(String inputTime) {
+        // 定義時間字串格式
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        // 解析字串為 LocalTime 物件
+        LocalTime time = LocalTime.parse(inputTime, formatter);
+        // 加上八小時
+        LocalTime newTime = time.plusHours(8);
+        // 格式化新時間為字串
+        String result = newTime.format(formatter);
         return result;
     }
 
