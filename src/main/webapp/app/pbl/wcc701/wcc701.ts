@@ -32,6 +32,9 @@ export default {
     this.getTeamList();
   },
   methods: {
+    test(): void {
+      console.log('test');
+    },
     getIcon(index: number): boolean {
       if (this.page.currentPage === 1 && index <= 2) {
         return true;

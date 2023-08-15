@@ -26,7 +26,7 @@
     <br />
     <b-row>
       <b-col cols="12">
-        <b-button block variant="outline-primary" size="lg" disabled>戰績表 <b-icon icon="FileEarmarkTextFill" /></b-button>
+        <b-button block variant="outline-primary" size="lg" @click="test()">戰績表 <b-icon icon="FileEarmarkTextFill" /></b-button>
         <br />
         <b-button block variant="outline-primary" size="lg" disabled>英雄榜 <b-icon icon="AwardFill" /></b-button>
       </b-col>
