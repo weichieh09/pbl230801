@@ -58,4 +58,14 @@ export default [
     component: () => import('@/pbl/wcc601/wcc601-update.vue'),
     meta: { authorities: [Authority.USER] },
   },
+  {
+    path: '/pbl/wcc701',
+    name: 'wcc701',
+    component: () => import('@/pbl/wcc701/wcc701.vue'),
+  },
+  {
+    path: '/pbl/wcc801',
+    name: 'wcc801',
+    component: () => import('@/pbl/wcc801/wcc801.vue'),
+  },
 ]

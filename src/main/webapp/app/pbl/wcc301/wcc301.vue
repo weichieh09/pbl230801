@@ -8,14 +8,14 @@
     </b-row>
     <b-row>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" disabled>
+        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc801" disabled>
           <b-icon icon="BrushFill" />
           <br />
           <h5>總覽</h5>
         </b-button>
       </b-col>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" disabled>
+        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc701">
           <b-icon icon="download" />
           <br />
           <h5>下載</h5>
