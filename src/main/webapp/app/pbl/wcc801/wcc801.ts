@@ -71,15 +71,11 @@ export default {
     },
     getRtsList(): void {
       axios
-        .get(`${apiBaseUrl}/realTimeScore`, {
-          params: {
-            'eId.equals': this.form.event,
-            'tId.equals': this.form.team,
-            sort: this.page.sort,
-            page: this.page.currentPage - 1,
-            size: this.page.perPage,
-          },
-        })
+        .get(
+          `${apiBaseUrl}/realTimeScore?eId.equals=${this.form.event}&tId.equals=${
+            this.form.team
+          }&sort=tot_wins,desc&sort=mtch_end_time,asc&page=${this.page.currentPage - 1}&size=${this.page.perPage}`
+        )
         .then(response => {
           if (response.data.length > 0) {
             this.isNoData = false;

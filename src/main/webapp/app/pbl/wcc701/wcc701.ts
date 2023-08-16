@@ -55,12 +55,9 @@ export default {
       if (this.form.team === null) return;
       this.xlsxData = [];
       axios
-        .get(`${apiBaseUrl}/realTimeScore`, {
-          params: {
-            'eId.equals': this.form.event,
-            'tId.equals': this.form.team,
-          },
-        })
+        .get(
+          `${apiBaseUrl}/realTimeScore?eId.equals=${this.form.event}&tId.equals=${this.form.team}&sort=tot_wins,desc&sort=mtch_end_time,asc`
+        )
         .then(response => {
           if (response.data.length > 0) {
             this.xlsxData = response.data;
