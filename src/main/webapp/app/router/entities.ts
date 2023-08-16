@@ -281,30 +281,6 @@ export default {
       component: VwWcc701ResultDetails,
       meta: { authorities: [Authority.ADMIN] },
     },
-    {
-      path: '/vw-event-result',
-      name: 'VwEventResult',
-      component: VwEventResult,
-      meta: { authorities: [Authority.ADMIN] },
-    },
-    {
-      path: '/vw-event-result/:vwEventResultId/view',
-      name: 'VwEventResultView',
-      component: VwEventResultDetails,
-      meta: { authorities: [Authority.ADMIN] },
-    },
-    {
-      path: '/vw-wcc-701-result',
-      name: 'VwWcc701Result',
-      component: VwWcc701Result,
-      meta: { authorities: [Authority.ADMIN] },
-    },
-    {
-      path: '/vw-wcc-701-result/:vwWcc701ResultId/view',
-      name: 'VwWcc701ResultView',
-      component: VwWcc701ResultDetails,
-      meta: { authorities: [Authority.ADMIN] },
-    },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
   ],
 };
