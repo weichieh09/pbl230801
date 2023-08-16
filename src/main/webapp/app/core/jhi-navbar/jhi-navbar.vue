@@ -25,15 +25,22 @@
     <!-- 隱藏漢堡按鈕 -->
 
     <!-- 隱藏右上按鈕 -->
-    <b-collapse is-nav id="header-tabs" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">
+    <b-collapse is-nav id="header-tabs">
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/" exact>
+        <b-nav-item to="/" exact v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">
           <span>
             <font-awesome-icon icon="home" />
             <span>Home</span>
           </span>
         </b-nav-item>
-        <b-nav-item-dropdown right id="entity-menu" v-if="authenticated" active-class="active" class="pointer" data-cy="entity">
+        <b-nav-item-dropdown
+          right
+          id="entity-menu"
+          v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated"
+          active-class="active"
+          class="pointer"
+          data-cy="entity"
+        >
           <span slot="button-content" class="navbar-dropdown-menu">
             <font-awesome-icon icon="th-list" />
             <span class="no-bold">Entities</span>
@@ -91,13 +98,13 @@
             <font-awesome-icon icon="user" />
             <span class="no-bold">帳號</span>
           </span>
-          <b-dropdown-item data-cy="settings" to="/account/settings" tag="b-dropdown-item" v-if="authenticated" active-class="active">
+          <!-- <b-dropdown-item data-cy="settings" to="/account/settings" tag="b-dropdown-item" v-if="authenticated" active-class="active">
             <font-awesome-icon icon="wrench" />
             <span>Settings</span>
-          </b-dropdown-item>
+          </b-dropdown-item> -->
           <b-dropdown-item data-cy="passwordItem" to="/account/password" tag="b-dropdown-item" v-if="authenticated" active-class="active">
             <font-awesome-icon icon="lock" />
-            <span>Password</span>
+            <span>密碼</span>
           </b-dropdown-item>
           <b-dropdown-item data-cy="logout" v-if="authenticated" v-on:click="logout()" id="logout" active-class="active">
             <font-awesome-icon icon="sign-out-alt" />
@@ -107,7 +114,7 @@
             <font-awesome-icon icon="sign-in-alt" />
             <span>登入</span>
           </b-dropdown-item>
-          <b-dropdown-item
+          <!-- <b-dropdown-item
             data-cy="register"
             to="/register"
             tag="b-dropdown-item"
@@ -117,7 +124,7 @@
           >
             <font-awesome-icon icon="user-plus" />
             <span>Register</span>
-          </b-dropdown-item>
+          </b-dropdown-item> -->
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
