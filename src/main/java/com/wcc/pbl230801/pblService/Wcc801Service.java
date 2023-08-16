@@ -84,7 +84,7 @@ public class Wcc801Service {
             RtsDTOC rtsDTOC = new RtsDTOC();
             rtsDTOC.setPlyrNm((String) map.get("plyr_nm"));
             rtsDTOC.setTotWins(((BigDecimal) map.get("tot_wins")).toString());
-            rtsDTOC.setPlyrLvl((String) map.get("plyr_lvl"));
+            rtsDTOC.setPlyrLvl(map.get("plyr_lvl").toString());
             rtsDTOC.setpId(((BigInteger) map.get("p_id")).toString());
             rtsDTOC.setMtchEndTime(this.getSimpleTime(((Timestamp) map.get("mtch_end_time")).toString()));
             result.add(rtsDTOC);

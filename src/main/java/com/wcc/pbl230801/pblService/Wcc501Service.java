@@ -84,7 +84,7 @@ public class Wcc501Service {
         PlayersReqDTOC reqDTOC = new PlayersReqDTOC();
         reqDTOC.setpId(playerDTO.getId().toString());
         reqDTOC.settId(tId.toString());
-        reqDTOC.setPlyrLvl(playerDTO.getPlyrLvl());
+        reqDTOC.setPlyrLvl(String.valueOf(playerDTO.getPlyrLvl()));
         reqDTOC.setPlyrNm(playerDTO.getPlyrNm());
         return this.checkPlayer(reqDTOC);
     }
@@ -94,7 +94,7 @@ public class Wcc501Service {
         // player
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setPlyrNm(reqDTOC.getPlyrNm());
-        playerDTO.setPlyrLvl(reqDTOC.getPlyrLvl());
+        playerDTO.setPlyrLvl(Long.parseLong(reqDTOC.getPlyrLvl()));
         playerDTO.setLstMtnUsr("MGDsn");
         playerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
         PlayerDTO reulst = playerService.save(playerDTO);

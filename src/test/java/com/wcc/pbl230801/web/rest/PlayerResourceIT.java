@@ -40,8 +40,9 @@ class PlayerResourceIT {
     private static final String DEFAULT_PLYR_NM = "AAAAAAAAAA";
     private static final String UPDATED_PLYR_NM = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PLYR_LVL = "AAAAAAAAAA";
-    private static final String UPDATED_PLYR_LVL = "BBBBBBBBBB";
+    private static final Long DEFAULT_PLYR_LVL = 1L;
+    private static final Long UPDATED_PLYR_LVL = 2L;
+    private static final Long SMALLER_PLYR_LVL = 1L - 1L;
 
     private static final String DEFAULT_LST_MTN_USR = "AAAAAAAAAA";
     private static final String UPDATED_LST_MTN_USR = "BBBBBBBBBB";
@@ -157,7 +158,7 @@ class PlayerResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(player.getId().intValue())))
             .andExpect(jsonPath("$.[*].plyrNm").value(hasItem(DEFAULT_PLYR_NM)))
-            .andExpect(jsonPath("$.[*].plyrLvl").value(hasItem(DEFAULT_PLYR_LVL)))
+            .andExpect(jsonPath("$.[*].plyrLvl").value(hasItem(DEFAULT_PLYR_LVL.intValue())))
             .andExpect(jsonPath("$.[*].lstMtnUsr").value(hasItem(DEFAULT_LST_MTN_USR)))
             .andExpect(jsonPath("$.[*].lstMtnDt").value(hasItem(sameInstant(DEFAULT_LST_MTN_DT))));
     }
@@ -175,7 +176,7 @@ class PlayerResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(player.getId().intValue()))
             .andExpect(jsonPath("$.plyrNm").value(DEFAULT_PLYR_NM))
-            .andExpect(jsonPath("$.plyrLvl").value(DEFAULT_PLYR_LVL))
+            .andExpect(jsonPath("$.plyrLvl").value(DEFAULT_PLYR_LVL.intValue()))
             .andExpect(jsonPath("$.lstMtnUsr").value(DEFAULT_LST_MTN_USR))
             .andExpect(jsonPath("$.lstMtnDt").value(sameInstant(DEFAULT_LST_MTN_DT)));
     }
@@ -304,28 +305,54 @@ class PlayerResourceIT {
 
     @Test
     @Transactional
-    void getAllPlayersByPlyrLvlContainsSomething() throws Exception {
+    void getAllPlayersByPlyrLvlIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         playerRepository.saveAndFlush(player);
 
-        // Get all the playerList where plyrLvl contains DEFAULT_PLYR_LVL
-        defaultPlayerShouldBeFound("plyrLvl.contains=" + DEFAULT_PLYR_LVL);
+        // Get all the playerList where plyrLvl is greater than or equal to DEFAULT_PLYR_LVL
+        defaultPlayerShouldBeFound("plyrLvl.greaterThanOrEqual=" + DEFAULT_PLYR_LVL);
 
-        // Get all the playerList where plyrLvl contains UPDATED_PLYR_LVL
-        defaultPlayerShouldNotBeFound("plyrLvl.contains=" + UPDATED_PLYR_LVL);
+        // Get all the playerList where plyrLvl is greater than or equal to UPDATED_PLYR_LVL
+        defaultPlayerShouldNotBeFound("plyrLvl.greaterThanOrEqual=" + UPDATED_PLYR_LVL);
     }
 
     @Test
     @Transactional
-    void getAllPlayersByPlyrLvlNotContainsSomething() throws Exception {
+    void getAllPlayersByPlyrLvlIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         playerRepository.saveAndFlush(player);
 
-        // Get all the playerList where plyrLvl does not contain DEFAULT_PLYR_LVL
-        defaultPlayerShouldNotBeFound("plyrLvl.doesNotContain=" + DEFAULT_PLYR_LVL);
+        // Get all the playerList where plyrLvl is less than or equal to DEFAULT_PLYR_LVL
+        defaultPlayerShouldBeFound("plyrLvl.lessThanOrEqual=" + DEFAULT_PLYR_LVL);
 
-        // Get all the playerList where plyrLvl does not contain UPDATED_PLYR_LVL
-        defaultPlayerShouldBeFound("plyrLvl.doesNotContain=" + UPDATED_PLYR_LVL);
+        // Get all the playerList where plyrLvl is less than or equal to SMALLER_PLYR_LVL
+        defaultPlayerShouldNotBeFound("plyrLvl.lessThanOrEqual=" + SMALLER_PLYR_LVL);
+    }
+
+    @Test
+    @Transactional
+    void getAllPlayersByPlyrLvlIsLessThanSomething() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+
+        // Get all the playerList where plyrLvl is less than DEFAULT_PLYR_LVL
+        defaultPlayerShouldNotBeFound("plyrLvl.lessThan=" + DEFAULT_PLYR_LVL);
+
+        // Get all the playerList where plyrLvl is less than UPDATED_PLYR_LVL
+        defaultPlayerShouldBeFound("plyrLvl.lessThan=" + UPDATED_PLYR_LVL);
+    }
+
+    @Test
+    @Transactional
+    void getAllPlayersByPlyrLvlIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+
+        // Get all the playerList where plyrLvl is greater than DEFAULT_PLYR_LVL
+        defaultPlayerShouldNotBeFound("plyrLvl.greaterThan=" + DEFAULT_PLYR_LVL);
+
+        // Get all the playerList where plyrLvl is greater than SMALLER_PLYR_LVL
+        defaultPlayerShouldBeFound("plyrLvl.greaterThan=" + SMALLER_PLYR_LVL);
     }
 
     @Test
@@ -494,7 +521,7 @@ class PlayerResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(player.getId().intValue())))
             .andExpect(jsonPath("$.[*].plyrNm").value(hasItem(DEFAULT_PLYR_NM)))
-            .andExpect(jsonPath("$.[*].plyrLvl").value(hasItem(DEFAULT_PLYR_LVL)))
+            .andExpect(jsonPath("$.[*].plyrLvl").value(hasItem(DEFAULT_PLYR_LVL.intValue())))
             .andExpect(jsonPath("$.[*].lstMtnUsr").value(hasItem(DEFAULT_LST_MTN_USR)))
             .andExpect(jsonPath("$.[*].lstMtnDt").value(hasItem(sameInstant(DEFAULT_LST_MTN_DT))));
 

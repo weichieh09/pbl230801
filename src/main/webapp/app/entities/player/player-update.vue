@@ -23,13 +23,13 @@
           <div class="form-group">
             <label class="form-control-label" for="player-plyrLvl">Plyr Lvl</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="plyrLvl"
               id="player-plyrLvl"
               data-cy="plyrLvl"
               :class="{ valid: !$v.player.plyrLvl.$invalid, invalid: $v.player.plyrLvl.$invalid }"
-              v-model="$v.player.plyrLvl.$model"
+              v-model.number="$v.player.plyrLvl.$model"
             />
           </div>
           <div class="form-group">

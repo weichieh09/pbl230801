@@ -11,7 +11,7 @@
     },
     {
       "fieldName": "plyrLvl",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "lstMtnUsr",

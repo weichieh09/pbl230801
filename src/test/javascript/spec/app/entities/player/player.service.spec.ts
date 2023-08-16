@@ -33,7 +33,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new PlayerService();
       currentDate = new Date();
-      elemDefault = new Player(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate);
+      elemDefault = new Player(123, 'AAAAAAA', 0, 'AAAAAAA', currentDate);
     });
 
     describe('Service methods', () => {
@@ -97,7 +97,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             plyrNm: 'BBBBBB',
-            plyrLvl: 'BBBBBB',
+            plyrLvl: 1,
             lstMtnUsr: 'BBBBBB',
             lstMtnDt: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
@@ -160,7 +160,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             plyrNm: 'BBBBBB',
-            plyrLvl: 'BBBBBB',
+            plyrLvl: 1,
             lstMtnUsr: 'BBBBBB',
             lstMtnDt: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },

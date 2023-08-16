@@ -14,7 +14,7 @@ public class PlayerDTO implements Serializable {
 
     private String plyrNm;
 
-    private String plyrLvl;
+    private Long plyrLvl;
 
     private String lstMtnUsr;
 
@@ -36,11 +36,11 @@ public class PlayerDTO implements Serializable {
         this.plyrNm = plyrNm;
     }
 
-    public String getPlyrLvl() {
+    public Long getPlyrLvl() {
         return plyrLvl;
     }
 
-    public void setPlyrLvl(String plyrLvl) {
+    public void setPlyrLvl(Long plyrLvl) {
         this.plyrLvl = plyrLvl;
     }
 
@@ -87,7 +87,7 @@ public class PlayerDTO implements Serializable {
         return "PlayerDTO{" +
             "id=" + getId() +
             ", plyrNm='" + getPlyrNm() + "'" +
-            ", plyrLvl='" + getPlyrLvl() + "'" +
+            ", plyrLvl=" + getPlyrLvl() +
             ", lstMtnUsr='" + getLstMtnUsr() + "'" +
             ", lstMtnDt='" + getLstMtnDt() + "'" +
             "}";

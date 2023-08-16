@@ -94,7 +94,7 @@ public class PlayerQueryService extends QueryService<Player> {
                 specification = specification.and(buildStringSpecification(criteria.getPlyrNm(), Player_.plyrNm));
             }
             if (criteria.getPlyrLvl() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPlyrLvl(), Player_.plyrLvl));
+                specification = specification.and(buildRangeSpecification(criteria.getPlyrLvl(), Player_.plyrLvl));
             }
             if (criteria.getLstMtnUsr() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLstMtnUsr(), Player_.lstMtnUsr));

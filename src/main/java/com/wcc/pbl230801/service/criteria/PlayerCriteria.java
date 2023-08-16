@@ -25,7 +25,7 @@ public class PlayerCriteria implements Serializable, Criteria {
 
     private StringFilter plyrNm;
 
-    private StringFilter plyrLvl;
+    private LongFilter plyrLvl;
 
     private StringFilter lstMtnUsr;
 
@@ -79,18 +79,18 @@ public class PlayerCriteria implements Serializable, Criteria {
         this.plyrNm = plyrNm;
     }
 
-    public StringFilter getPlyrLvl() {
+    public LongFilter getPlyrLvl() {
         return plyrLvl;
     }
 
-    public StringFilter plyrLvl() {
+    public LongFilter plyrLvl() {
         if (plyrLvl == null) {
-            plyrLvl = new StringFilter();
+            plyrLvl = new LongFilter();
         }
         return plyrLvl;
     }
 
-    public void setPlyrLvl(StringFilter plyrLvl) {
+    public void setPlyrLvl(LongFilter plyrLvl) {
         this.plyrLvl = plyrLvl;
     }
 

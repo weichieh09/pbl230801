@@ -82,7 +82,7 @@ public class Wcc201Service {
         for (Map<String, Object> map : content) {
             PlayerDTOC playerDTOC = new PlayerDTOC();
             playerDTOC.setId(((BigInteger) map.get("id")).toString());
-            playerDTOC.setPlyrLvl((String) map.get("plyrLvl"));
+            playerDTOC.setPlyrLvl(map.get("plyrLvl").toString());
             playerDTOC.setPlyrNm((String) map.get("plyrNm"));
             result.add(playerDTOC);
         }

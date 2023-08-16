@@ -23,7 +23,7 @@ public class Player implements Serializable {
     private String plyrNm;
 
     @Column(name = "plyr_lvl")
-    private String plyrLvl;
+    private Long plyrLvl;
 
     @Column(name = "lst_mtn_usr")
     private String lstMtnUsr;
@@ -59,16 +59,16 @@ public class Player implements Serializable {
         this.plyrNm = plyrNm;
     }
 
-    public String getPlyrLvl() {
+    public Long getPlyrLvl() {
         return this.plyrLvl;
     }
 
-    public Player plyrLvl(String plyrLvl) {
+    public Player plyrLvl(Long plyrLvl) {
         this.setPlyrLvl(plyrLvl);
         return this;
     }
 
-    public void setPlyrLvl(String plyrLvl) {
+    public void setPlyrLvl(Long plyrLvl) {
         this.plyrLvl = plyrLvl;
     }
 
@@ -123,7 +123,7 @@ public class Player implements Serializable {
         return "Player{" +
             "id=" + getId() +
             ", plyrNm='" + getPlyrNm() + "'" +
-            ", plyrLvl='" + getPlyrLvl() + "'" +
+            ", plyrLvl=" + getPlyrLvl() +
             ", lstMtnUsr='" + getLstMtnUsr() + "'" +
             ", lstMtnDt='" + getLstMtnDt() + "'" +
             "}";

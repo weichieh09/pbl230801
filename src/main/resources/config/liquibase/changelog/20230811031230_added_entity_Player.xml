@@ -17,7 +17,7 @@
             <column name="plyr_nm" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="plyr_lvl" type="varchar(255)">
+            <column name="plyr_lvl" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="lst_mtn_usr" type="varchar(255)">
@@ -49,7 +49,7 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="plyr_nm" type="string"/>
-            <column name="plyr_lvl" type="string"/>
+            <column name="plyr_lvl" type="numeric"/>
             <column name="lst_mtn_usr" type="string"/>
             <column name="lst_mtn_dt" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
