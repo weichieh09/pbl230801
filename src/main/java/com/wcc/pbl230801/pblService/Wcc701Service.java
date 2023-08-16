@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import org.slf4j.Logger;
@@ -54,16 +55,14 @@ public class Wcc701Service {
         return result;
     }
 
-    public List<RtsDTOC> getRealTimeScore(List<Map<String, Object>> content) {
-        List<RtsDTOC> result = new ArrayList<>();
-        for (Map<String, Object> map : content) {
-            RtsDTOC rtsDTOC = new RtsDTOC();
-            rtsDTOC.setPlyrNm((String) map.get("plyr_nm"));
-            rtsDTOC.setTotWins(((BigDecimal) map.get("tot_wins")).toString());
-            rtsDTOC.setPlyrLvl(map.get("plyr_lvl").toString());
-            rtsDTOC.setpId(((BigInteger) map.get("p_id")).toString());
-            rtsDTOC.setMtchEndTime(this.getSimpleTime(((Timestamp) map.get("mtch_end_time")).toString()));
-            result.add(rtsDTOC);
+    public List<Map<String, String>> getRealTimeScore(List<Map<String, Object>> content) {
+        List<Map<String, String>> result = new LinkedList<>();
+        for (Map<String, Object> obj : content) {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("級數", obj.get("plyr_lvl").toString());
+            map.put("姓名", (String) obj.get("plyr_nm"));
+            map.put("勝場", obj.get("tot_wins").toString());
+            result.add(map);
         }
         return result;
     }
@@ -81,9 +80,26 @@ public class Wcc701Service {
         List<Map<String, String>> result = new LinkedList<>();
         for (VwWcc701ResultDTO vwWcc701ResultDTO : byCriteria) {
             Map<String, String> map = new LinkedHashMap<>();
-            map.put("級數1", vwWcc701ResultDTO.getlPlyr1Lvl());
+            map.put("時間", this.getHHmm(vwWcc701ResultDTO.getMtchEndTime()));
+            map.put("勝方級數1", vwWcc701ResultDTO.getwPlyr1Lvl());
+            map.put("勝方姓名1", vwWcc701ResultDTO.getwPlyr1Nm());
+            map.put("勝方級數2", vwWcc701ResultDTO.getwPlyr2Lvl());
+            map.put("勝方姓名2", vwWcc701ResultDTO.getwPlyr2Nm());
+            map.put("vs", "vs");
+            map.put("敗方級數1", vwWcc701ResultDTO.getlPlyr1Lvl());
+            map.put("敗方姓名1", vwWcc701ResultDTO.getlPlyr1Nm());
+            map.put("敗方級數2", vwWcc701ResultDTO.getlPlyr2Lvl());
+            map.put("敗方姓名2", vwWcc701ResultDTO.getlPlyr2Nm());
+            map.put("勝方分數", vwWcc701ResultDTO.getwScr());
+            map.put("敗方分數", vwWcc701ResultDTO.getlScr());
             result.add(map);
         }
         return result;
+    }
+
+    private String getHHmm(ZonedDateTime zonedDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String formattedTime = zonedDateTime.plusHours(8).format(formatter);
+        return formattedTime;
     }
 }

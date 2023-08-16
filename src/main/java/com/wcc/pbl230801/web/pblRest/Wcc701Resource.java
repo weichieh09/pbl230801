@@ -73,18 +73,18 @@ public class Wcc701Resource {
     }
 
     @GetMapping("/realTimeScore")
-    public ResponseEntity<List<RtsDTOC>> realTimeScore(VwEventResultCriteria criteria) {
+    public ResponseEntity<List<Map<String, String>>> realTimeScore(VwEventResultCriteria criteria) {
         Long eventId = criteria.geteId().getEquals();
         Long teamId = criteria.gettId().getEquals();
-        List<Map<String, Object>> list = vwEventResultRepository.findMaxStatsByEventId(eventId, teamId);
-        List<RtsDTOC> result = wcc701Service.getRealTimeScore(list);
+        List<Map<String, Object>> byCriteria = vwEventResultRepository.findMaxStatsByEventId(eventId, teamId);
+        List<Map<String, String>> result = wcc701Service.getRealTimeScore(byCriteria);
         return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/vw-wcc-701-results")
-    public ResponseEntity<List<VwWcc701ResultDTO>> getAllVwWcc701Results(VwWcc701ResultCriteria criteria) {
+    public ResponseEntity<List<Map<String, String>>> getAllVwWcc701Results(VwWcc701ResultCriteria criteria) {
         List<VwWcc701ResultDTO> byCriteria = vwWcc701ResultQueryService.findByCriteria(criteria);
-        //        List<Map<String, String>> result = wcc701Service.getVwWcc701Result(byCriteria);
-        return ResponseEntity.ok().body(byCriteria);
+        List<Map<String, String>> result = wcc701Service.getVwWcc701Result(byCriteria);
+        return ResponseEntity.ok().body(result);
     }
 }

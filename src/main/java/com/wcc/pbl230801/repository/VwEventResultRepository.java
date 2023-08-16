@@ -58,7 +58,8 @@ public interface VwEventResultRepository extends JpaRepository<VwEventResult, Lo
         "WHERE  e_id = :eventId\n" +
         "       AND t_id = :teamId\n" +
         "GROUP  BY p_id,\n" +
-        "          plyr_nm " +
+        "          plyr_nm\n" +
+        "ORDER BY tot_wins DESC " +
         "",
         nativeQuery = true
     )
