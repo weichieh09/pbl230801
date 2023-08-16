@@ -68,8 +68,8 @@ public class Wcc101Service {
     }
 
     private String getSimpleTime(String inputTime) {
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        LocalDateTime dateTime = LocalDateTime.parse(inputTime, inputFormatter);
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(inputTime.substring(0, 19), inputFormatter);
         LocalDateTime newDateTime = dateTime.plusHours(8);
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String result = newDateTime.format(outputFormatter);
