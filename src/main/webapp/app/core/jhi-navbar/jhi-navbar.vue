@@ -25,7 +25,7 @@
     <!-- 隱藏漢堡按鈕 -->
 
     <!-- 隱藏右上按鈕 -->
-    <!-- <b-collapse is-nav id="header-tabs">
+    <b-collapse is-nav id="header-tabs" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/" exact>
           <span>
@@ -120,7 +120,7 @@
           </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
-    </b-collapse> -->
+    </b-collapse>
     <!-- 隱藏右上按鈕 -->
   </b-navbar>
 </template>
