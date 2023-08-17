@@ -117,12 +117,22 @@ public class Wcc801Service {
         eventPlayerCriteria.seteId(LongFilterUtils.toEqualLongFilter(Long.valueOf(reqMap.get("eId"))));
         eventPlayerCriteria.setpId(LongFilterUtils.toEqualLongFilter(Long.valueOf(reqMap.get("pId"))));
         List<EventPlayerDTO> byCriteria = eventPlayerQueryService.findByCriteria(eventPlayerCriteria);
-        if (byCriteria.size() == 0) return null;
-        EventPlayerDTO eventPlayerDTO = byCriteria.get(0);
-        eventPlayerDTO.setChkFg(reqMap.get("chkFg"));
-        eventPlayerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
-        eventPlayerDTO.setLstMtnUsr("MGDsn");
-        EventPlayerDTO result = eventPlayerService.save(eventPlayerDTO);
+        EventPlayerDTO result;
+        if (byCriteria.size() == 0) {
+            EventPlayerDTO eventPlayerDTO = new EventPlayerDTO();
+            eventPlayerDTO.seteId(Long.valueOf(reqMap.get("eId")));
+            eventPlayerDTO.setpId(Long.valueOf(reqMap.get("pId")));
+            eventPlayerDTO.setChkFg(reqMap.get("chkFg"));
+            eventPlayerDTO.setLstMtnUsr("MGDsn");
+            eventPlayerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
+            result = eventPlayerService.save(eventPlayerDTO);
+        } else {
+            EventPlayerDTO eventPlayerDTO = byCriteria.get(0);
+            eventPlayerDTO.setChkFg(reqMap.get("chkFg"));
+            eventPlayerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
+            eventPlayerDTO.setLstMtnUsr("MGDsn");
+            result = eventPlayerService.update(eventPlayerDTO);
+        }
         return result;
     }
 }
