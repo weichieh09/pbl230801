@@ -22,7 +22,7 @@ export default {
         currentPage: 1,
         objTotal: 0,
         perPage: 5,
-        sort: 'tot_wins,mtch_end_time,desc',
+        sort: 'tot_wins,desc&sort=mtch_end_time,asc',
       },
       isNoData: false,
       sort: {
@@ -39,7 +39,7 @@ export default {
   methods: {
     changeOrder(type: string): void {
       if (type === 'plyr_nm') {
-        this.page.sort = 'tot_wins,mtch_end_time,desc';
+        this.page.sort = 'tot_wins,desc&sort=mtch_end_time,asc';
         this.sort.reverse = false;
         this.sort.type = '';
       } else {

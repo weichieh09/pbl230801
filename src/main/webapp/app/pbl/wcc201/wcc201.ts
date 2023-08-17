@@ -187,9 +187,24 @@ export default {
       this.$refs['selectPlyr-modal'].show();
       this.type = type;
     },
-    hideModal(item): void {
+    hideModal(item: any): void {
       this.$refs['selectPlyr-modal'].hide();
       if (item === null) return;
+      if (
+        item.id === this.resultForm.wPlyr1 ||
+        item.id === this.resultForm.wPlyr2 ||
+        item.id === this.resultForm.lPlyr1 ||
+        item.id === this.resultForm.lPlyr2
+      ) {
+        this.$bvToast.toast('選手重複', {
+          toaster: 'b-toaster-top-center',
+          title: '失敗',
+          variant: 'danger',
+          solid: true,
+        });
+        return;
+      }
+      this.page.currentPage = 1;
       switch (this.type) {
         case 'wPlyr1':
           this.resultForm.wPlyr1 = item.id;

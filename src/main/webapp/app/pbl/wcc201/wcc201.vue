@@ -121,9 +121,6 @@
       <b-col cols="12">
         <b-modal ref="checkPoint-modal" ok-title="確認" @ok="saveResultForm()" cancel-title="取消" title="請再次確認">
           <b-row>
-            <!-- <b-col cols="12">
-              <b-alert show variant="warning">66666!</b-alert>
-            </b-col> -->
             <b-col cols="12"> 確認賽事結果無誤? </b-col>
           </b-row>
         </b-modal>
