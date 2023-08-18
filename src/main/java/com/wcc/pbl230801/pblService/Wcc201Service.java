@@ -150,12 +150,12 @@ public class Wcc201Service {
         if (lPlyr2 != null) matchPlayerDTOList.add(this.getMatchPlayer(mId, Long.parseLong(lPlyr2), eId, mtchEndTime, lScr, "N"));
         matchPlayerRepository.saveAll(matchPlayerDTOList);
 
-        List<EventPlayer> eventPlayerDTOList = new ArrayList<>();
-        if (wPlyr1 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(wPlyr1), "N"));
-        if (wPlyr2 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(wPlyr2), "N"));
-        if (lPlyr1 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(lPlyr1), "N"));
-        if (lPlyr2 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(lPlyr2), "N"));
-        eventPlayerRepository.saveAll(eventPlayerDTOList);
+        //        List<EventPlayer> eventPlayerDTOList = new ArrayList<>();
+        //        if (wPlyr1 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(wPlyr1), "N"));
+        //        if (wPlyr2 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(wPlyr2), "N"));
+        //        if (lPlyr1 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(lPlyr1), "N"));
+        //        if (lPlyr2 != null) eventPlayerDTOList.add(this.getEventPlayer(eId, Long.parseLong(lPlyr2), "N"));
+        //        eventPlayerRepository.saveAll(eventPlayerDTOList);
 
         return result;
     }
