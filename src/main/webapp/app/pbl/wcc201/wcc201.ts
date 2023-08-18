@@ -104,8 +104,7 @@ export default {
       axios
         .get(`${apiBaseUrl}/players`, {
           params: {
-            'tId.equals': this.form.team,
-            sort: 'plyrLvl,desc',
+            'eId.equals': this.form.event,
             page: this.page.currentPage - 1,
             size: this.page.perPage,
           },
@@ -228,6 +227,8 @@ export default {
     },
     teamChange(): void {
       this.plyrs = [];
+      if (this.form.team === null) return;
+      if (this.form.event === null) return;
       this.getPlyrList();
     },
     dateChange(): void {
@@ -247,7 +248,10 @@ export default {
       this.getEventList();
     },
     eventChange(): void {
+      this.plyrs = [];
+      if (this.form.team === null) return;
       if (this.form.event === null) return;
+      this.getPlyrList();
     },
   },
 };

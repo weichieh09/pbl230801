@@ -27,8 +27,8 @@ export default {
       const minute = date.getMinutes().toString().padStart(2, '0');
       return `${year}-${month}-${day} ${hour}:${minute}`;
     },
-    editPlayer(team: any): void {
-      this.$router.push(`/pbl/wcc401/${team.id}/wcc501`);
+    test(team: any): void {
+      this.$router.push(`/pbl/wcc601/${team.id}/wcc901`);
     },
     prepareRemoveEventZ(eventZ: any): void {
       this.$refs['removeEventZ-modal'].show();

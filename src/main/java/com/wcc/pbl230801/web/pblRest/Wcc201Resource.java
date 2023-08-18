@@ -3,6 +3,7 @@ package com.wcc.pbl230801.web.pblRest;
 import com.wcc.pbl230801.pblService.Wcc201Service;
 import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.repository.TeamPlayerRepository;
+import com.wcc.pbl230801.service.EventPlayerQueryService;
 import com.wcc.pbl230801.service.EventZQueryService;
 import com.wcc.pbl230801.service.MatchZService;
 import com.wcc.pbl230801.service.TeamQueryService;
@@ -43,9 +44,6 @@ public class Wcc201Resource {
     @Autowired
     private TeamPlayerRepository teamPlayerRepository;
 
-    @Autowired
-    private MatchZService matchZService;
-
     @GetMapping("/teams")
     public ResponseEntity<List<TeamDTOC>> teams(TeamCriteria criteria, Pageable pageable) {
         Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
@@ -68,9 +66,9 @@ public class Wcc201Resource {
     }
 
     @GetMapping("/players")
-    public ResponseEntity<List<PlayerDTOC>> players(TeamPlayerCriteria criteria, Pageable pageable) {
-        Long teamId = criteria.gettId().getEquals();
-        Page<Map<String, Object>> page = teamPlayerRepository.findPlayerByTeamId(teamId, pageable);
+    public ResponseEntity<List<PlayerDTOC>> players(EventPlayerCriteria criteria, Pageable pageable) {
+        Long eventId = criteria.geteId().getEquals();
+        Page<Map<String, Object>> page = teamPlayerRepository.findPlayerByEventId(eventId, pageable);
         List<PlayerDTOC> result = wcc201Service.getPlayer(page.getContent());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(result);

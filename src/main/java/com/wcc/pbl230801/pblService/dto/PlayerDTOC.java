@@ -7,6 +7,7 @@ public class PlayerDTOC implements Serializable {
     private String id;
     private String plyrLvl;
     private String plyrNm;
+    private String joinEv;
 
     public String getId() {
         return id;
@@ -30,5 +31,13 @@ public class PlayerDTOC implements Serializable {
 
     public void setPlyrNm(String plyrNm) {
         this.plyrNm = plyrNm;
+    }
+
+    public String getJoinEv() {
+        return joinEv;
+    }
+
+    public void setJoinEv(String joinEv) {
+        this.joinEv = joinEv;
     }
 }

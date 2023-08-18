@@ -39,4 +39,32 @@ public interface TeamPlayerRepository extends JpaRepository<TeamPlayer, Long>, J
         nativeQuery = true
     )
     Page<Map<String, Object>> findPlayerByTeamId(@Param("teamId") Long teamId, Pageable pageable);
+
+    @Query(
+        value = "" +
+        "SELECT p.id       AS id,\n" +
+        "       p.plyr_lvl AS plyrLvl,\n" +
+        "       p.plyr_nm  AS plyrNm\n" +
+        "FROM   pbl230801.event_player AS ep\n" +
+        "       LEFT JOIN player AS p\n" +
+        "              ON p.id = ep.p_id\n" +
+        "WHERE  ep.e_id = :eventId\n" +
+        "ORDER  BY plyrLvl DESC " +
+        "",
+        countQuery = "" +
+        "SELECT Count(*) AS total_count\n" +
+        "FROM   (" +
+        "       SELECT p.id       AS id,\n" +
+        "       p.plyr_lvl AS plyrLvl,\n" +
+        "       p.plyr_nm  AS plyrNm\n" +
+        "FROM   pbl230801.event_player AS ep\n" +
+        "       LEFT JOIN player AS p\n" +
+        "              ON p.id = ep.p_id\n" +
+        "WHERE  ep.e_id = :eventId\n" +
+        "ORDER  BY plyrLvl DESC " +
+        ")AS total_count " +
+        "",
+        nativeQuery = true
+    )
+    Page<Map<String, Object>> findPlayerByEventId(@Param("eventId") Long eventId, Pageable pageable);
 }

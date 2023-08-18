@@ -70,4 +70,10 @@ export default [
     component: () => import('@/pbl/wcc801/wcc801.vue'),
     meta: { authorities: [Authority.USER] },
   },
+  {
+    path: '/pbl/wcc601/:eId/wcc901',
+    name: 'wcc901',
+    component: () => import('@/pbl/wcc901/wcc901.vue'),
+    meta: { authorities: [Authority.USER] },
+  },
 ]
