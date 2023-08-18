@@ -78,7 +78,7 @@ public class Wcc801Service {
         return result;
     }
 
-    public List<RtsDTOC> getRealTimeScore(List<Map<String, Object>> content, List<String> chkFgList) {
+    public List<RtsDTOC> getRealTimeScoreTOT(List<Map<String, Object>> content, List<String> chkFgList) {
         List<RtsDTOC> result = new ArrayList<>();
         for (Map<String, Object> map : content) {
             RtsDTOC rtsDTOC = new RtsDTOC();
@@ -132,6 +132,21 @@ public class Wcc801Service {
             eventPlayerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
             eventPlayerDTO.setLstMtnUsr("MGDsn");
             result = eventPlayerService.update(eventPlayerDTO);
+        }
+        return result;
+    }
+
+    public List<RtsDTOC> getRealTimeScoreACML(List<Map<String, Object>> content, List<String> chkFgList) {
+        List<RtsDTOC> result = new ArrayList<>();
+        for (Map<String, Object> map : content) {
+            RtsDTOC rtsDTOC = new RtsDTOC();
+            rtsDTOC.setPlyrNm((String) map.get("plyr_nm"));
+            rtsDTOC.setTotWins(((BigInteger) map.get("acml_wins")).toString());
+            rtsDTOC.setPlyrLvl(map.get("plyr_lvl").toString());
+            rtsDTOC.setpId(((BigInteger) map.get("p_id")).toString());
+            rtsDTOC.setMtchEndTime(this.getSimpleTime(((Timestamp) map.get("mtch_end_time")).toString()));
+            result.add(rtsDTOC);
+            if (chkFgList.contains(rtsDTOC.getpId())) rtsDTOC.setChkFg("Y"); else rtsDTOC.setChkFg("N");
         }
         return result;
     }

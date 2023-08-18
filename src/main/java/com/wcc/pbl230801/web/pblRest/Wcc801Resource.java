@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.PaginationUtil;
 
 @RestController
@@ -69,9 +70,20 @@ public class Wcc801Resource {
     public ResponseEntity<List<RtsDTOC>> realTimeScore(VwEventResultCriteria criteria, Pageable pageable) {
         Long eventId = criteria.geteId().getEquals();
         Long teamId = criteria.gettId().getEquals();
-        Page<Map<String, Object>> page = vwEventResultRepository.findMaxStatsByEventId(eventId, teamId, pageable);
+        StringFilter acmlWinsSf = criteria.getAcmlWins();
+        Page<Map<String, Object>> page;
+        if (acmlWinsSf != null && acmlWinsSf.getEquals() != null && !acmlWinsSf.getEquals().equals("10")) page =
+            vwEventResultRepository.findMaxStatsByEventIdNine(eventId, teamId, acmlWinsSf.getEquals(), pageable); else if (
+            acmlWinsSf != null && acmlWinsSf.getEquals() != null && acmlWinsSf.getEquals().equals("10")
+        ) page = vwEventResultRepository.findMaxStatsByEventIdTen(eventId, teamId, pageable); else page =
+            vwEventResultRepository.findMaxStatsByEventId(eventId, teamId, pageable);
         List<String> chkFgList = wcc801Service.getChkFgList(eventId);
-        List<RtsDTOC> result = wcc801Service.getRealTimeScore(page.getContent(), chkFgList);
+
+        List<RtsDTOC> result;
+        if (acmlWinsSf != null && acmlWinsSf.getEquals() != null && !acmlWinsSf.getEquals().equals("10")) result =
+            wcc801Service.getRealTimeScoreACML(page.getContent(), chkFgList); else result =
+            wcc801Service.getRealTimeScoreTOT(page.getContent(), chkFgList);
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(result);
     }

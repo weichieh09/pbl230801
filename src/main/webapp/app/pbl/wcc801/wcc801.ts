@@ -15,6 +15,20 @@ export default {
         spaces: [{ text: '請選擇', value: null }],
         event: null,
         events: [{ text: '請選擇', value: null }],
+        acmlWin: null,
+        acmlWins: [
+          { text: '請選擇', value: null },
+          { text: '1', value: '1' },
+          { text: '2', value: '2' },
+          { text: '3', value: '3' },
+          { text: '4', value: '4' },
+          { text: '5', value: '5' },
+          { text: '6', value: '6' },
+          { text: '7', value: '7' },
+          { text: '8', value: '8' },
+          { text: '9', value: '9' },
+          { text: '9+', value: '10' },
+        ],
       },
       rtss: [],
       page: {
@@ -69,12 +83,16 @@ export default {
         this.getRtsList();
       }
     },
+    getAcmlWins(): string {
+      if (this.form.acmlWin === null) return '';
+      else return '&acmlWins.equals=' + this.form.acmlWin;
+    },
     getRtsList(): void {
       axios
         .get(
-          `${apiBaseUrl}/realTimeScore?eId.equals=${this.form.event}&tId.equals=${this.form.team}&sort=${this.page.sort}&page=${
-            this.page.currentPage - 1
-          }&size=${this.page.perPage}`
+          `${apiBaseUrl}/realTimeScore?eId.equals=${this.form.event}&tId.equals=${this.form.team}` +
+            `${this.getAcmlWins()}` +
+            `&sort=${this.page.sort}&page=${this.page.currentPage - 1}&size=${this.page.perPage}`
         )
         .then(response => {
           if (response.data.length > 0) {
@@ -172,11 +190,18 @@ export default {
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
+      this.form.acmlWin = null;
       this.rtss = [];
       if (this.form.space === null) return;
       this.getEventList();
     },
     eventChange(): void {
+      this.rtss = [];
+      if (this.form.event === null) return;
+      if (this.form.team === null) return;
+      this.getRtsList();
+    },
+    acmlWinChange(): void {
       this.rtss = [];
       if (this.form.event === null) return;
       if (this.form.team === null) return;

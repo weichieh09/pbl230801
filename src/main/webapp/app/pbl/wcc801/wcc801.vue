@@ -21,6 +21,10 @@
         <b-input-group size="lg" prepend="賽事">
           <b-form-select v-model="form.event" :options="form.events" v-on:change="eventChange()" />
         </b-input-group>
+        <br />
+        <b-input-group size="lg" prepend="勝場">
+          <b-form-select v-model="form.acmlWin" :options="form.acmlWins" v-on:change="acmlWinChange()" />
+        </b-input-group>
       </b-col>
     </b-row>
     <br />
@@ -65,8 +69,14 @@
           </tbody>
         </table>
       </b-col>
-      <b-col cols="12" class="d-flex justify-content-center">
-        <b-pagination v-model="page.currentPage" :total-rows="page.objTotal" :per-page="page.perPage" @input="pageLoad(page.currentPage)" />
+      <b-col cols="12">
+        <b-pagination
+          v-model="page.currentPage"
+          :total-rows="page.objTotal"
+          :per-page="page.perPage"
+          @input="pageLoad(page.currentPage)"
+          align="fill"
+        />
       </b-col>
     </b-row>
     <b-row v-else-if="this.isNoData">

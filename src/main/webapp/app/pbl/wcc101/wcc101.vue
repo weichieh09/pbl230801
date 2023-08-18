@@ -29,10 +29,18 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th><h5>等級</h5></th>
-              <th><h5>姓名</h5></th>
-              <th><h5>勝場</h5></th>
-              <th><h5>時間</h5></th>
+              <th>
+                <h5>等級</h5>
+              </th>
+              <th>
+                <h5>姓名</h5>
+              </th>
+              <th>
+                <h5>勝場</h5>
+              </th>
+              <th>
+                <h5>時間</h5>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -53,8 +61,14 @@
           </tbody>
         </table>
       </b-col>
-      <b-col cols="12" class="d-flex justify-content-center">
-        <b-pagination v-model="page.currentPage" :total-rows="page.objTotal" :per-page="page.perPage" @input="pageLoad(page.currentPage)" />
+      <b-col cols="12">
+        <b-pagination
+          v-model="page.currentPage"
+          :total-rows="page.objTotal"
+          :per-page="page.perPage"
+          @input="pageLoad(page.currentPage)"
+          align="fill"
+        />
       </b-col>
     </b-row>
     <b-row v-else-if="this.isNoData">

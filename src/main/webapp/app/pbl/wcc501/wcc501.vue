@@ -16,9 +16,15 @@
           <thead>
             <tr>
               <!-- <th style="width: 20%">序號</th> -->
-              <th style="width: 20%"><h5>等級</h5></th>
-              <th style="width: 50%"><h5>姓名</h5></th>
-              <th style="width: 30%"><h5>操作</h5></th>
+              <th style="width: 20%">
+                <h5>等級</h5>
+              </th>
+              <th style="width: 50%">
+                <h5>姓名</h5>
+              </th>
+              <th style="width: 30%">
+                <h5>操作</h5>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -38,8 +44,14 @@
           </tbody>
         </table>
       </b-col>
-      <b-col cols="12" class="d-flex justify-content-center">
-        <b-pagination v-model="page.currentPage" :total-rows="page.objTotal" :per-page="page.perPage" @input="pageLoad(page.currentPage)" />
+      <b-col cols="12">
+        <b-pagination
+          v-model="page.currentPage"
+          :total-rows="page.objTotal"
+          :per-page="page.perPage"
+          @input="pageLoad(page.currentPage)"
+          align="fill"
+        />
       </b-col>
     </b-row>
     <b-row v-else>

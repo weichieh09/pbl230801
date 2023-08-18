@@ -95,12 +95,13 @@
               </b-list-group>
               <br />
             </b-col>
-            <b-col cols="12" class="d-flex justify-content-center">
+            <b-col cols="12">
               <b-pagination
                 v-model="page.currentPage"
                 :total-rows="page.objTotal"
                 :per-page="page.perPage"
                 @input="pageLoad(page.currentPage)"
+                align="fill"
               />
             </b-col>
           </b-row>

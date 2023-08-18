@@ -48,7 +48,7 @@ export default {
         });
     },
     getXlsxName(): string {
-      return `${this.form.date}_${this.form.events.find(option => option.value === this.form.event).text}_${this.xlsxType}.xlsx`;
+      return `${this.form.date}_${this.form.events.find(option => option.value === this.form.event).text}_${this.xlsxType}`;
     },
     getRtsList(): void {
       if (this.form.event === null) return;
