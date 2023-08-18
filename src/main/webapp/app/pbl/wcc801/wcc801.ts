@@ -152,9 +152,6 @@ export default {
           console.log(error);
         });
     },
-    openLogin(): void {
-      this.loginService.openLogin(this.$root);
-    },
     teamChange(): void {
       this.rtss = [];
       if (this.form.event === null) return;

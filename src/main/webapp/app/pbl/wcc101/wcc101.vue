@@ -29,8 +29,8 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th><h5>姓名</h5></th>
               <th><h5>等級</h5></th>
+              <th><h5>姓名</h5></th>
               <th><h5>勝場</h5></th>
               <th><h5>時間</h5></th>
             </tr>

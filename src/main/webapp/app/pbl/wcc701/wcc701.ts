@@ -129,14 +129,13 @@ export default {
           console.log(error);
         });
     },
-    openLogin(): void {
-      this.loginService.openLogin(this.$root);
-    },
     teamChange(): void {
+      this.xlsxData = [];
       if (this.form.event === null) return;
       if (this.form.team === null) return;
     },
     dateChange(): void {
+      this.xlsxData = [];
       this.form.spaces = [];
       this.form.spaces.push({ text: '請選擇', value: null });
       this.form.space = null;
@@ -146,6 +145,7 @@ export default {
       this.getSpaceList();
     },
     spaceChange(): void {
+      this.xlsxData = [];
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
@@ -153,6 +153,7 @@ export default {
       this.getEventList();
     },
     eventChange(): void {
+      this.xlsxData = [];
       if (this.form.event === null) return;
       if (this.form.team === null) return;
     },
