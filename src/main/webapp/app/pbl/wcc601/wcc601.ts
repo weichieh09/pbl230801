@@ -10,7 +10,7 @@ export default {
         previousPage: 1,
         currentPage: 1,
         objTotal: 0,
-        perPage: 5,
+        perPage: 10,
       },
     };
   },
@@ -79,7 +79,6 @@ export default {
       }
     },
     getEventZList(): void {
-      this.eventZs = [];
       axios
         .get(`${apiBaseUrl}/event-zs`, {
           params: {

@@ -7,16 +7,18 @@ export default {
     return {
       eventId: this.$route.params.eId,
       plyrs: [],
+      countJoined: 0,
       page: {
         previousPage: 1,
         currentPage: 1,
         objTotal: 0,
-        perPage: 5,
+        perPage: 10,
       },
     };
   },
   created() {
     this.getPlyrList();
+    this.getCountJoined();
   },
   methods: {
     joinEvent(plyr: any): void {
@@ -28,6 +30,7 @@ export default {
         })
         .then(response => {
           if (response.data.status === '0') plyr.joinEv = plyr.joinEv === 'Y' ? 'N' : 'Y';
+          this.getCountJoined();
         })
         .catch(error => {
           console.log(error);
@@ -39,8 +42,18 @@ export default {
         this.getPlyrList();
       }
     },
+    getCountJoined(): void {
+      axios
+        .get(`${apiBaseUrl}/countJoined`, {
+          params: {
+            'eId.equals': this.eventId,
+          },
+        })
+        .then(response => {
+          this.countJoined = response.data;
+        });
+    },
     getPlyrList(): void {
-      this.plyrs = [];
       axios
         .get(`${apiBaseUrl}/players`, {
           params: {

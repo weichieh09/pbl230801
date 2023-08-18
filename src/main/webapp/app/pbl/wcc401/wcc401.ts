@@ -10,7 +10,7 @@ export default {
         previousPage: 1,
         currentPage: 1,
         objTotal: 0,
-        perPage: 5,
+        perPage: 10,
       },
     };
   },
@@ -70,7 +70,6 @@ export default {
       }
     },
     getTeamList(): void {
-      this.teams = [];
       axios
         .get(`${apiBaseUrl}/teams`, {
           params: {

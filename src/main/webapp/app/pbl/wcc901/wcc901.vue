@@ -5,9 +5,9 @@
         <h3 style="text-align: center">名單管理</h3>
         <hr />
       </b-col>
-      <!-- <b-col cols="12">
-        <b-button block variant="primary" @click="createPlyr()" size="lg">新增球員</b-button>
-      </b-col> -->
+      <b-col cols="12">
+        <h5 style="text-align: right; color: green">*參賽人數: {{ countJoined }}</h5>
+      </b-col>
     </b-row>
     <br />
     <b-row v-if="plyrs.length > 0">

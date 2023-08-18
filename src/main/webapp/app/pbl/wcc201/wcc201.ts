@@ -32,7 +32,7 @@ export default {
         previousPage: 1,
         currentPage: 1,
         objTotal: 0,
-        perPage: 5,
+        perPage: 6,
       },
     };
   },
@@ -105,6 +105,7 @@ export default {
         .get(`${apiBaseUrl}/players`, {
           params: {
             'eId.equals': this.form.event,
+            'tId.equals': this.form.team,
             page: this.page.currentPage - 1,
             size: this.page.perPage,
           },

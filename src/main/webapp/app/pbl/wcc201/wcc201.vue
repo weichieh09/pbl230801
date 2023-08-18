@@ -107,7 +107,7 @@
           </b-row>
           <b-row v-else>
             <b-col cols="12">
-              <b-alert show variant="warning">這支隊伍沒有人唷!</b-alert>
+              <b-alert show variant="warning">這支隊伍沒有參賽選手唷!</b-alert>
             </b-col>
             <b-col cols="12">
               <b-button block variant="outline-primary" @click="hideModal(null)">確定</b-button>

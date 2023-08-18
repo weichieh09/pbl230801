@@ -5,8 +5,11 @@ import com.wcc.pbl230801.pblService.dto.PlayerDTOC;
 import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.repository.TeamPlayerRepository;
 import com.wcc.pbl230801.service.EventPlayerQueryService;
+import com.wcc.pbl230801.service.EventPlayerService;
 import com.wcc.pbl230801.service.TeamEventQueryService;
+import com.wcc.pbl230801.service.criteria.EventPlayerCriteria;
 import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
+import com.wcc.pbl230801.service.criteria.TeamPlayerCriteria;
 import com.wcc.pbl230801.service.dto.EventPlayerDTO;
 import com.wcc.pbl230801.service.dto.TeamEventDTO;
 import java.util.List;
@@ -62,5 +65,10 @@ public class Wcc901Resource {
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc901Service.getErrorResp());
         }
+    }
+
+    @GetMapping("/countJoined")
+    public ResponseEntity<Long> countJoined(EventPlayerCriteria criteria) {
+        return ResponseEntity.ok().body(eventPlayerQueryService.countByCriteria(criteria));
     }
 }

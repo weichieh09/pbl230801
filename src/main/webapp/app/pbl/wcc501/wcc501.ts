@@ -68,7 +68,6 @@ export default {
       }
     },
     getPlyrList(): void {
-      this.plyrs = [];
       axios
         .get(`${apiBaseUrl}/team-players`, {
           params: {
