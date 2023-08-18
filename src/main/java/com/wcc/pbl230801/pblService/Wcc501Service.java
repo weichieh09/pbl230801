@@ -112,4 +112,15 @@ public class Wcc501Service {
         playerDTO.setLstMtnUsr("MGDsn");
         playerDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
     }
+
+    @Transactional
+    public void deletePlayer(Long id) {
+        TeamPlayerCriteria teamPlayerCriteria = new TeamPlayerCriteria();
+        teamPlayerCriteria.setpId(LongFilterUtils.toEqualLongFilter(id));
+        List<TeamPlayerDTO> teamPlayerDTOList = teamPlayerQueryService.findByCriteria(teamPlayerCriteria);
+        teamPlayerDTOList.forEach(teamPlayerDTO -> {
+            teamPlayerService.delete(teamPlayerDTO.getId());
+        });
+        playerService.delete(id);
+    }
 }

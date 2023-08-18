@@ -12,7 +12,7 @@ export default {
         previousPage: 1,
         currentPage: 1,
         objTotal: 0,
-        perPage: 10,
+        perPage: 8,
       },
     };
   },

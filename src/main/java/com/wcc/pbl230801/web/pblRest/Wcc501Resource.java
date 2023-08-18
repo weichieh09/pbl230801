@@ -93,7 +93,7 @@ public class Wcc501Resource {
     @DeleteMapping("/players/{id}")
     public ResponseEntity<RespDTOC> deletePlayers(@PathVariable Long id) {
         try {
-            playerService.delete(id);
+            wcc501Service.deletePlayer(id);
             return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc501Service.getErrorResp());

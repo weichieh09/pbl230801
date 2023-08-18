@@ -78,7 +78,7 @@ public class Wcc601Resource {
     }
 
     @PutMapping("/event-zs/{id}")
-    public ResponseEntity<RespDTOC> updateTeam(@PathVariable(value = "id") final Long id, @RequestBody EventZReqDTOC reqDTOC) {
+    public ResponseEntity<RespDTOC> updateEventZs(@PathVariable(value = "id") final Long id, @RequestBody EventZReqDTOC reqDTOC) {
         try {
             if (reqDTOC.geteId() == null) throw new Exception("Event update failed");
             if (!reqDTOC.geteId().equals(String.valueOf(id))) throw new Exception("Event update failed");
@@ -92,9 +92,9 @@ public class Wcc601Resource {
     }
 
     @DeleteMapping("/event-zs/{id}")
-    public ResponseEntity<RespDTOC> deleteTeam(@PathVariable Long id) {
+    public ResponseEntity<RespDTOC> deleteEventZs(@PathVariable Long id) {
         try {
-            eventZService.delete(id);
+            wcc601Service.deleteEventZ(id);
             return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());

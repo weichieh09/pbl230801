@@ -82,17 +82,10 @@
             </b-col>
           </b-row> -->
           <b-row v-if="this.plyrs.length > 0">
-            <b-col cols="12">
-              <b-list-group v-for="item in plyrs" :key="item.id">
-                <b-list-group-item button @click="hideModal(item)">
-                  <b-row>
-                    <b-col cols="12">
-                      <h5 style="text-align: center">{{ item.plyrNm }}</h5>
-                      <p style="text-align: center">{{ item.plyrLvl }}級</p>
-                    </b-col>
-                  </b-row>
-                </b-list-group-item>
-              </b-list-group>
+            <b-col cols="12" v-for="item in plyrs" :key="item.id">
+              <b-button block variant="outline-primary" size="lg" @click="hideModal(item)">
+                {{ item.plyrLvl }}級 {{ item.plyrNm }}
+              </b-button>
               <br />
             </b-col>
             <b-col cols="12">

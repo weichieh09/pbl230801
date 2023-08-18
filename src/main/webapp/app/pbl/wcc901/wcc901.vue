@@ -9,7 +9,6 @@
         <h5 style="text-align: right; color: green">*參賽人數: {{ countJoined }}</h5>
       </b-col>
     </b-row>
-    <br />
     <b-row v-if="plyrs.length > 0">
       <b-col cols="12">
         <table class="table">

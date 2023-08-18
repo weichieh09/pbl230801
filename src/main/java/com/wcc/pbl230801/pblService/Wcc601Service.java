@@ -93,4 +93,15 @@ public class Wcc601Service {
         result.settId(String.valueOf(byCriteria.get(0).gettId()));
         return result;
     }
+
+    @Transactional
+    public void deleteEventZ(Long id) {
+        TeamEventCriteria teamEventCriteria = new TeamEventCriteria();
+        teamEventCriteria.seteId(LongFilterUtils.toEqualLongFilter(id));
+        List<TeamEventDTO> byCriteria = teamEventQueryService.findByCriteria(teamEventCriteria);
+        byCriteria.forEach(teamEventDTO -> {
+            teamEventService.delete(teamEventDTO.getId());
+        });
+        eventZService.delete(id);
+    }
 }
