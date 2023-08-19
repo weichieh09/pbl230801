@@ -35,9 +35,9 @@
     <br />
     <b-row>
       <b-col cols="12">
-        <download-excel :data="xlsxData" :name="getXlsxName()">
+        <!-- <download-excel :data="xlsxData" :name="getXlsxName()">
           <b-button block variant="success" size="lg" :disabled="xlsxData == 0">Excel下載 <b-icon icon="download" /></b-button>
-        </download-excel>
+        </download-excel> -->
       </b-col>
     </b-row>
     <b-row>

@@ -33,8 +33,8 @@ import '../content/scss/vendor.scss';
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
-import JsonExcel from 'vue-json-excel';
-Vue.component('downloadExcel', JsonExcel);
+// import JsonExcel from 'vue-json-excel';
+// Vue.component('downloadExcel', JsonExcel);
 /* wccCode */
 
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
