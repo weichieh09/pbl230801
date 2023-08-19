@@ -51,10 +51,13 @@ public class Wcc901Service {
         return respDTOC;
     }
 
-    public List<PlayerDTOC> getPlayer(List<Map<String, Object>> content) {
+    public List<PlayerDTOC> getPlayer(List<Map<String, Object>> content, Long eventId) {
         List<Long> pIdList = new LinkedList<>();
         for (Map<String, Object> map : content) pIdList.add(((BigInteger) map.get("id")).longValue());
-        List<EventPlayer> eventPlayerList = eventPlayerRepository.findAllBypIdIn(pIdList);
+        EventPlayerCriteria eventPlayerCriteria = new EventPlayerCriteria();
+        eventPlayerCriteria.setpId(LongFilterUtils.toInLongFilter(pIdList));
+        eventPlayerCriteria.seteId(LongFilterUtils.toEqualLongFilter(eventId));
+        List<EventPlayerDTO> eventPlayerList = eventPlayerQueryService.findByCriteria(eventPlayerCriteria);
 
         List<PlayerDTOC> result = new LinkedList<>();
         for (Map<String, Object> map : content) {

@@ -50,8 +50,9 @@ public class Wcc901Resource {
         List<TeamEventDTO> teamEventDTOList = teamEventQueryService.findByCriteria(criteria);
         if (teamEventDTOList.size() != 1) return ResponseEntity.badRequest().build();
         Long teamId = teamEventDTOList.get(0).gettId();
+        Long eventId = criteria.geteId().getEquals();
         Page<Map<String, Object>> page = teamPlayerRepository.findPlayerByTeamId(teamId, pageable);
-        List<PlayerDTOC> result = wcc901Service.getPlayer(page.getContent());
+        List<PlayerDTOC> result = wcc901Service.getPlayer(page.getContent(), eventId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(result);
     }
