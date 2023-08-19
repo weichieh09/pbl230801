@@ -35,9 +35,12 @@
     <br />
     <b-row>
       <b-col cols="12">
-        <!-- <download-excel :data="xlsxData" :name="getXlsxName()">
-          <b-button block variant="success" size="lg" :disabled="xlsxData == 0">Excel下載 <b-icon icon="download" /></b-button>
-        </download-excel> -->
+        <xlsx-workbook>
+          <xlsx-sheet :sheetName="xlsxData.name" :collection="xlsxData.data" />
+          <xlsx-download :filename="getXlsxName()">
+            <b-button block variant="success" size="lg" :disabled="xlsxData.data === null">Excel下載 <b-icon icon="download" /></b-button>
+          </xlsx-download>
+        </xlsx-workbook>
       </b-col>
     </b-row>
     <b-row>

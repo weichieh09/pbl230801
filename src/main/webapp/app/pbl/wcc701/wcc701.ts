@@ -1,12 +1,16 @@
 import axios from 'axios';
-import LoginService from '@/account/login.service';
+import { XlsxWorkbook, XlsxSheet, XlsxDownload } from 'vue-xlsx';
 
 const apiBaseUrl = '/api/wcc701';
 
 export default {
+  components: {
+    XlsxWorkbook,
+    XlsxSheet,
+    XlsxDownload,
+  },
   data() {
     return {
-      loginService: new LoginService(),
       form: {
         team: null,
         teams: [],
@@ -16,8 +20,11 @@ export default {
         event: null,
         events: [{ text: '請選擇', value: null }],
       },
-      xlsxData: [],
       xlsxType: '',
+      xlsxData: {
+        name: '',
+        data: [],
+      },
     };
   },
   created() {
@@ -29,7 +36,7 @@ export default {
     getSbList(): void {
       if (this.form.event === null) return;
       if (this.form.team === null) return;
-      this.xlsxData = [];
+      this.xlsxData = { name: '', data: null };
       axios
         .get(`${apiBaseUrl}/vw-wcc-701-results`, {
           params: {
@@ -39,8 +46,9 @@ export default {
         })
         .then(response => {
           if (response.data.length > 0) {
-            this.xlsxData = response.data;
             this.xlsxType = '戰績表';
+            this.xlsxData.name = 'SheetOne';
+            this.xlsxData.data = response.data;
           }
         })
         .catch(error => {
@@ -48,18 +56,19 @@ export default {
         });
     },
     getXlsxName(): string {
-      return `${this.form.date}_${this.form.events.find(option => option.value === this.form.event).text}_${this.xlsxType}`;
+      return `${this.form.date}_${this.form.events.find(option => option.value === this.form.event).text}_${this.xlsxType}.xlsx`;
     },
     getRtsList(): void {
       if (this.form.event === null) return;
       if (this.form.team === null) return;
-      this.xlsxData = [];
+      this.xlsxData = { name: '', data: null };
       axios
         .get(`${apiBaseUrl}/realTimeScore?eId.equals=${this.form.event}&tId.equals=${this.form.team}`)
         .then(response => {
           if (response.data.length > 0) {
-            this.xlsxData = response.data;
             this.xlsxType = '英雄榜';
+            this.xlsxData.name = 'SheetOne';
+            this.xlsxData.data = response.data;
           }
         })
         .catch(error => {
@@ -130,12 +139,12 @@ export default {
         });
     },
     teamChange(): void {
-      this.xlsxData = [];
+      this.xlsxData = { name: '', data: null };
       if (this.form.event === null) return;
       if (this.form.team === null) return;
     },
     dateChange(): void {
-      this.xlsxData = [];
+      this.xlsxData = { name: '', data: null };
       this.form.spaces = [];
       this.form.spaces.push({ text: '請選擇', value: null });
       this.form.space = null;
@@ -145,7 +154,7 @@ export default {
       this.getSpaceList();
     },
     spaceChange(): void {
-      this.xlsxData = [];
+      this.xlsxData = { name: '', data: null };
       this.form.events = [];
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
@@ -153,7 +162,7 @@ export default {
       this.getEventList();
     },
     eventChange(): void {
-      this.xlsxData = [];
+      this.xlsxData = { name: '', data: null };
       if (this.form.event === null) return;
       if (this.form.team === null) return;
     },

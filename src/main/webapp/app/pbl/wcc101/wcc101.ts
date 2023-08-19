@@ -1,12 +1,10 @@
 import axios from 'axios';
-import LoginService from '@/account/login.service';
 
 const apiBaseUrl = '/api/wcc101';
 
 export default {
   data() {
     return {
-      loginService: new LoginService(),
       form: {
         team: null,
         teams: [],
