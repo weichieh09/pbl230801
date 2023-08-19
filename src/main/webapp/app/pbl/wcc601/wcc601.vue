@@ -40,7 +40,7 @@
               <td>
                 <b-button style="margin: 1px" variant="info" @click="editEventZ(item)">編輯</b-button><br />
                 <b-button style="margin: 1px" variant="danger" @click="prepareRemoveEventZ(item)">刪除</b-button><br />
-                <b-button style="margin: 1px" variant="warning" @click="test(item)">名單</b-button>
+                <b-button style="margin: 1px" variant="warning" @click="test(item)">參賽</b-button>
               </td>
             </tr>
           </tbody>
