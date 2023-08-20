@@ -12,4 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventPlayerRepository extends JpaRepository<EventPlayer, Long>, JpaSpecificationExecutor<EventPlayer> {
     List<EventPlayer> findAllBypIdIn(List<Long> pIdList);
+
+    void deleteBypId(Long id);
+
+    void deleteByeId(Long id);
 }

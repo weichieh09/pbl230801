@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TeamEventRepository extends JpaRepository<TeamEvent, Long>, JpaSpecificationExecutor<TeamEvent> {}
+public interface TeamEventRepository extends JpaRepository<TeamEvent, Long>, JpaSpecificationExecutor<TeamEvent> {
+    void deleteBytId(Long id);
+
+    void deleteByeId(Long id);
+}

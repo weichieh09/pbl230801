@@ -3,13 +3,17 @@ package com.wcc.pbl230801.pblService;
 import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.pblService.utils.StringFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
+import com.wcc.pbl230801.repository.TeamEventRepository;
+import com.wcc.pbl230801.repository.TeamPlayerRepository;
 import com.wcc.pbl230801.service.TeamQueryService;
+import com.wcc.pbl230801.service.TeamService;
 import com.wcc.pbl230801.service.criteria.TeamCriteria;
 import com.wcc.pbl230801.service.dto.TeamDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class Wcc401Service {
@@ -18,6 +22,15 @@ public class Wcc401Service {
 
     @Autowired
     private TeamQueryService teamQueryService;
+
+    @Autowired
+    private TeamService teamService;
+
+    @Autowired
+    private TeamEventRepository teamEventRepository;
+
+    @Autowired
+    private TeamPlayerRepository teamPlayerRepository;
 
     public RespDTOC getSuccessResp() {
         RespDTOC respDTOC = new RespDTOC();
@@ -42,5 +55,12 @@ public class Wcc401Service {
         TeamCriteria criteria = new TeamCriteria();
         criteria.setTeamNm(StringFilterUtils.toEqualStringFilter(teamDTO.getTeamNm()));
         return teamQueryService.findByCriteria(criteria).size() > 0;
+    }
+
+    @Transactional
+    public void deleteTeam(Long id) {
+        teamEventRepository.deleteBytId(id);
+        teamPlayerRepository.deleteBytId(id);
+        teamService.delete(id);
     }
 }

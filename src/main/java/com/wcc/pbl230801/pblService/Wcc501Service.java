@@ -6,7 +6,10 @@ import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.pblService.utils.StringFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
+import com.wcc.pbl230801.repository.EventPlayerRepository;
+import com.wcc.pbl230801.repository.MatchPlayerRepository;
 import com.wcc.pbl230801.repository.PlayerRepository;
+import com.wcc.pbl230801.repository.TeamPlayerRepository;
 import com.wcc.pbl230801.service.PlayerQueryService;
 import com.wcc.pbl230801.service.PlayerService;
 import com.wcc.pbl230801.service.TeamPlayerQueryService;
@@ -42,6 +45,15 @@ public class Wcc501Service {
 
     @Autowired
     private PlayerService playerService;
+
+    @Autowired
+    private TeamPlayerRepository teamPlayerRepository;
+
+    @Autowired
+    private MatchPlayerRepository matchPlayerRepository;
+
+    @Autowired
+    private EventPlayerRepository eventPlayerRepository;
 
     public List<Player> getPlyrs(List<TeamPlayerDTO> content) {
         List<Long> pIds = content.stream().map(TeamPlayerDTO::getpId).collect(Collectors.toList());
@@ -115,12 +127,9 @@ public class Wcc501Service {
 
     @Transactional
     public void deletePlayer(Long id) {
-        TeamPlayerCriteria teamPlayerCriteria = new TeamPlayerCriteria();
-        teamPlayerCriteria.setpId(LongFilterUtils.toEqualLongFilter(id));
-        List<TeamPlayerDTO> teamPlayerDTOList = teamPlayerQueryService.findByCriteria(teamPlayerCriteria);
-        teamPlayerDTOList.forEach(teamPlayerDTO -> {
-            teamPlayerService.delete(teamPlayerDTO.getId());
-        });
         playerService.delete(id);
+        teamPlayerRepository.deleteBypId(id);
+        matchPlayerRepository.deleteBypId(id);
+        eventPlayerRepository.deleteBypId(id);
     }
 }

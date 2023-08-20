@@ -3,6 +3,8 @@ package com.wcc.pbl230801.pblService;
 import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
+import com.wcc.pbl230801.repository.EventPlayerRepository;
+import com.wcc.pbl230801.repository.TeamEventRepository;
 import com.wcc.pbl230801.service.*;
 import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
 import com.wcc.pbl230801.service.dto.*;
@@ -28,6 +30,12 @@ public class Wcc601Service {
 
     @Autowired
     private TeamEventQueryService teamEventQueryService;
+
+    @Autowired
+    private TeamEventRepository teamEventRepository;
+
+    @Autowired
+    private EventPlayerRepository eventPlayerRepository;
 
     public RespDTOC getSuccessResp() {
         RespDTOC respDTOC = new RespDTOC();
@@ -96,12 +104,8 @@ public class Wcc601Service {
 
     @Transactional
     public void deleteEventZ(Long id) {
-        TeamEventCriteria teamEventCriteria = new TeamEventCriteria();
-        teamEventCriteria.seteId(LongFilterUtils.toEqualLongFilter(id));
-        List<TeamEventDTO> byCriteria = teamEventQueryService.findByCriteria(teamEventCriteria);
-        byCriteria.forEach(teamEventDTO -> {
-            teamEventService.delete(teamEventDTO.getId());
-        });
+        teamEventRepository.deleteByeId(id);
+        eventPlayerRepository.deleteByeId(id);
         eventZService.delete(id);
     }
 }

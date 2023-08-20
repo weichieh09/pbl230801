@@ -104,7 +104,7 @@ public class Wcc201Service {
         if (matchZDTO.getwPlyr1() == null && matchZDTO.getwPlyr2() == null) return null;
         if (matchZDTO.getlPlyr1() == null && matchZDTO.getlPlyr2() == null) return null;
         if (matchZDTO.getwScr() == null && matchZDTO.getlScr() == null) return null;
-        if (Long.parseLong(matchZDTO.getwScr()) < Long.parseLong(matchZDTO.getlScr())) return null;
+        if (Long.parseLong(matchZDTO.getwScr()) <= Long.parseLong(matchZDTO.getlScr())) return null;
 
         long tId = Long.parseLong(matchZsReqDTOC.gettId());
         long eId = Long.parseLong(matchZsReqDTOC.geteId());

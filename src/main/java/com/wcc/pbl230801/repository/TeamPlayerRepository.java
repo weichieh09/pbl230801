@@ -71,4 +71,8 @@ public interface TeamPlayerRepository extends JpaRepository<TeamPlayer, Long>, J
         nativeQuery = true
     )
     Page<Map<String, Object>> findPlayerByEventId(@Param("eventId") Long eventId, @Param("teamId") Long teamId, Pageable pageable);
+
+    void deleteBypId(Long id);
+
+    void deleteBytId(Long id);
 }
