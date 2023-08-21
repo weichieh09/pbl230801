@@ -72,11 +72,11 @@
         </b-button>
       </b-col>
       <b-col cols="6">
-        <!-- <b-button block variant="outline-primary" size="lg" disabled>
-          <b-icon icon="QuestionCircleFill" />
+        <b-button block variant="outline-primary" size="lg" v-on:click="logout()">
+          <b-icon icon="BoxArrowRight" />
           <br />
-          <h5>??</h5>
-        </b-button> -->
+          <h5>登出</h5>
+        </b-button>
       </b-col>
     </b-row>
     <b-row>
