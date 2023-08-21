@@ -160,12 +160,11 @@ public class Wcc201Service {
 
     private Boolean check10mins(long eId, long pId) {
         List<MatchPlayer> list = matchPlayerRepository.findMaxByeIdAndpId(eId, pId);
-        MatchPlayer matchPlayer = list.get(0);
-        if (list.size() > 0 && list.get(0) != null) {
-            ZonedDateTime zonedDateTime = list.get(0).getMtchEndTime().plusMinutes(3);
-            if (ZonedDateTimeUtils.getTaiwanTime().isBefore(zonedDateTime)) return true;
-        }
-        return false;
+        if (list.size() == 0 || list.get(0) == null) return false;
+        ZonedDateTime mtchEndTime = list.get(0).getMtchEndTime();
+        ZonedDateTime now = ZonedDateTimeUtils.getTaiwanTime();
+        boolean result = now.isBefore(mtchEndTime.plusMinutes(10));
+        return result;
     }
 
     @Transactional
