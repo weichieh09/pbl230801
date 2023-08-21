@@ -16,7 +16,7 @@ public interface MatchPlayerRepository extends JpaRepository<MatchPlayer, Long>,
 
     @Query(
         value = "" +
-        "SELECT Max(id) AS id,\n" +
+        "SELECT id,\n" +
         "       m_id,\n" +
         "       p_id,\n" +
         "       e_id,\n" +
@@ -27,7 +27,9 @@ public interface MatchPlayerRepository extends JpaRepository<MatchPlayer, Long>,
         "       lst_mtn_dt\n" +
         "FROM   match_player\n" +
         "WHERE  e_id = :eId\n" +
-        "       AND p_id = :pId " +
+        "       AND p_id = :pId\n" +
+        "ORDER  BY mtch_end_time DESC\n" +
+        "LIMIT  1; " +
         "",
         nativeQuery = true
     )
