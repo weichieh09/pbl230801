@@ -65,6 +65,7 @@ export default class JhiUserManagementEdit extends Vue {
       .retrieveAuthorities()
       .then(_res => {
         this.authorities = _res.data;
+        console.log('_res.data: ' + _res.data);
       });
   }
 
@@ -87,10 +88,10 @@ export default class JhiUserManagementEdit extends Vue {
         .update(this.userAccount)
         .then(res => {
           this.returnToList();
-          (this.$root as any).$bvToast.toast(this.getMessageFromHeader(res).toString(), {
+          (this.$root as any).$bvToast.toast('修改用戶成功', {
             toaster: 'b-toaster-top-center',
-            title: 'Info',
-            variant: 'info',
+            title: '修改成功',
+            variant: 'success',
             solid: true,
             autoHideDelay: 5000,
           });
@@ -105,9 +106,9 @@ export default class JhiUserManagementEdit extends Vue {
         .create(this.userAccount)
         .then(res => {
           this.returnToList();
-          (this.$root as any).$bvToast.toast(this.getMessageFromHeader(res).toString(), {
+          (this.$root as any).$bvToast.toast('新增用戶成功', {
             toaster: 'b-toaster-top-center',
-            title: 'Success',
+            title: '新增成功',
             variant: 'success',
             solid: true,
             autoHideDelay: 5000,

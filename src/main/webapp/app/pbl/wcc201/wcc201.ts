@@ -73,7 +73,7 @@ export default {
             this.resultForm.lPlyr2 = null;
             this.resultForm.lPlyr2Nm = '選手2';
           } else {
-            this.$bvToast.toast('資料不正確 或 該球隊未參加此賽事', {
+            this.$bvToast.toast(response.data.message, {
               toaster: 'b-toaster-top-center',
               title: '失敗',
               variant: 'danger',
@@ -231,6 +231,7 @@ export default {
       if (this.form.team === null) return;
       if (this.form.event === null) return;
       this.getPlyrList();
+      this.initResultForm();
     },
     dateChange(): void {
       this.form.spaces = [];
@@ -240,6 +241,7 @@ export default {
       this.form.events.push({ text: '請選擇', value: null });
       this.form.event = null;
       this.getSpaceList();
+      this.initResultForm();
     },
     spaceChange(): void {
       this.form.events = [];
@@ -247,12 +249,26 @@ export default {
       this.form.event = null;
       if (this.form.space === null) return;
       this.getEventList();
+      this.initResultForm();
     },
     eventChange(): void {
       this.plyrs = [];
       if (this.form.team === null) return;
       if (this.form.event === null) return;
       this.getPlyrList();
+      this.initResultForm();
+    },
+    initResultForm(): void {
+      this.resultForm.wPlyr1 = null;
+      this.resultForm.wPlyr1Nm = '選手1';
+      this.resultForm.wPlyr2 = null;
+      this.resultForm.wPlyr2Nm = '選手2';
+      this.resultForm.lPlyr1 = null;
+      this.resultForm.lPlyr1Nm = '選手1';
+      this.resultForm.lPlyr2 = null;
+      this.resultForm.lPlyr2Nm = '選手2';
+      this.resultForm.wScr = null;
+      this.resultForm.lScr = null;
     },
   },
 };

@@ -25,7 +25,7 @@
     <!-- 隱藏漢堡按鈕 -->
 
     <!-- 隱藏右上按鈕 -->
-    <b-collapse is-nav id="header-tabs">
+    <!-- <b-collapse is-nav id="header-tabs">
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/" exact v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">
           <span>
@@ -98,10 +98,10 @@
             <font-awesome-icon icon="user" />
             <span class="no-bold">帳號</span>
           </span>
-          <!-- <b-dropdown-item data-cy="settings" to="/account/settings" tag="b-dropdown-item" v-if="authenticated" active-class="active">
+          <b-dropdown-item data-cy="settings" to="/account/settings" tag="b-dropdown-item" v-if="authenticated" active-class="active">
             <font-awesome-icon icon="wrench" />
             <span>Settings</span>
-          </b-dropdown-item> -->
+          </b-dropdown-item>
           <b-dropdown-item data-cy="passwordItem" to="/account/password" tag="b-dropdown-item" v-if="authenticated" active-class="active">
             <font-awesome-icon icon="lock" />
             <span>密碼</span>
@@ -114,7 +114,7 @@
             <font-awesome-icon icon="sign-in-alt" />
             <span>登入</span>
           </b-dropdown-item>
-          <!-- <b-dropdown-item
+          <b-dropdown-item
             data-cy="register"
             to="/register"
             tag="b-dropdown-item"
@@ -124,10 +124,10 @@
           >
             <font-awesome-icon icon="user-plus" />
             <span>Register</span>
-          </b-dropdown-item> -->
+          </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
-    </b-collapse>
+    </b-collapse> -->
     <!-- 隱藏右上按鈕 -->
   </b-navbar>
 </template>

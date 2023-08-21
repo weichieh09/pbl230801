@@ -1,5 +1,117 @@
 <template>
-  <div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3 style="text-align: center">修改密碼</h3>
+        <hr />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-success" role="alert" v-if="success">
+          <strong>修改成功!</strong>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-danger" role="alert" v-if="error">
+          <strong>修改失敗!</strong>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-danger" role="alert" v-if="doNotMatch">
+          <strong>密碼不匹配!</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <form name="form" role="form" id="password-form" v-on:submit.prevent="changePassword()">
+          <div class="row">
+            <div class="col">
+              <b-input-group size="lg" prepend="舊密碼">
+                <b-form-input
+                  type="password"
+                  class="form-control"
+                  id="currentPassword"
+                  name="currentPassword"
+                  :class="{ valid: !$v.resetPassword.currentPassword.$invalid, invalid: $v.resetPassword.currentPassword.$invalid }"
+                  v-model="$v.resetPassword.currentPassword.$model"
+                  required
+                  data-cy="currentPassword"
+                />
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-input-group size="lg" prepend="新密碼">
+                <b-form-input
+                  type="password"
+                  class="form-control"
+                  id="newPassword"
+                  name="newPassword"
+                  :class="{ valid: !$v.resetPassword.newPassword.$invalid, invalid: $v.resetPassword.newPassword.$invalid }"
+                  v-model="$v.resetPassword.newPassword.$model"
+                  minlength="4"
+                  maxlength="50"
+                  required
+                  data-cy="newPassword"
+                />
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-input-group size="lg" prepend="新密碼">
+                <b-form-input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  :class="{ valid: !$v.resetPassword.confirmPassword.$invalid, invalid: $v.resetPassword.confirmPassword.$invalid }"
+                  v-model="$v.resetPassword.confirmPassword.$model"
+                  minlength="4"
+                  maxlength="50"
+                  required
+                  data-cy="confirmPassword"
+                />
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-button block type="submit" variant="outline-primary" size="lg" :disabled="$v.resetPassword.$invalid">
+                更新 <b-icon icon="cloudArrowUpFill" />
+              </b-button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <hr />
+        <b-button block variant="outline-primary" size="lg" @click="$router.go(-1)">返回</b-button>
+        <br />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col"></div>
+    </div>
+  </div>
+
+  <!-- <div>
     <div class="row justify-content-center">
       <div class="col-md-8 toastify-container">
         <h2 v-if="account" id="password-title">
@@ -84,7 +196,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts" src="./change-password.component.ts"></script>

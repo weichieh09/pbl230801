@@ -9,7 +9,9 @@ import com.wcc.pbl230801.service.UserService;
 import com.wcc.pbl230801.service.dto.AdminUserDTO;
 import com.wcc.pbl230801.web.rest.errors.BadRequestAlertException;
 import com.wcc.pbl230801.web.rest.errors.EmailAlreadyUsedException;
+import com.wcc.pbl230801.web.rest.errors.InvalidPasswordException;
 import com.wcc.pbl230801.web.rest.errors.LoginAlreadyUsedException;
+import com.wcc.pbl230801.web.rest.vm.KeyAndPasswordVM;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -119,7 +121,9 @@ public class UserResource {
             throw new EmailAlreadyUsedException();
         } else {
             User newUser = userService.createUser(userDTO);
-            mailService.sendCreationEmail(newUser);
+            // 原始的AccountResource方法
+            this.finishPasswordReset(newUser);
+            //            mailService.sendCreationEmail(newUser);
             return ResponseEntity
                 .created(new URI("/api/admin/users/" + newUser.getLogin()))
                 .headers(
@@ -127,6 +131,13 @@ public class UserResource {
                 )
                 .body(newUser);
         }
+    }
+
+    private void finishPasswordReset(User newUser) {
+        KeyAndPasswordVM keyAndPasswordVM = new KeyAndPasswordVM();
+        keyAndPasswordVM.setKey(newUser.getResetKey());
+        keyAndPasswordVM.setNewPassword(newUser.getLogin());
+        Optional<User> user = userService.completePasswordReset(keyAndPasswordVM.getNewPassword(), keyAndPasswordVM.getKey());
     }
 
     /**

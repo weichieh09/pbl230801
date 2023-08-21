@@ -76,8 +76,9 @@ public class Wcc201Resource {
     @PostMapping("/match-zs")
     public ResponseEntity<RespDTOC> matchZs(@RequestBody MatchZsReqDTOC matchZsReqDTOC) {
         try {
-            MatchZDTO matchZDTO = wcc201Service.checkMatchZ(matchZsReqDTOC);
-            if (matchZDTO == null) throw new Exception("MatchZ is not valid");
+            RespDTOC respDTOC = wcc201Service.checkMatchZ(matchZsReqDTOC);
+            if (respDTOC != null) return ResponseEntity.ok().body(respDTOC);
+            MatchZDTO matchZDTO = wcc201Service.addInfo(matchZsReqDTOC);
             MatchZDTO result = wcc201Service.saveMatchZ(matchZDTO);
             return ResponseEntity.ok().body(wcc201Service.getSuccessResp());
         } catch (Exception e) {

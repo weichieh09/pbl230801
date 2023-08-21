@@ -1,14 +1,10 @@
 package com.wcc.pbl230801.pblService;
 
-import com.wcc.pbl230801.domain.EventPlayer;
 import com.wcc.pbl230801.domain.MatchPlayer;
 import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
-import com.wcc.pbl230801.repository.EventPlayerRepository;
 import com.wcc.pbl230801.repository.MatchPlayerRepository;
-import com.wcc.pbl230801.repository.PlayerRepository;
-import com.wcc.pbl230801.service.MatchPlayerService;
 import com.wcc.pbl230801.service.MatchZService;
 import com.wcc.pbl230801.service.TeamEventQueryService;
 import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
@@ -95,30 +91,81 @@ public class Wcc201Service {
         return respDTOC;
     }
 
-    public MatchZDTO checkMatchZ(MatchZsReqDTOC matchZsReqDTOC) {
+    public RespDTOC getErrorResp2() {
+        RespDTOC respDTOC = new RespDTOC();
+        respDTOC.setStatus("2");
+        respDTOC.setMessage("登錄資料不正確");
+        return respDTOC;
+    }
+
+    public RespDTOC checkMatchZ(MatchZsReqDTOC matchZsReqDTOC) {
+        RespDTOC respDTOC = new RespDTOC();
+
+        long tId = Long.parseLong(matchZsReqDTOC.gettId());
+        long eId = Long.parseLong(matchZsReqDTOC.geteId());
+
         MatchZDTO matchZDTO = new MatchZDTO();
         BeanUtils.copyProperties(matchZsReqDTOC, matchZDTO);
         matchZDTO.seteId(Long.parseLong(matchZsReqDTOC.geteId()));
 
-        if (matchZDTO.geteId() == null) return null;
-        if (matchZDTO.getwPlyr1() == null && matchZDTO.getwPlyr2() == null) return null;
-        if (matchZDTO.getlPlyr1() == null && matchZDTO.getlPlyr2() == null) return null;
-        if (matchZDTO.getwScr() == null && matchZDTO.getlScr() == null) return null;
-        if (Long.parseLong(matchZDTO.getwScr()) <= Long.parseLong(matchZDTO.getlScr())) return null;
+        if (matchZDTO.geteId() == null) return this.getErrorResp2();
+        if (matchZDTO.getwPlyr1() == null && matchZDTO.getwPlyr2() == null) return this.getErrorResp2();
+        if (matchZDTO.getlPlyr1() == null && matchZDTO.getlPlyr2() == null) return this.getErrorResp2();
+        if (matchZDTO.getwScr() == null && matchZDTO.getlScr() == null) return this.getErrorResp2();
+        if (Long.parseLong(matchZDTO.getwScr()) <= Long.parseLong(matchZDTO.getlScr())) return this.getErrorResp2();
 
-        long tId = Long.parseLong(matchZsReqDTOC.gettId());
-        long eId = Long.parseLong(matchZsReqDTOC.geteId());
+        Integer wPlyr = 0;
+        Integer lPlyr = 0;
+        if (matchZDTO.getwPlyr1() != null) {
+            wPlyr++;
+            if (this.check10mins(eId, Long.parseLong(matchZDTO.getwPlyr1()))) return this.getErrorResp3();
+        }
+        if (matchZDTO.getwPlyr2() != null) {
+            wPlyr++;
+            if (this.check10mins(eId, Long.parseLong(matchZDTO.getwPlyr2()))) return this.getErrorResp3();
+        }
+        if (matchZDTO.getlPlyr1() != null) {
+            lPlyr++;
+            if (this.check10mins(eId, Long.parseLong(matchZDTO.getlPlyr1()))) return this.getErrorResp3();
+        }
+        if (matchZDTO.getlPlyr2() != null) {
+            lPlyr++;
+            if (this.check10mins(eId, Long.parseLong(matchZDTO.getlPlyr2()))) return this.getErrorResp3();
+        }
+        if (wPlyr == 0 || lPlyr == 0) return this.getErrorResp2();
+        if (wPlyr != lPlyr) return this.getErrorResp2();
 
         TeamEventCriteria criteria = new TeamEventCriteria();
         criteria.seteId(LongFilterUtils.toEqualLongFilter(eId));
         criteria.settId(LongFilterUtils.toEqualLongFilter(tId));
         List<TeamEventDTO> byCriteria = teamEventQueryService.findByCriteria(criteria);
-        if (byCriteria.size() == 0) return null;
+        if (byCriteria.size() == 0) return this.getErrorResp4();
 
-        matchZDTO.setMtchEndTime(ZonedDateTimeUtils.getTaiwanTime());
-        matchZDTO.setLstMtnUsr("MGDsn");
-        matchZDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
-        return matchZDTO;
+        return null;
+    }
+
+    private RespDTOC getErrorResp3() {
+        RespDTOC respDTOC = new RespDTOC();
+        respDTOC.setStatus("3");
+        respDTOC.setMessage("選手十分鐘內不能登錄多次戰績");
+        return respDTOC;
+    }
+
+    private RespDTOC getErrorResp4() {
+        RespDTOC respDTOC = new RespDTOC();
+        respDTOC.setStatus("4");
+        respDTOC.setMessage("該球隊未參加此賽事");
+        return respDTOC;
+    }
+
+    private Boolean check10mins(long eId, long pId) {
+        List<MatchPlayer> list = matchPlayerRepository.findMaxByeIdAndpId(eId, pId);
+        MatchPlayer matchPlayer = list.get(0);
+        if (list.size() > 0 && list.get(0) != null) {
+            ZonedDateTime zonedDateTime = list.get(0).getMtchEndTime().plusMinutes(3);
+            if (ZonedDateTimeUtils.getTaiwanTime().isBefore(zonedDateTime)) return true;
+        }
+        return false;
     }
 
     @Transactional
@@ -156,5 +203,15 @@ public class Wcc201Service {
         matchPlayer.setLstMtnUsr("MGDsn");
         matchPlayer.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
         return matchPlayer;
+    }
+
+    public MatchZDTO addInfo(MatchZsReqDTOC matchZsReqDTOC) {
+        MatchZDTO matchZDTO = new MatchZDTO();
+        BeanUtils.copyProperties(matchZsReqDTOC, matchZDTO);
+        matchZDTO.seteId(Long.parseLong(matchZsReqDTOC.geteId()));
+        matchZDTO.setMtchEndTime(ZonedDateTimeUtils.getTaiwanTime());
+        matchZDTO.setLstMtnUsr("MGDsn");
+        matchZDTO.setLstMtnDt(ZonedDateTimeUtils.getTaiwanTime());
+        return matchZDTO;
     }
 }

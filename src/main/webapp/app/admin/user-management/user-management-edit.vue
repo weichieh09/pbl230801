@@ -1,5 +1,76 @@
 <template>
-  <div class="row justify-content-center">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3 style="text-align: center">用戶管理</h3>
+        <hr />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <form name="editForm" role="form" novalidate v-on:submit.prevent="save()" v-if="userAccount">
+          <div class="row" :hidden="!userAccount.id">
+            <div class="col">
+              <b-input-group size="lg" prepend="序號">
+                <b-form-input v-model="userAccount.id" disabled />
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-input-group size="lg" prepend="帳號">
+                <b-form-input
+                  v-model="$v.userAccount.login.$model"
+                  :class="{ valid: !$v.userAccount.login.$invalid, invalid: $v.userAccount.login.$invalid }"
+                />
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-input-group size="lg" prepend="角色">
+                <b-form-select v-model="userAccount.authorities" multiple :select-size="2">
+                  <b-form-select-option
+                    v-for="authority of authorities"
+                    :value="authority"
+                    :key="authority"
+                    :selected="userAccount.authorities.includes(authority)"
+                  >
+                    {{ authority }}
+                  </b-form-select-option>
+                </b-form-select>
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-form-checkbox size="lg" v-model="userAccount.activated" :disabled="userAccount.id === null"> 勾選啟用 </b-form-checkbox>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-button block type="submit" variant="outline-primary" size="lg"> 新增 <b-icon icon="cloudArrowUpFill" /> </b-button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <hr />
+        <b-button block variant="outline-primary" size="lg" @click="$router.go(-1)">返回</b-button>
+        <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()" v-if="userAccount">
         <h2 id="myUserLabel">Create or edit a User</h2>
@@ -8,7 +79,6 @@
             <label>ID</label>
             <input type="text" class="form-control" name="id" v-model="userAccount.id" readonly />
           </div>
-
           <div class="form-group">
             <label class="form-control-label">Login</label>
             <input
@@ -117,7 +187,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts" src="./user-management-edit.component.ts"></script>

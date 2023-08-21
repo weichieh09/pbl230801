@@ -13,7 +13,7 @@ export default class JhiUserManagementComponent extends Vue {
   public error = '';
   public success = '';
   public users: any[] = [];
-  public itemsPerPage = 20;
+  public itemsPerPage = 6;
   public queryCount: number = null;
   public page = 1;
   public previousPage = 1;
@@ -97,9 +97,9 @@ export default class JhiUserManagementComponent extends Vue {
       .remove(this.removeId)
       .then(res => {
         const message = res.headers['x-pbl230801app-alert'];
-        this.$bvToast.toast(message.toString(), {
+        this.$bvToast.toast('刪除用戶成功', {
           toaster: 'b-toaster-top-center',
-          title: 'Info',
+          title: '刪除成功',
           variant: 'danger',
           solid: true,
           autoHideDelay: 5000,
