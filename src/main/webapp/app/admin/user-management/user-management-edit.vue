@@ -54,7 +54,10 @@
           <br />
           <div class="row">
             <div class="col">
-              <b-button block type="submit" variant="outline-primary" size="lg"> 新增 <b-icon icon="cloudArrowUpFill" /> </b-button>
+              <b-button block type="submit" variant="outline-primary" size="lg" v-if="!userAccount.id">
+                新增 <b-icon icon="cloudArrowUpFill"
+              /></b-button>
+              <b-button block type="submit" variant="outline-primary" size="lg" v-else> 更新 <b-icon icon="cloudArrowUpFill" /></b-button>
             </div>
           </div>
         </form>
