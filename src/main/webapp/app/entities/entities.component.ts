@@ -11,6 +11,7 @@ import MatchPlayerService from './match-player/match-player.service';
 import VwEventResultService from './vw-event-result/vw-event-result.service';
 import TeamEventService from './team-event/team-event.service';
 import VwWcc701ResultService from './vw-wcc-701-result/vw-wcc-701-result.service';
+import UserTeamService from './user-team/user-team.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
 @Component
@@ -26,5 +27,6 @@ export default class Entities extends Vue {
   @Provide('vwEventResultService') private vwEventResultService = () => new VwEventResultService();
   @Provide('teamEventService') private teamEventService = () => new TeamEventService();
   @Provide('vwWcc701ResultService') private vwWcc701ResultService = () => new VwWcc701ResultService();
+  @Provide('userTeamService') private userTeamService = () => new UserTeamService();
   // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
 }

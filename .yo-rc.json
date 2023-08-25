@@ -29,14 +29,15 @@
       "MatchPlayer",
       "VwEventResult",
       "TeamEvent",
-      "VwWcc701Result"
+      "VwWcc701Result",
+      "UserTeam"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.9.3",
     "jwtSecretKey": "OTcwZDA0NTc2ZDBkZDlkMzE0ZmQ5NTkwNjc1N2ZmZTBlN2NmMWFmNDQ0NDU0MmRiNTViZjU5YTU3YzRhMWQ1MjRhMTJmNjJhMGNmYTM3MDhmYTA1MWQ5ZjBjOTZmYTU2NTBlMDkwMTBhZDhiMDNmNTliMDU0NDQ0YzNhNTJmMzY=",
     "languages": ["en", "fr"],
-    "lastLiquibaseTimestamp": 1692078564000,
+    "lastLiquibaseTimestamp": 1692951078000,
     "messageBroker": false,
     "microfrontend": false,
     "microfrontends": [],

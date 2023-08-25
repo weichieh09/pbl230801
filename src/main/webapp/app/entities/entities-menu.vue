@@ -40,6 +40,10 @@
       <font-awesome-icon icon="asterisk" />
       <span>Vw Wcc 701 Result</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/user-team">
+      <font-awesome-icon icon="asterisk" />
+      <span>User Team</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

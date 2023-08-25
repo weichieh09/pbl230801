@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20230825081118",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "user_team",
+  "fields": [
+    {
+      "fieldName": "uId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "tId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "lstMtnUsr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lstMtnDt",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "UserTeam",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}
