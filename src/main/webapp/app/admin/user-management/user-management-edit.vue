@@ -31,6 +31,22 @@
           <br />
           <div class="row">
             <div class="col">
+              <b-input-group size="lg" prepend="密碼">
+                <b-form-input type="password" v-model="userAccount.wPassword" :disabled="userAccount.id != null" />
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <b-input-group size="lg" prepend="球隊">
+                <b-form-select v-model="userAccount.wTeamId" :options="teams" :disabled="userAccount.id != null" />
+              </b-input-group>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
               <b-input-group size="lg" prepend="角色">
                 <b-form-select v-model="userAccount.authorities" multiple :select-size="2">
                   <b-form-select-option

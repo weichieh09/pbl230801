@@ -51,6 +51,10 @@ public class AdminUserDTO implements Serializable {
 
     private Set<String> authorities;
 
+    private String wPassword;
+
+    private String wTeamId;
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -175,22 +179,67 @@ public class AdminUserDTO implements Serializable {
         this.authorities = authorities;
     }
 
-    // prettier-ignore
+    public String getwPassword() {
+        return wPassword;
+    }
+
+    public void setwPassword(String wPassword) {
+        this.wPassword = wPassword;
+    }
+
+    public String getwTeamId() {
+        return wTeamId;
+    }
+
+    public void setwTeamId(String wTeamId) {
+        this.wTeamId = wTeamId;
+    }
+
     @Override
     public String toString() {
-        return "AdminUserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
+        return (
+            "AdminUserDTO{" +
+            "id=" +
+            id +
+            ", login='" +
+            login +
+            '\'' +
+            ", firstName='" +
+            firstName +
+            '\'' +
+            ", lastName='" +
+            lastName +
+            '\'' +
+            ", email='" +
+            email +
+            '\'' +
+            ", imageUrl='" +
+            imageUrl +
+            '\'' +
+            ", activated=" +
+            activated +
+            ", langKey='" +
+            langKey +
+            '\'' +
+            ", createdBy='" +
+            createdBy +
+            '\'' +
+            ", createdDate=" +
+            createdDate +
+            ", lastModifiedBy='" +
+            lastModifiedBy +
+            '\'' +
+            ", lastModifiedDate=" +
+            lastModifiedDate +
+            ", authorities=" +
+            authorities +
+            ", wPassword='" +
+            wPassword +
+            '\'' +
+            ", wTeamId='" +
+            wTeamId +
+            '\'' +
+            '}'
+        );
     }
 }

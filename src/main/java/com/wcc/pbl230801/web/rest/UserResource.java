@@ -2,6 +2,7 @@ package com.wcc.pbl230801.web.rest;
 
 import com.wcc.pbl230801.config.Constants;
 import com.wcc.pbl230801.domain.User;
+import com.wcc.pbl230801.pblService.WuserService;
 import com.wcc.pbl230801.repository.UserRepository;
 import com.wcc.pbl230801.security.AuthoritiesConstants;
 import com.wcc.pbl230801.service.MailService;
@@ -9,9 +10,7 @@ import com.wcc.pbl230801.service.UserService;
 import com.wcc.pbl230801.service.dto.AdminUserDTO;
 import com.wcc.pbl230801.web.rest.errors.BadRequestAlertException;
 import com.wcc.pbl230801.web.rest.errors.EmailAlreadyUsedException;
-import com.wcc.pbl230801.web.rest.errors.InvalidPasswordException;
 import com.wcc.pbl230801.web.rest.errors.LoginAlreadyUsedException;
-import com.wcc.pbl230801.web.rest.vm.KeyAndPasswordVM;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -20,6 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -89,6 +89,9 @@ public class UserResource {
 
     private final MailService mailService;
 
+    @Autowired
+    private WuserService wuserService;
+
     public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
         this.userService = userService;
         this.userRepository = userRepository;
@@ -118,12 +121,7 @@ public class UserResource {
         } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
             throw new LoginAlreadyUsedException();
         } else {
-            User newUser = userService.createUser(userDTO);
-            // mail驗證註解掉
-            // mailService.sendCreationEmail(newUser);
-            // 原始的AccountResource方法，直接開帳號用
-            this.finishPasswordReset(newUser);
-            // TODO:一般管理員的球隊綁定
+            User newUser = wuserService.createUser(userDTO);
             return ResponseEntity
                 .created(new URI("/api/admin/users/" + newUser.getLogin()))
                 .headers(
@@ -131,13 +129,6 @@ public class UserResource {
                 )
                 .body(newUser);
         }
-    }
-
-    private void finishPasswordReset(User newUser) {
-        KeyAndPasswordVM keyAndPasswordVM = new KeyAndPasswordVM();
-        keyAndPasswordVM.setKey(newUser.getResetKey());
-        keyAndPasswordVM.setNewPassword(newUser.getLogin());
-        Optional<User> user = userService.completePasswordReset(keyAndPasswordVM.getNewPassword(), keyAndPasswordVM.getKey());
     }
 
     /**
@@ -201,7 +192,8 @@ public class UserResource {
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<AdminUserDTO> getUser(@PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
         log.debug("REST request to get User : {}", login);
-        return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesByLogin(login).map(AdminUserDTO::new));
+        Optional<AdminUserDTO> adminUserDTO = wuserService.getUser(login);
+        return ResponseUtil.wrapOrNotFound(adminUserDTO);
     }
 
     /**

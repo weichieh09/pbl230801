@@ -3,6 +3,7 @@ import { Component, Inject, Vue } from 'vue-property-decorator';
 import UserManagementService from './user-management.service';
 import { IUser, User } from '@/shared/model/user.model';
 import AlertService from '@/shared/alert/alert.service';
+import axios from 'axios';
 
 const loginValidator = (value: string) => {
   if (!value) {
@@ -44,10 +45,12 @@ export default class JhiUserManagementEdit extends Vue {
   public isSaving = false;
   public authorities: any[] = [];
   public languages: any = this.$store.getters.languages;
+  public teams: any[] = [];
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.initAuthorities();
+      vm.getTeamList();
       if (to.params.userId) {
         vm.init(to.params.userId);
       }
@@ -74,6 +77,21 @@ export default class JhiUserManagementEdit extends Vue {
       .get(userId)
       .then(res => {
         this.userAccount = res.data;
+      });
+  }
+
+  public getTeamList(): void {
+    this.userAccount.wTeamId = null;
+    this.teams.push({ text: '請選擇', value: null });
+    axios
+      .get('/api/wcc101/teams')
+      .then(res => {
+        res.data.forEach(team => {
+          this.teams.push({ text: team.name, value: team.id });
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 
