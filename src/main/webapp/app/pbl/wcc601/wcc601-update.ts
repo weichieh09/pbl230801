@@ -27,7 +27,7 @@ export default {
       this.teams = [];
       this.teams.push({ text: '請選擇', value: null });
       axios
-        .get('/api/wcc101/teams')
+        .get(`${apiBaseUrl}/teams`)
         .then(response => {
           response.data.forEach((element: any) => {
             this.teams.push({ text: element.name, value: element.id });

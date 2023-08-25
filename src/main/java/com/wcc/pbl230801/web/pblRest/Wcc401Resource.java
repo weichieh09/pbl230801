@@ -44,14 +44,21 @@ public class Wcc401Resource {
 
     @GetMapping("/teams")
     public ResponseEntity<List<TeamDTO>> getAllTeams(TeamCriteria criteria, Pageable pageable) {
-        Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        if (wcc401Service.isRoleAdmin()) {
+            // 是admin查全部
+            Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(page.getContent());
+        } else {
+            // TODO:反則只能查自己的
+            return ResponseEntity.ok().body(null);
+        }
     }
 
     @PostMapping("/teams")
     public ResponseEntity<RespDTOC> createTeam(@RequestBody TeamDTO teamDTO) {
         try {
+            if (!wcc401Service.isRoleAdmin()) throw new Exception("Team save failed");
             if (wcc401Service.checkTeam(teamDTO)) throw new Exception("Team save failed");
             wcc401Service.addInfo(teamDTO);
             TeamDTO result = teamService.save(teamDTO);
@@ -71,6 +78,7 @@ public class Wcc401Resource {
     @PutMapping("/teams/{id}")
     public ResponseEntity<RespDTOC> updateTeam(@PathVariable(value = "id", required = false) final Long id, @RequestBody TeamDTO teamDTO) {
         try {
+            if (!wcc401Service.isRoleAdmin()) throw new Exception("Team update failed");
             if (teamDTO.getId() == null) throw new Exception("Team update failed");
             if (!Objects.equals(id, teamDTO.getId())) throw new Exception("Team update failed");
             if (!teamRepository.existsById(id)) throw new Exception("Team update failed");
@@ -87,6 +95,7 @@ public class Wcc401Resource {
     @DeleteMapping("/teams/{id}")
     public ResponseEntity<RespDTOC> deleteTeam(@PathVariable Long id) {
         try {
+            if (!wcc401Service.isRoleAdmin()) throw new Exception("Team delete failed");
             wcc401Service.deleteTeam(id);
             return ResponseEntity.ok().body(wcc401Service.getSuccessResp());
         } catch (Exception e) {

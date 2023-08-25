@@ -1,5 +1,7 @@
 package com.wcc.pbl230801.pblService;
 
+import com.wcc.pbl230801.domain.Authority;
+import com.wcc.pbl230801.domain.User;
 import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
@@ -10,6 +12,7 @@ import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
 import com.wcc.pbl230801.service.dto.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +39,9 @@ public class Wcc601Service {
 
     @Autowired
     private EventPlayerRepository eventPlayerRepository;
+
+    @Autowired
+    private UserService userService;
 
     public RespDTOC getSuccessResp() {
         RespDTOC respDTOC = new RespDTOC();
@@ -107,5 +113,16 @@ public class Wcc601Service {
         teamEventRepository.deleteByeId(id);
         eventPlayerRepository.deleteByeId(id);
         eventZService.delete(id);
+    }
+
+    public Boolean isRoleAdmin() {
+        User user = userService.getUserWithAuthorities().get();
+        Set<Authority> authorities = user.getAuthorities();
+
+        Authority roleAdmin = new Authority();
+        roleAdmin.setName("ROLE_ADMIN");
+
+        if (authorities.contains(roleAdmin)) return true;
+        return false;
     }
 }

@@ -119,9 +119,11 @@ public class UserResource {
             throw new LoginAlreadyUsedException();
         } else {
             User newUser = userService.createUser(userDTO);
-            // 原始的AccountResource方法
+            // mail驗證註解掉
+            // mailService.sendCreationEmail(newUser);
+            // 原始的AccountResource方法，直接開帳號用
             this.finishPasswordReset(newUser);
-            //            mailService.sendCreationEmail(newUser);
+            // TODO:一般管理員的球隊綁定
             return ResponseEntity
                 .created(new URI("/api/admin/users/" + newUser.getLogin()))
                 .headers(

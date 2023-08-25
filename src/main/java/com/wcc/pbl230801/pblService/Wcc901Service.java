@@ -1,6 +1,8 @@
 package com.wcc.pbl230801.pblService;
 
+import com.wcc.pbl230801.domain.Authority;
 import com.wcc.pbl230801.domain.EventPlayer;
+import com.wcc.pbl230801.domain.User;
 import com.wcc.pbl230801.pblService.dto.PlayerDTOC;
 import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
@@ -9,12 +11,14 @@ import com.wcc.pbl230801.repository.EventPlayerRepository;
 import com.wcc.pbl230801.repository.PlayerRepository;
 import com.wcc.pbl230801.service.EventPlayerQueryService;
 import com.wcc.pbl230801.service.EventPlayerService;
+import com.wcc.pbl230801.service.UserService;
 import com.wcc.pbl230801.service.criteria.EventPlayerCriteria;
 import com.wcc.pbl230801.service.dto.EventPlayerDTO;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +40,9 @@ public class Wcc901Service {
 
     @Autowired
     private EventPlayerService eventPlayerService;
+
+    @Autowired
+    private UserService userService;
 
     public RespDTOC getSuccessResp() {
         RespDTOC respDTOC = new RespDTOC();
@@ -94,5 +101,16 @@ public class Wcc901Service {
             eventPlayerService.delete(eventPlayerDTO.getId());
             return eventPlayerDTO;
         }
+    }
+
+    public Boolean isRoleAdmin() {
+        User user = userService.getUserWithAuthorities().get();
+        Set<Authority> authorities = user.getAuthorities();
+
+        Authority roleAdmin = new Authority();
+        roleAdmin.setName("ROLE_ADMIN");
+
+        if (authorities.contains(roleAdmin)) return true;
+        return false;
     }
 }

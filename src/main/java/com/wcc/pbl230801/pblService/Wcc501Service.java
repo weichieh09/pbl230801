@@ -1,6 +1,8 @@
 package com.wcc.pbl230801.pblService;
 
+import com.wcc.pbl230801.domain.Authority;
 import com.wcc.pbl230801.domain.Player;
+import com.wcc.pbl230801.domain.User;
 import com.wcc.pbl230801.pblService.dto.PlayersReqDTOC;
 import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
@@ -10,15 +12,13 @@ import com.wcc.pbl230801.repository.EventPlayerRepository;
 import com.wcc.pbl230801.repository.MatchPlayerRepository;
 import com.wcc.pbl230801.repository.PlayerRepository;
 import com.wcc.pbl230801.repository.TeamPlayerRepository;
-import com.wcc.pbl230801.service.PlayerQueryService;
-import com.wcc.pbl230801.service.PlayerService;
-import com.wcc.pbl230801.service.TeamPlayerQueryService;
-import com.wcc.pbl230801.service.TeamPlayerService;
+import com.wcc.pbl230801.service.*;
 import com.wcc.pbl230801.service.criteria.PlayerCriteria;
 import com.wcc.pbl230801.service.criteria.TeamPlayerCriteria;
 import com.wcc.pbl230801.service.dto.PlayerDTO;
 import com.wcc.pbl230801.service.dto.TeamPlayerDTO;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +54,9 @@ public class Wcc501Service {
 
     @Autowired
     private EventPlayerRepository eventPlayerRepository;
+
+    @Autowired
+    private UserService userService;
 
     public List<Player> getPlyrs(List<TeamPlayerDTO> content) {
         List<Long> pIds = content.stream().map(TeamPlayerDTO::getpId).collect(Collectors.toList());
@@ -131,5 +134,16 @@ public class Wcc501Service {
         teamPlayerRepository.deleteBypId(id);
         matchPlayerRepository.deleteBypId(id);
         eventPlayerRepository.deleteBypId(id);
+    }
+
+    public Boolean isRoleAdmin() {
+        User user = userService.getUserWithAuthorities().get();
+        Set<Authority> authorities = user.getAuthorities();
+
+        Authority roleAdmin = new Authority();
+        roleAdmin.setName("ROLE_ADMIN");
+
+        if (authorities.contains(roleAdmin)) return true;
+        return false;
     }
 }

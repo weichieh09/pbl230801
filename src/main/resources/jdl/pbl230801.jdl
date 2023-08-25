@@ -109,6 +109,13 @@ entity VwWcc701Result {
     lScr String,
 }
 
+entity UserTeam {
+    uId Long,
+    tId Long,
+    lstMtnUsr String,
+    lstMtnDt ZonedDateTime,
+}
+
 filter *
 dto * with mapstruct
 paginate * with pagination

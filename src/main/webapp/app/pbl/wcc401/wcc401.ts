@@ -1,10 +1,13 @@
 import axios from 'axios';
+import AccountService from '@/account/account.service';
 
 const apiBaseUrl = '/api/wcc401';
 
 export default {
+  inject: ['accountService'],
   data() {
     return {
+      hasAnyAuthorityValues: {},
       teams: [],
       page: {
         previousPage: 1,
@@ -18,6 +21,19 @@ export default {
     this.getTeamList();
   },
   methods: {
+    authenticated(): boolean {
+      return this.$store.getters.authenticated;
+    },
+    hasAnyAuthority(authorities: any): boolean {
+      this.accountService()
+        .hasAnyAuthorityAndCheckAuth(authorities)
+        .then(value => {
+          if (this.hasAnyAuthorityValues[authorities] !== value) {
+            this.hasAnyAuthorityValues = { ...this.hasAnyAuthorityValues, [authorities]: value };
+          }
+        });
+      return this.hasAnyAuthorityValues[authorities] ?? false;
+    },
     editPlayer(team: any): void {
       this.$router.push(`/pbl/wcc401/${team.id}/wcc501`);
     },

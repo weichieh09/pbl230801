@@ -46,25 +46,40 @@ public class Wcc601Resource {
 
     @GetMapping("/teams")
     public ResponseEntity<List<TeamDTOC>> teams(TeamCriteria criteria, Pageable pageable) {
-        Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
-        List<TeamDTOC> result = wcc601Service.getTeam(page.getContent());
-        return ResponseEntity.ok().body(result);
+        if (wcc601Service.isRoleAdmin()) {
+            Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
+            List<TeamDTOC> result = wcc601Service.getTeam(page.getContent());
+            return ResponseEntity.ok().body(result);
+        } else {
+            // TODO:反則只能查自己的
+            return ResponseEntity.ok().body(null);
+        }
     }
 
     @GetMapping("/event-zs")
     public ResponseEntity<List<EventZDTO>> getAllEventZs(EventZCriteria criteria, Pageable pageable) {
-        Page<EventZDTO> page = eventZQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        if (wcc601Service.isRoleAdmin()) {
+            Page<EventZDTO> page = eventZQueryService.findByCriteria(criteria, pageable);
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(page.getContent());
+        } else {
+            // TODO:反則只能查自己的
+            return ResponseEntity.ok().body(null);
+        }
     }
 
     @PostMapping("/event-zs")
     public ResponseEntity<RespDTOC> createEventZs(@RequestBody EventZReqDTOC reqDTOC) {
         try {
-            EventZDTO eventZDTO = wcc601Service.getEventZDTO(reqDTOC);
-            EventZDTO result = wcc601Service.saveEventZ(eventZDTO, reqDTOC.gettId());
-            if (result == null) throw new Exception("Event save failed");
-            return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            if (wcc601Service.isRoleAdmin()) {
+                EventZDTO eventZDTO = wcc601Service.getEventZDTO(reqDTOC);
+                EventZDTO result = wcc601Service.saveEventZ(eventZDTO, reqDTOC.gettId());
+                if (result == null) throw new Exception("Event save failed");
+                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            } else {
+                // TODO:只能新增自己的
+                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            }
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }
@@ -80,12 +95,17 @@ public class Wcc601Resource {
     @PutMapping("/event-zs/{id}")
     public ResponseEntity<RespDTOC> updateEventZs(@PathVariable(value = "id") final Long id, @RequestBody EventZReqDTOC reqDTOC) {
         try {
-            if (reqDTOC.geteId() == null) throw new Exception("Event update failed");
-            if (!reqDTOC.geteId().equals(String.valueOf(id))) throw new Exception("Event update failed");
-            if (!eventZRepository.existsById(id)) throw new Exception("Event update failed");
-            EventZDTO result = eventZService.update(wcc601Service.getEventZDTO(reqDTOC));
-            if (result == null) throw new Exception("Event update failed");
-            return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            if (wcc601Service.isRoleAdmin()) {
+                if (reqDTOC.geteId() == null) throw new Exception("Event update failed");
+                if (!reqDTOC.geteId().equals(String.valueOf(id))) throw new Exception("Event update failed");
+                if (!eventZRepository.existsById(id)) throw new Exception("Event update failed");
+                EventZDTO result = eventZService.update(wcc601Service.getEventZDTO(reqDTOC));
+                if (result == null) throw new Exception("Event update failed");
+                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            } else {
+                // TODO:只能更新自己的
+                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            }
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }
@@ -94,8 +114,13 @@ public class Wcc601Resource {
     @DeleteMapping("/event-zs/{id}")
     public ResponseEntity<RespDTOC> deleteEventZs(@PathVariable Long id) {
         try {
-            wcc601Service.deleteEventZ(id);
-            return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            if (wcc601Service.isRoleAdmin()) {
+                wcc601Service.deleteEventZ(id);
+                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            } else {
+                // TODO:只能刪自己的
+                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
+            }
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }

@@ -6,7 +6,9 @@
         <hr />
       </b-col>
       <b-col cols="12">
-        <b-button block variant="primary" @click="createTeam()" size="lg">新增球隊</b-button>
+        <b-button block variant="primary" @click="createTeam()" size="lg" :disabled="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)"
+          >新增球隊</b-button
+        >
       </b-col>
     </b-row>
     <br />
@@ -31,8 +33,20 @@
                 <h5>{{ item.teamNm }}</h5>
               </td>
               <td>
-                <b-button style="margin: 1px" variant="info" @click="editTeam(item)">編輯</b-button><br />
-                <b-button style="margin: 1px" variant="danger" @click="prepareRemoveTeam(item)">刪除</b-button><br />
+                <b-button
+                  style="margin: 1px"
+                  variant="info"
+                  @click="editTeam(item)"
+                  :disabled="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)"
+                  >編輯</b-button
+                ><br />
+                <b-button
+                  style="margin: 1px"
+                  variant="danger"
+                  @click="prepareRemoveTeam(item)"
+                  :disabled="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)"
+                  >刪除</b-button
+                ><br />
                 <b-button style="margin: 1px" variant="warning" @click="editPlayer(item)">球員</b-button>
               </td>
             </tr>

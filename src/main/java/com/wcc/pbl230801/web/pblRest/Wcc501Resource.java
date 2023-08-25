@@ -46,19 +46,31 @@ public class Wcc501Resource {
 
     @GetMapping("/team-players")
     public ResponseEntity<List<Player>> getAllTeamPlayers(TeamPlayerCriteria criteria, Pageable pageable) {
-        Page<TeamPlayerDTO> page = teamPlayerQueryService.findByCriteria(criteria, pageable);
-        List<Player> result = wcc501Service.getPlyrs(page.getContent());
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(result);
+        if (wcc501Service.isRoleAdmin()) {
+            // 是admin查全部
+            Page<TeamPlayerDTO> page = teamPlayerQueryService.findByCriteria(criteria, pageable);
+            List<Player> result = wcc501Service.getPlyrs(page.getContent());
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(result);
+        } else {
+            // TODO:反則只能查自己的
+            return ResponseEntity.ok().body(null);
+        }
     }
 
     @PostMapping("/players")
     public ResponseEntity<RespDTOC> createPlayers(@RequestBody PlayersReqDTOC reqDTOC) {
         try {
-            if (!wcc501Service.checkPlayer(reqDTOC)) throw new Exception("Player save failed");
-            PlayerDTO result = wcc501Service.savePlayer(reqDTOC);
-            if (result == null) throw new Exception("Player save failed");
-            return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            if (wcc501Service.isRoleAdmin()) {
+                // 是admin給新增
+                if (!wcc501Service.checkPlayer(reqDTOC)) throw new Exception("Player save failed");
+                PlayerDTO result = wcc501Service.savePlayer(reqDTOC);
+                if (result == null) throw new Exception("Player save failed");
+                return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            } else {
+                // TODO:只能新增自己的
+                return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            }
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc501Service.getErrorResp());
         }
@@ -77,14 +89,20 @@ public class Wcc501Resource {
         @RequestBody PlayerDTO playerDTO
     ) {
         try {
-            if (playerDTO.getId() == null) throw new Exception("Player update failed");
-            if (!Objects.equals(pId, playerDTO.getId())) throw new Exception("Player update failed");
-            if (!playerRepository.existsById(pId)) throw new Exception("Player update failed");
-            if (!wcc501Service.checkPlayer(playerDTO, tId)) throw new Exception("Player save failed");
-            wcc501Service.addInfo(playerDTO);
-            PlayerDTO result = playerService.update(playerDTO);
-            if (result == null) throw new Exception("Player update failed");
-            return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            if (wcc501Service.isRoleAdmin()) {
+                // 是admin給更新
+                if (playerDTO.getId() == null) throw new Exception("Player update failed");
+                if (!Objects.equals(pId, playerDTO.getId())) throw new Exception("Player update failed");
+                if (!playerRepository.existsById(pId)) throw new Exception("Player update failed");
+                if (!wcc501Service.checkPlayer(playerDTO, tId)) throw new Exception("Player save failed");
+                wcc501Service.addInfo(playerDTO);
+                PlayerDTO result = playerService.update(playerDTO);
+                if (result == null) throw new Exception("Player update failed");
+                return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            } else {
+                // TODO:只能更新自己的
+                return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            }
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc501Service.getErrorResp());
         }
@@ -93,8 +111,14 @@ public class Wcc501Resource {
     @DeleteMapping("/players/{id}")
     public ResponseEntity<RespDTOC> deletePlayers(@PathVariable Long id) {
         try {
-            wcc501Service.deletePlayer(id);
-            return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            if (wcc501Service.isRoleAdmin()) {
+                // 是admin給刪除
+                wcc501Service.deletePlayer(id);
+                return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            } else {
+                // TODO:只能刪除自己的
+                return ResponseEntity.ok().body(wcc501Service.getSuccessResp());
+            }
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc501Service.getErrorResp());
         }
