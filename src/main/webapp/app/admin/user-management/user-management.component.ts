@@ -129,4 +129,14 @@ export default class JhiUserManagementComponent extends Vue {
   public get username(): string {
     return this.$store.getters.account?.login ?? '';
   }
+
+  public getDesc(user): string {
+    if (user.wTeamName !== null) {
+      return `球隊管理員 - ${user.wTeamName}`;
+    } else if (user.wTeamId !== null) {
+      return '球隊已被移除';
+    } else {
+      return '系統管理員';
+    }
+  }
 }

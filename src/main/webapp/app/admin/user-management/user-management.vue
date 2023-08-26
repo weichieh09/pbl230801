@@ -34,9 +34,10 @@
             <tr v-for="user in users" :key="user.id" :id="user.login">
               <td>
                 <h5>{{ user.login }}</h5>
+                <h6 style="color: gray">{{ getDesc(user) }}</h6>
               </td>
               <td>
-                <button class="btn btn-danger btn-sm deactivated" v-if="!user.activated" v-on:click="setActive(user, true)">停用</button>
+                <button class="btn btn-warning btn-sm deactivated" v-if="!user.activated" v-on:click="setActive(user, true)">停用</button>
                 <button
                   class="btn btn-success btn-sm"
                   v-if="user.activated"

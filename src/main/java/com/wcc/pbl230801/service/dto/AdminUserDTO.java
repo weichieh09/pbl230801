@@ -55,6 +55,8 @@ public class AdminUserDTO implements Serializable {
 
     private String wTeamId;
 
+    private String wTeamName;
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -193,6 +195,14 @@ public class AdminUserDTO implements Serializable {
 
     public void setwTeamId(String wTeamId) {
         this.wTeamId = wTeamId;
+    }
+
+    public String getwTeamName() {
+        return wTeamName;
+    }
+
+    public void setwTeamName(String wTeamName) {
+        this.wTeamName = wTeamName;
     }
 
     @Override

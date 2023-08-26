@@ -119,6 +119,14 @@ export default class JhiUserManagementEdit extends Vue {
           this.alertService().showHttpError(this, error.response);
         });
     } else {
+      if (this.userAccount.authorities.length === 0) {
+        this.errorAlert();
+        return;
+      }
+      if (!this.userAccount.authorities.includes('ROLE_ADMIN') && this.userAccount.wTeamId === null) {
+        this.errorAlert();
+        return;
+      }
       this.userAccount.langKey = 'en';
       this.userManagementService()
         .create(this.userAccount)
@@ -146,5 +154,15 @@ export default class JhiUserManagementEdit extends Vue {
 
   private getMessageFromHeader(res: any): any {
     return res.headers['x-pbl230801app-alert'];
+  }
+
+  private errorAlert(): void {
+    (this.$root as any).$bvToast.toast('資料不正確', {
+      toaster: 'b-toaster-top-center',
+      title: '新增失敗',
+      variant: 'danger',
+      solid: true,
+      autoHideDelay: 5000,
+    });
   }
 }

@@ -21,27 +21,25 @@
           <div class="row">
             <div class="col">
               <b-input-group size="lg" prepend="帳號">
-                <b-form-input
-                  v-model="$v.userAccount.login.$model"
-                  :class="{ valid: !$v.userAccount.login.$invalid, invalid: $v.userAccount.login.$invalid }"
-                />
+                <b-form-input v-model="$v.userAccount.login.$model" />
               </b-input-group>
             </div>
           </div>
           <br />
-          <div class="row">
+          <div class="row" :hidden="userAccount.id">
             <div class="col">
               <b-input-group size="lg" prepend="密碼">
                 <b-form-input type="password" v-model="userAccount.wPassword" :disabled="userAccount.id != null" />
               </b-input-group>
+              <br />
             </div>
           </div>
-          <br />
           <div class="row">
             <div class="col">
               <b-input-group size="lg" prepend="球隊">
                 <b-form-select v-model="userAccount.wTeamId" :options="teams" :disabled="userAccount.id != null" />
               </b-input-group>
+              <small class="form-text text-danger"> 提示: 最高權限可以不選擇球隊。 </small>
             </div>
           </div>
           <br />
