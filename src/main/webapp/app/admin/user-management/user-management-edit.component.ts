@@ -68,7 +68,6 @@ export default class JhiUserManagementEdit extends Vue {
       .retrieveAuthorities()
       .then(_res => {
         this.authorities = _res.data;
-        console.log('_res.data: ' + _res.data);
       });
   }
 
