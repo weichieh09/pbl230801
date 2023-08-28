@@ -58,7 +58,7 @@ export default {
         .get(`${apiBaseUrl}/players`, {
           params: {
             'eId.equals': this.eventId,
-            sort: 'plyrLvl,desc',
+            sort: 'plyrLvl,asc',
             page: this.page.currentPage - 1,
             size: this.page.perPage,
           },

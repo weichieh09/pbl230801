@@ -8,6 +8,8 @@ import com.wcc.pbl230801.service.criteria.EventZCriteria;
 import com.wcc.pbl230801.service.criteria.TeamCriteria;
 import com.wcc.pbl230801.service.dto.EventZDTO;
 import com.wcc.pbl230801.service.dto.TeamDTO;
+import com.wcc.pbl230801.service.dto.TeamEventDTO;
+import com.wcc.pbl230801.service.dto.UserTeamDTO;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -45,14 +47,17 @@ public class Wcc601Resource {
     private EventZQueryService eventZQueryService;
 
     @GetMapping("/teams")
-    public ResponseEntity<List<TeamDTOC>> teams(TeamCriteria criteria, Pageable pageable) {
+    public ResponseEntity<List<TeamDTOC>> teams(TeamCriteria criteria) {
         if (wcc601Service.isRoleAdmin()) {
-            Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
-            List<TeamDTOC> result = wcc601Service.getTeam(page.getContent());
+            List<TeamDTO> teamDTOList = teamQueryService.findByCriteria(criteria);
+            List<TeamDTOC> result = wcc601Service.getTeam(teamDTOList);
             return ResponseEntity.ok().body(result);
         } else {
-            // TODO:反則只能查自己的
-            return ResponseEntity.ok().body(null);
+            Long userId = wcc601Service.getUserId();
+            List<UserTeamDTO> userTeamDTOList = wcc601Service.getTeamList(userId);
+            List<TeamDTO> teamList = wcc601Service.getTeamDTOList(userTeamDTOList);
+            List<TeamDTOC> result = wcc601Service.getTeam(teamList);
+            return ResponseEntity.ok().body(result);
         }
     }
 
@@ -63,23 +68,25 @@ public class Wcc601Resource {
             HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
             return ResponseEntity.ok().headers(headers).body(page.getContent());
         } else {
-            // TODO:反則只能查自己的
-            return ResponseEntity.ok().body(null);
+            Long userId = wcc601Service.getUserId();
+            List<UserTeamDTO> userTeamDTOList = wcc601Service.getTeamList(userId);
+            Page<TeamEventDTO> teamEvent = wcc601Service.findTeamEvent(userTeamDTOList, pageable);
+            List<EventZDTO> eventZ = wcc601Service.findEventZ(teamEvent);
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), teamEvent);
+            return ResponseEntity.ok().headers(headers).body(eventZ);
         }
     }
 
     @PostMapping("/event-zs")
     public ResponseEntity<RespDTOC> createEventZs(@RequestBody EventZReqDTOC reqDTOC) {
         try {
-            if (wcc601Service.isRoleAdmin()) {
-                EventZDTO eventZDTO = wcc601Service.getEventZDTO(reqDTOC);
-                EventZDTO result = wcc601Service.saveEventZ(eventZDTO, reqDTOC.gettId());
-                if (result == null) throw new Exception("Event save failed");
-                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
-            } else {
-                // TODO:只能新增自己的
-                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
-            }
+            if (!wcc601Service.isRoleAdmin() && !wcc601Service.hasRole(Long.parseLong(reqDTOC.gettId()))) throw new Exception(
+                "Event save failed"
+            );
+            EventZDTO eventZDTO = wcc601Service.getEventZDTO(reqDTOC);
+            EventZDTO result = wcc601Service.saveEventZ(eventZDTO, reqDTOC.gettId());
+            if (result == null) throw new Exception("Event save failed");
+            return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }
@@ -95,17 +102,15 @@ public class Wcc601Resource {
     @PutMapping("/event-zs/{id}")
     public ResponseEntity<RespDTOC> updateEventZs(@PathVariable(value = "id") final Long id, @RequestBody EventZReqDTOC reqDTOC) {
         try {
-            if (wcc601Service.isRoleAdmin()) {
-                if (reqDTOC.geteId() == null) throw new Exception("Event update failed");
-                if (!reqDTOC.geteId().equals(String.valueOf(id))) throw new Exception("Event update failed");
-                if (!eventZRepository.existsById(id)) throw new Exception("Event update failed");
-                EventZDTO result = eventZService.update(wcc601Service.getEventZDTO(reqDTOC));
-                if (result == null) throw new Exception("Event update failed");
-                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
-            } else {
-                // TODO:只能更新自己的
-                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
-            }
+            if (!wcc601Service.isRoleAdmin() && !wcc601Service.hasRole(Long.parseLong(reqDTOC.gettId()))) throw new Exception(
+                "Event update failed"
+            );
+            if (reqDTOC.geteId() == null) throw new Exception("Event update failed");
+            if (!reqDTOC.geteId().equals(String.valueOf(id))) throw new Exception("Event update failed");
+            if (!eventZRepository.existsById(id)) throw new Exception("Event update failed");
+            EventZDTO result = eventZService.update(wcc601Service.getEventZDTO(reqDTOC));
+            if (result == null) throw new Exception("Event update failed");
+            return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }
@@ -114,13 +119,9 @@ public class Wcc601Resource {
     @DeleteMapping("/event-zs/{id}")
     public ResponseEntity<RespDTOC> deleteEventZs(@PathVariable Long id) {
         try {
-            if (wcc601Service.isRoleAdmin()) {
-                wcc601Service.deleteEventZ(id);
-                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
-            } else {
-                // TODO:只能刪自己的
-                return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
-            }
+            if (!wcc601Service.isRoleAdmin() && !wcc601Service.hasDeleteRole(id)) throw new Exception("Event delete failed");
+            wcc601Service.deleteEventZ(id);
+            return ResponseEntity.ok().body(wcc601Service.getSuccessResp());
         } catch (Exception e) {
             return ResponseEntity.ok().body(wcc601Service.getErrorResp());
         }

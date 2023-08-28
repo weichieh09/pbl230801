@@ -1,22 +1,30 @@
 package com.wcc.pbl230801.pblService;
 
 import com.wcc.pbl230801.domain.Authority;
+import com.wcc.pbl230801.domain.EventZ;
+import com.wcc.pbl230801.domain.Team;
 import com.wcc.pbl230801.domain.User;
 import com.wcc.pbl230801.pblService.dto.*;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
 import com.wcc.pbl230801.repository.EventPlayerRepository;
+import com.wcc.pbl230801.repository.EventZRepository;
 import com.wcc.pbl230801.repository.TeamEventRepository;
+import com.wcc.pbl230801.repository.TeamRepository;
 import com.wcc.pbl230801.service.*;
 import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
+import com.wcc.pbl230801.service.criteria.UserTeamCriteria;
 import com.wcc.pbl230801.service.dto.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +50,15 @@ public class Wcc601Service {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserTeamQueryService userTeamQueryService;
+
+    @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
+    private EventZRepository eRepository;
 
     public RespDTOC getSuccessResp() {
         RespDTOC respDTOC = new RespDTOC();
@@ -124,5 +141,73 @@ public class Wcc601Service {
 
         if (authorities.contains(roleAdmin)) return true;
         return false;
+    }
+
+    public Long getUserId() {
+        User user = userService.getUserWithAuthorities().get();
+        return user.getId();
+    }
+
+    public boolean hasDeleteRole(Long eId) {
+        Long userId = this.getUserId();
+        UserTeamCriteria userTeamCriteria = new UserTeamCriteria();
+        userTeamCriteria.setuId(LongFilterUtils.toEqualLongFilter(userId));
+        List<UserTeamDTO> UserTeamDTOList = userTeamQueryService.findByCriteria(userTeamCriteria);
+
+        TeamEventCriteria teamEventCriteria = new TeamEventCriteria();
+        teamEventCriteria.seteId(LongFilterUtils.toEqualLongFilter(eId));
+        teamEventCriteria.settId(LongFilterUtils.toEqualLongFilter(UserTeamDTOList.get(0).gettId()));
+        List<TeamEventDTO> TeamEventDTOList = teamEventQueryService.findByCriteria(teamEventCriteria);
+        if (TeamEventDTOList.size() > 0) return true;
+        return false;
+    }
+
+    public boolean hasRole(Long tId) {
+        UserTeamCriteria userTeamCriteria = new UserTeamCriteria();
+        userTeamCriteria.settId(LongFilterUtils.toEqualLongFilter(tId));
+        userTeamCriteria.setuId(LongFilterUtils.toEqualLongFilter(this.getUserId()));
+        List<UserTeamDTO> byCriteria = userTeamQueryService.findByCriteria(userTeamCriteria);
+        if (byCriteria.size() == 0) return false;
+        return true;
+    }
+
+    public List<UserTeamDTO> getTeamList(Long userId) {
+        UserTeamCriteria userTeamCriteria = new UserTeamCriteria();
+        userTeamCriteria.setuId(LongFilterUtils.toEqualLongFilter(userId));
+        List<UserTeamDTO> userTeamDTOS = userTeamQueryService.findByCriteria(userTeamCriteria);
+        return userTeamDTOS;
+    }
+
+    public List<TeamDTO> getTeamDTOList(List<UserTeamDTO> list) {
+        List<Long> teamIds = new LinkedList<>();
+        for (UserTeamDTO userTeamDTO : list) teamIds.add(userTeamDTO.gettId());
+        List<Team> teamList = teamRepository.findAllById(teamIds);
+        List<TeamDTO> teamDTOList = new LinkedList<>();
+        for (Team team : teamList) {
+            TeamDTO teamDTO = new TeamDTO();
+            BeanUtils.copyProperties(team, teamDTO);
+            teamDTOList.add(teamDTO);
+        }
+        return teamDTOList;
+    }
+
+    public Page<TeamEventDTO> findTeamEvent(List<UserTeamDTO> userTeamDTOList, Pageable pageable) {
+        TeamEventCriteria teamEventCriteria = new TeamEventCriteria();
+        teamEventCriteria.settId(LongFilterUtils.toEqualLongFilter(userTeamDTOList.get(0).gettId()));
+        Page<TeamEventDTO> page = teamEventQueryService.findByCriteria(teamEventCriteria, pageable);
+        return page;
+    }
+
+    public List<EventZDTO> findEventZ(Page<TeamEventDTO> teamEvent) {
+        List<Long> eventIds = new LinkedList<>();
+        for (TeamEventDTO teamEventDTO : teamEvent.getContent()) eventIds.add(teamEventDTO.geteId());
+        List<EventZ> allById = eRepository.findAllById(eventIds);
+        List<EventZDTO> eventZDTOList = new LinkedList<>();
+        for (EventZ eventZ : allById) {
+            EventZDTO eventZDTO = new EventZDTO();
+            BeanUtils.copyProperties(eventZ, eventZDTO);
+            eventZDTOList.add(eventZDTO);
+        }
+        return eventZDTOList;
     }
 }

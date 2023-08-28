@@ -25,7 +25,7 @@ export default {
     },
     removePlyr(): void {
       axios
-        .delete(`${apiBaseUrl}/players/${this.$refs['removePlyr-modal'].plyr.id}`)
+        .delete(`${apiBaseUrl}/players/${this.teamId}/${this.$refs['removePlyr-modal'].plyr.id}`)
         .then(response => {
           if (response.data.status === '0') {
             this.$bvToast.toast('刪除球員成功', {

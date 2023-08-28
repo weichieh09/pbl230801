@@ -96,7 +96,7 @@
           <b-row>
             <b-col cols="12" class="d-flex justify-content-center">羽球拍拍(pbl230801)</b-col>
             <b-col cols="12" class="d-flex justify-content-center">通用的羽球賽事管理系統</b-col>
-            <b-col cols="12" class="d-flex justify-content-center">版本 230821F</b-col>
+            <b-col cols="12" class="d-flex justify-content-center">版本 230828F</b-col>
             <b-col cols="12" class="d-flex justify-content-center">Release date: 2023 Aug</b-col>
             <b-col cols="12" class="d-flex justify-content-center">眾飛科技 © 2023</b-col>
             <b-col cols="12" class="d-flex justify-content-center">Powered by MGDsn</b-col>

@@ -8,15 +8,14 @@ import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.pblService.utils.LongFilterUtils;
 import com.wcc.pbl230801.pblService.utils.StringFilterUtils;
 import com.wcc.pbl230801.pblService.utils.ZonedDateTimeUtils;
-import com.wcc.pbl230801.repository.EventPlayerRepository;
-import com.wcc.pbl230801.repository.MatchPlayerRepository;
-import com.wcc.pbl230801.repository.PlayerRepository;
-import com.wcc.pbl230801.repository.TeamPlayerRepository;
+import com.wcc.pbl230801.repository.*;
 import com.wcc.pbl230801.service.*;
 import com.wcc.pbl230801.service.criteria.PlayerCriteria;
 import com.wcc.pbl230801.service.criteria.TeamPlayerCriteria;
+import com.wcc.pbl230801.service.criteria.UserTeamCriteria;
 import com.wcc.pbl230801.service.dto.PlayerDTO;
 import com.wcc.pbl230801.service.dto.TeamPlayerDTO;
+import com.wcc.pbl230801.service.dto.UserTeamDTO;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,6 +57,9 @@ public class Wcc501Service {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserTeamQueryService userTeamQueryService;
+
     public List<Player> getPlyrs(List<TeamPlayerDTO> content) {
         List<Long> pIds = content.stream().map(TeamPlayerDTO::getpId).collect(Collectors.toList());
         List<Player> allById = playerRepository.findAllById(pIds);
@@ -82,6 +84,7 @@ public class Wcc501Service {
         if (reqDTOC.gettId().isBlank()) return false;
 
         PlayerCriteria playerCriteria = new PlayerCriteria();
+        playerCriteria.setPlyrLvl(LongFilterUtils.toEqualLongFilter(Long.parseLong(reqDTOC.getPlyrLvl())));
         playerCriteria.setPlyrNm(StringFilterUtils.toEqualStringFilter(reqDTOC.getPlyrNm()));
         List<PlayerDTO> playerDTOList = playerQueryService.findByCriteria(playerCriteria);
 
@@ -145,5 +148,19 @@ public class Wcc501Service {
 
         if (authorities.contains(roleAdmin)) return true;
         return false;
+    }
+
+    public Long getUserId() {
+        User user = userService.getUserWithAuthorities().get();
+        return user.getId();
+    }
+
+    public boolean hasRole(Long tId) {
+        UserTeamCriteria userTeamCriteria = new UserTeamCriteria();
+        userTeamCriteria.settId(LongFilterUtils.toEqualLongFilter(tId));
+        userTeamCriteria.setuId(LongFilterUtils.toEqualLongFilter(this.getUserId()));
+        List<UserTeamDTO> byCriteria = userTeamQueryService.findByCriteria(userTeamCriteria);
+        if (byCriteria.size() == 0) return false;
+        return true;
     }
 }

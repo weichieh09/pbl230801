@@ -5,11 +5,9 @@ import com.wcc.pbl230801.pblService.dto.PlayerDTOC;
 import com.wcc.pbl230801.pblService.dto.RespDTOC;
 import com.wcc.pbl230801.repository.TeamPlayerRepository;
 import com.wcc.pbl230801.service.EventPlayerQueryService;
-import com.wcc.pbl230801.service.EventPlayerService;
 import com.wcc.pbl230801.service.TeamEventQueryService;
 import com.wcc.pbl230801.service.criteria.EventPlayerCriteria;
 import com.wcc.pbl230801.service.criteria.TeamEventCriteria;
-import com.wcc.pbl230801.service.criteria.TeamPlayerCriteria;
 import com.wcc.pbl230801.service.dto.EventPlayerDTO;
 import com.wcc.pbl230801.service.dto.TeamEventDTO;
 import java.util.List;
@@ -47,19 +45,14 @@ public class Wcc901Resource {
 
     @GetMapping("/players")
     public ResponseEntity<List<PlayerDTOC>> players(TeamEventCriteria criteria, Pageable pageable) {
-        if (wcc901Service.isRoleAdmin()) {
-            List<TeamEventDTO> teamEventDTOList = teamEventQueryService.findByCriteria(criteria);
-            if (teamEventDTOList.size() != 1) return ResponseEntity.badRequest().build();
-            Long teamId = teamEventDTOList.get(0).gettId();
-            Long eventId = criteria.geteId().getEquals();
-            Page<Map<String, Object>> page = teamPlayerRepository.findPlayerByTeamId(teamId, pageable);
-            List<PlayerDTOC> result = wcc901Service.getPlayer(page.getContent(), eventId);
-            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-            return ResponseEntity.ok().headers(headers).body(result);
-        } else {
-            // TODO:反則只能查自己的
-            return ResponseEntity.ok().body(null);
-        }
+        List<TeamEventDTO> teamEventDTOList = teamEventQueryService.findByCriteria(criteria);
+        if (teamEventDTOList.size() != 1) return ResponseEntity.badRequest().build();
+        Long teamId = teamEventDTOList.get(0).gettId();
+        Long eventId = criteria.geteId().getEquals();
+        Page<Map<String, Object>> page = teamPlayerRepository.findPlayerByTeamId(teamId, pageable);
+        List<PlayerDTOC> result = wcc901Service.getPlayer(page.getContent(), eventId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(result);
     }
 
     @PostMapping("/joinEvent")

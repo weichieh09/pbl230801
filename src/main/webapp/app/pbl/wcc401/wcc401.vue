@@ -37,17 +37,18 @@
                   style="margin: 1px"
                   variant="info"
                   @click="editTeam(item)"
-                  :disabled="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)"
+                  :hidden="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)"
                   >編輯</b-button
-                ><br />
+                ><br :hidden="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)" />
                 <b-button
                   style="margin: 1px"
                   variant="danger"
                   @click="prepareRemoveTeam(item)"
-                  :disabled="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)"
+                  :hidden="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)"
                   >刪除</b-button
-                ><br />
+                ><br :hidden="!(hasAnyAuthority('ROLE_ADMIN') && authenticated)" />
                 <b-button style="margin: 1px" variant="warning" @click="editPlayer(item)">球員</b-button>
+                <br :hidden="hasAnyAuthority('ROLE_ADMIN') && authenticated" />
               </td>
             </tr>
           </tbody>

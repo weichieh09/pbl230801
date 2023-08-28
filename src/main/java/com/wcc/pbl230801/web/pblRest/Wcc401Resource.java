@@ -7,6 +7,7 @@ import com.wcc.pbl230801.service.TeamQueryService;
 import com.wcc.pbl230801.service.TeamService;
 import com.wcc.pbl230801.service.criteria.TeamCriteria;
 import com.wcc.pbl230801.service.dto.TeamDTO;
+import com.wcc.pbl230801.service.dto.UserTeamDTO;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,8 +51,11 @@ public class Wcc401Resource {
             HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
             return ResponseEntity.ok().headers(headers).body(page.getContent());
         } else {
-            // TODO:反則只能查自己的
-            return ResponseEntity.ok().body(null);
+            Long userId = wcc401Service.getUserId();
+            Page<UserTeamDTO> page = wcc401Service.getTeamList(userId, pageable);
+            List<TeamDTO> teamList = wcc401Service.getTeamDTOList(page);
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(teamList);
         }
     }
 
