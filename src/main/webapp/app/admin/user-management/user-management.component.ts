@@ -132,7 +132,7 @@ export default class JhiUserManagementComponent extends Vue {
 
   public getDesc(user): string {
     if (user.wTeamName !== null) {
-      return `球隊管理員 - ${user.wTeamName}`;
+      return `${user.wTeamName}`;
     } else if (user.wTeamId !== null) {
       return '球隊已被移除';
     } else {
