@@ -8,10 +8,6 @@
       <div class="card jh-card">
         <router-view></router-view>
       </div>
-      <b-modal id="login-page" hide-footer lazy>
-        <span data-cy="loginTitle" slot="modal-title" id="login-title">登入</span>
-        <login-form></login-form>
-      </b-modal>
 
       <jhi-footer></jhi-footer>
     </div>
