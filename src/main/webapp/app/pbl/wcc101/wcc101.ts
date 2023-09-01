@@ -30,6 +30,15 @@ export default {
     this.getTeamList();
   },
   methods: {
+    test(): void {
+      let authenticated = this.$store.getters.authenticated;
+      console.log(authenticated);
+      if (authenticated) {
+        this.$router.push('/pbl/wcc301');
+      } else {
+        this.$router.push('/login');
+      }
+    },
     getIcon(index: number): boolean {
       if (this.page.currentPage === 1 && index <= 2) {
         return true;

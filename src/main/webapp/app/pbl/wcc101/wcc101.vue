@@ -86,7 +86,7 @@
         <hr />
       </b-col>
       <b-col cols="6">
-        <b-button block variant="outline-primary" size="lg" to="/pbl/wcc301">管理功能</b-button>
+        <b-button block variant="outline-primary" size="lg" @click="test()">管理功能</b-button>
       </b-col>
       <b-col cols="6">
         <b-button block variant="outline-primary" size="lg" to="/pbl/wcc201">戰績登錄</b-button>

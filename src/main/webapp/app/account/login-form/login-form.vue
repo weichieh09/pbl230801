@@ -19,7 +19,9 @@
             <span>記住我</span>
           </b-form-checkbox> -->
           <div>
-            <b-button size="lg" data-cy="submit" type="submit" variant="primary">登入</b-button>
+            <b-button block size="lg" data-cy="submit" type="submit" variant="primary">登入</b-button>
+            <hr />
+            <b-button block variant="outline-primary" size="lg" @click="$router.go(-1)">返回</b-button>
           </div>
         </b-form>
         <p></p>
