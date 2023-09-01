@@ -151,7 +151,7 @@ export default {
       const date = new Date();
       const year = date.getFullYear();
       let month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day = date.getDate();
+      const day = date.getDate().toString().padStart(2, '0');
 
       this.form.date = `${year}-${month}-${day}`;
     },
